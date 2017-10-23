@@ -1,11 +1,13 @@
 package User;
 
+import java.sql.Date;
+
 public class User {
 	private String UserID;
 	private String Password;
 	private String Name;
-	private String Sex;
-	private String BirthDate;
+	private int Sex;
+	private Date BirthDate;
 	private String Message;
 	
 	public void setUserID(String userID){
@@ -17,10 +19,10 @@ public class User {
 	public void setName(String name){
 		Name = name;
 	}
-	public void setSex(String sex){
+	public void setSex(int sex){
 		Sex = sex;
 	}
-	public void setBirthDate(String birthDate){
+	public void setBirthDate(Date birthDate){
 		BirthDate = birthDate;
 	}
 	public void setMessage(String message){
@@ -36,10 +38,10 @@ public class User {
 	public String getName(){
 		return Name;
 	}
-	public String getSex(){
+	public int getSex(){
 		return Sex;
 	}
-	public String getBirthDate(){
+	public Date getBirthDate(){
 		return BirthDate ;
 	}
 	public String getMessage(){

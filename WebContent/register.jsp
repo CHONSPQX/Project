@@ -38,11 +38,11 @@
 <body class="bg-dark">
   <div class="container">
     <div class="card card-login mx-auto mt-5">
-      <div class="card-header">Login</div>
+      <div class="card-header">Register</div>
       <div class="card-body">
         <form action="adminaction!Admin_check">
           <div class="form-group">
-            <label for="InputUsername">Username</label>
+            <label for="InputUsername">UserID</label>
             <input class="form-control" name="admin.username" id="InputUsername" type="text"  placeholder="Username">
           </div>
           <div class="form-group">
@@ -50,12 +50,11 @@
             <input class="form-control" name="admin.userpwd" id="InputPassword" type="password" placeholder="Password">
           </div>
           <div class="form-group">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox"> Remember Password</label>
-            </div>
+            <label for="InputPassword">Confirm Password</label>
+            <input class="form-control" name="admin.userpwd" id="InputPassword" type="password" placeholder="Password">
           </div>
-           <s:submit class="btn btn-primary btn-block" name ="submit" value="Login" />
+          </div>
+           <s:submit class="btn btn-primary btn-block" name ="submit" value="Register" />
         </form>
       </div>
     </div>

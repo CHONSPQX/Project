@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%request.setCharacterEncoding("UTF-8");%>
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -123,7 +127,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="login_box">
 	    		   <div id="loginContainer">
 	                  <a id="loginButton" class=""><span></span></a>               
-	                <div id="loginBox" style="display: none;">                
+	                <div id="loginBox" style="display: none;">
+	                <fieldset>             
 	                    <form id="loginForm">	
 	                        <fieldset id="body">
 	                            <fieldset>
@@ -131,10 +136,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	                               <input type="text"  name="password" id="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
 	                            </fieldset>
 	                            <input type="submit" id="login" value="Sign in">
+	                             <a href="register.jsp">Register</a>
 	                            <label for="checkbox"><i><a href="">Lost Password ?</a></i></label>
 	                        </fieldset>
 	                    </form>
+	                    </fieldset>   
 	                </div>
+	                
 	              </div>
 	            <div class="clear"></div>
 	          </div>

@@ -10,7 +10,7 @@
     <constant name="struts.mapper.alwaysSelectFullNamespace" value="false" />
     <package name="first" namespace="/" extends="struts-default">
     <action name="UserAction" class="Action.UserAction">
-			<result name="createok">/register.jsp</result>
+			<result name="createok">/index.jsp</result>
 			<result name="createnotok">/register.jsp</result>
 		</action>
     </package>

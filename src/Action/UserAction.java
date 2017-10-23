@@ -10,10 +10,9 @@ import User.*;
  * @author Administrator
  *
  */
-public class UserAction{
-   Database database;
-   User user;
-   
+public class UserAction extends ActionSupport{
+   private Database database;
+   private User user;
    
    public UserAction()
    {
@@ -21,7 +20,8 @@ public class UserAction{
      database.ConnectMysql();
    }
     
-  public boolean UserCreate() {
+  public String UserCreate() {
+	  System.out.println(user);
     try {
         String insql = "insert into User(UserID,Password,Name,Sex,BirthDate,Message) values(?,?,?,?,?,?)";
         
@@ -35,11 +35,13 @@ public class UserAction{
         ps.setString(6, user.getMessage());
         int result = ps.executeUpdate();
         if (result > 0)
-            return true;
+            return "createok";
+        else
+            return "createnotok";
     } catch (Exception e) {
         e.printStackTrace();
     }
-    return false;
+    return "createnotok";
 }
   
   /**

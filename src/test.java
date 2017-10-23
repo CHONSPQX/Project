@@ -16,11 +16,9 @@ public class test {
    public static void main(String args[])
    {
      User user=new User();
-     user.setUserID("123456749");
+     user.setUserID("asdsad");
      user.setPassword("12346789");
-     @SuppressWarnings("deprecation")
-     Date  sqldate = new Date(2017,12,12);
-     user.setBirthDate(sqldate);
+     user.setBirthDate("2017-05-07");
      user.setName("rtyui");
      user.setMessage("45218");
      Action.UserAction ui=new Action.UserAction();

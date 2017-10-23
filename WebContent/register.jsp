@@ -40,18 +40,18 @@
     <div class="card card-login mx-auto mt-5">
       <div class="card-header">Register</div>
       <div class="card-body">
-        <form action="adminaction!Admin_check">
+        <form action="UserAction!UserCreate">
           <div class="form-group">
             <label for="InputUsername">UserID</label>
-            <input class="form-control" name="admin.username" id="InputUsername" type="text"  placeholder="Username">
+            <input class="form-control" name="user.UserID" id="InputUsername" type="text"  placeholder="Username">
           </div>
           <div class="form-group">
             <label for="InputPassword">Password</label>
-            <input class="form-control" name="admin.userpwd" id="InputPassword" type="password" placeholder="Password">
+            <input class="form-control" name="user.Password" id="InputPassword" type="password" placeholder="Password">
           </div>
           <div class="form-group">
             <label for="InputPassword">Confirm Password</label>
-            <input class="form-control" name="admin.userpwd" id="InputPassword" type="password" placeholder="Password">
+            <input class="form-control"  id="InputPassword" type="password" placeholder="Password">
           </div>
           </div>
            <s:submit class="btn btn-primary btn-block" name ="submit" value="Register" />

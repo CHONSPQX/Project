@@ -22,8 +22,8 @@ public class User {
 	public void setSex(int sex){
 		Sex = sex;
 	}
-	public void setBirthDate(Date birthDate){
-		BirthDate = birthDate;
+	public void setBirthDate(String birthDate){
+		BirthDate = Date.valueOf(birthDate);;
 	}
 	public void setMessage(String message){
 		Message = message;

@@ -3,8 +3,11 @@
  */
 package Action;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import com.opensymphony.xwork2.ActionSupport;
-import User.*;
+
+import User.User;
 
 /**
  * @author Administrator
@@ -21,7 +24,6 @@ public class UserAction extends ActionSupport{
    }
     
   public String UserCreate() {
-	  System.out.println(user);
     try {
         String insql = "insert into User(UserID,Password,Name,Sex,BirthDate,Message) values(?,?,?,?,?,?)";
         
@@ -43,6 +45,26 @@ public class UserAction extends ActionSupport{
     }
     return "createnotok";
 }
+  public String UserLogin() {
+	  System.out.println(user.getUserID());
+	  try{
+        String insql = "select Password from User where UserID = ?";
+        PreparedStatement ps = database.conn.prepareStatement(insql);
+        ps.setString(1, user.getUserID());
+        ResultSet rs = ps.executeQuery();
+        if(rs.next())
+        {
+        	if(rs.getString(1).equals(user.getPassword()))
+        		return "loginok";
+        }
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  }
+        return "loginnotok";
+}
+
   
   /**
    * @return the user

@@ -12,6 +12,8 @@
     <action name="UserAction" class="Action.UserAction">
 			<result name="createok">/index.jsp</result>
 			<result name="createnotok">/register.jsp</result>
+			<result name="loginok">/indexLogin.jsp</result>
+			<result name="loginnotok">/index.jsp</result>
 		</action>
     </package>
 </struts>    

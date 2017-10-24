@@ -129,11 +129,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	                  <a id="loginButton" class=""><span></span></a>               
 	                <div id="loginBox" style="display: none;">
 	                <fieldset>             
-	                    <form id="loginForm" action="UserAction!UserLogin">	
+	                    <form id="loginForm">	
 	                        <fieldset id="body">
 	                            <fieldset>
-	                            	<input type="text"   name="user.UserID" id="email" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}">
-	                               <input type="text"  name="user.Password" id="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+	                            	<input type="text"   name="email" id="email" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}">
+	                               <input type="text"  name="password" id="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
 	                            </fieldset>
 	                            <input type="submit" id="login" value="Sign in">
 	                             <a href="register.jsp">Register</a>

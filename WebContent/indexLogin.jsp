@@ -2,12 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%request.setCharacterEncoding("UTF-8");%>
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -41,9 +35,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</head>
 	<body>
 	<form id="loginForm" action="UserAction!UserCheckFile">
-	                            <input type="submit" id="login" value="Sign in">
-	                            
-	                    </form>
+	<input type="submit" id="login" value="Sign in">
+	</form>
 		<!---strat-wrap---->
 		<div class="wrap">
 			<!---start-top-nav---->

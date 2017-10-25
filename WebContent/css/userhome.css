@@ -1,0 +1,25 @@
+.login-item input{
+  width:350px;
+  height:40px;
+}
+.login-item a{
+  width:350px;
+  height:40px;
+  background-color:blue;
+  display:block;
+  line-height:50px;
+  text-algin:center;
+  color:white;
+}
+.login-item{
+  margin-top:10px;
+  margin-left:20px;
+}
+#DirBox{
+display:none;
+}
+
+#FileBox{
+display:none;
+}
+

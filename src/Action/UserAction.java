@@ -20,7 +20,7 @@ import WeFile.Director;
 public class UserAction extends ActionSupport{
    private Database database;
    private User user;
-   private String path;//Ïà¶ÔÂ·¾¶
+   private String path;//
    
    
    

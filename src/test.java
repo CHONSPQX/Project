@@ -10,11 +10,14 @@ import WeFile.Director;
  */
 public class test {
 	public static void main(String[] args) {  
-        //创建目录  
+        
+		String dirName = "amind2/";
+    	Director.createDir(dirName);
+		/* 
         String dirName = "F:/temp1";  
         Director.createDir(dirName);  
-        //创建文件  
+        
         String fileName = dirName + "/temp2/tempFile.txt";  
-        Director.createFile(fileName);  
+        Director.createFile(fileName);  */
     }  
 }

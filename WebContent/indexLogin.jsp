@@ -40,6 +40,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	 <!----End Calender -------->
 	</head>
 	<body>
+	<form id="loginForm" action="UserAction!UserCheckFile">
+	                            <input type="submit" id="login" value="Sign in">
+	                            
+	                    </form>
 		<!---strat-wrap---->
 		<div class="wrap">
 			<!---start-top-nav---->
@@ -89,6 +93,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</ul>
 		</li>
 	</ul>
+	
 		 </div>
 		 <div class="top-nav_right">
 		 <div class="menu">

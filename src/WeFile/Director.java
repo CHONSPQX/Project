@@ -2,6 +2,7 @@ package WeFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Director {  
     public static String prePath = "F:/work/";
@@ -94,5 +95,15 @@ public class Director {
                 return null;  
             }  
         }  
+    }
+    
+    public static ArrayList<String> checkFile(String userId , String path)
+    {
+    	File dir = new File( prePath +userId + "/" +path);
+        String[] strs = dir.list();
+        ArrayList<String> all = new ArrayList<String>();
+        for(String s : strs)
+        	all.add(s);
+        return all;
     }
 }

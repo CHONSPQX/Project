@@ -4,6 +4,9 @@
 package Action;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -17,15 +20,10 @@ import WeFile.Director;
 public class UserAction extends ActionSupport{
    private Database database;
    private User user;
-   private String path;
+   private String path;//Ïà¶ÔÂ·¾¶
    
-   public String getPath() {
-	return path;
-}
-
-public void setPath(String path) {
-	this.path = path;
-}
+   
+   
 
 public UserAction()
    {
@@ -48,7 +46,8 @@ public UserAction()
         int result = ps.executeUpdate();
         if (result > 0)
         {
-        	String dirName = user.getUserID();
+        	String dirName = user.getUserID() + "/";
+        	System.out.println(dirName);
         	if(Director.createDir(dirName))
         		return "createok";
         	else return "createnotok";
@@ -71,7 +70,11 @@ public UserAction()
         if(rs.next())
         {
         	if(rs.getString(1).equals(user.getPassword()))
+        	{
+        		ServletActionContext.getRequest().getSession().setAttribute("userID", user.getUserID());
         		return "loginok";
+        	}
+        		
         }
 	  }
 	  catch(Exception e)
@@ -86,6 +89,17 @@ public UserAction()
   		return "createDirok";
   	else return "createDirnotok";
   }
+  
+  
+  public String UserCheckFile()
+  {
+	  System.out.print("1111");
+	  String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+	  
+	  ArrayList<String> all = Director.checkFile(id, "");
+	  ServletActionContext.getRequest().setAttribute("AllFiles", all);
+	  return "checkFileok";
+  }
   /**
    * @return the user
    */
@@ -98,6 +112,15 @@ public UserAction()
   public void setUser(User user) {
     this.user = user;
   }
-   
-   
+  
+ 
+  
+  public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+     
 }

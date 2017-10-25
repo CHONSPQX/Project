@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import com.opensymphony.xwork2.ActionSupport;
 
 import User.User;
+import WeFile.Director;
 
 /**
  * @author Administrator
@@ -16,8 +17,17 @@ import User.User;
 public class UserAction extends ActionSupport{
    private Database database;
    private User user;
+   private String path;
    
-   public UserAction()
+   public String getPath() {
+	return path;
+}
+
+public void setPath(String path) {
+	this.path = path;
+}
+
+public UserAction()
    {
      database =new Database();
      database.ConnectMysql();
@@ -37,7 +47,13 @@ public class UserAction extends ActionSupport{
         ps.setString(6, user.getMessage());
         int result = ps.executeUpdate();
         if (result > 0)
-            return "createok";
+        {
+        	String dirName = user.getUserID();
+        	if(Director.createDir(dirName))
+        		return "createok";
+        	else return "createnotok";
+        	
+        }
         else
             return "createnotok";
     } catch (Exception e) {
@@ -64,8 +80,12 @@ public class UserAction extends ActionSupport{
 	  }
         return "loginnotok";
 }
-
-  
+  public String createDir()
+  {
+	  if(Director.createDir(path))
+  		return "createDirok";
+  	else return "createDirnotok";
+  }
   /**
    * @return the user
    */

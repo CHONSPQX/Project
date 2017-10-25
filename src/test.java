@@ -1,8 +1,4 @@
-import java.sql.Date;
-
-import java.util.GregorianCalendar;
-
-import User.*;
+import WeFile.Director;
 
 /**
  * 
@@ -13,17 +9,12 @@ import User.*;
  *
  */
 public class test {
-   public static void main(String args[])
-   {
-     User user=new User();
-     user.setUserID("asdsad");
-     user.setPassword("12346789");
-     user.setBirthDate("2017-05-07");
-     user.setName("rtyui");
-     user.setMessage("45218");
-     Action.UserAction ui=new Action.UserAction();
-     ui.setUser(user);
-     ui.UserCreate();
-     
-   }
+	public static void main(String[] args) {  
+        //创建目录  
+        String dirName = "F:/temp1";  
+        Director.createDir(dirName);  
+        //创建文件  
+        String fileName = dirName + "/temp2/tempFile.txt";  
+        Director.createFile(fileName);  
+    }  
 }

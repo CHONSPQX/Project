@@ -2,6 +2,12 @@
  * 
  */
 package Action;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
@@ -9,7 +15,6 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import WeFile.Director;
-import Tool.Tool;
 
 /**
  * @author Administrator
@@ -21,6 +26,10 @@ public class FileAction extends ActionSupport{
    private String filename;
    private String dirrename;
    private String filerename;
+   private String context;
+   
+ 
+
   public String createDir()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -109,6 +118,53 @@ public class FileAction extends ActionSupport{
       return "rename_file_failed";
   }
   
+  public String WriteFile()
+  {
+      try
+      {
+          path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+          File file = new File(path + "/" + filename);
+          file.createNewFile();
+          BufferedWriter out = new BufferedWriter(new FileWriter(file));
+          out.write(context);
+          out.flush();
+          out.close();
+      }
+      catch(Exception e)
+      {
+          e.printStackTrace();
+      }
+      return "write_file_success";
+  }
+  
+  /**
+   * 
+   * @return
+   */
+  public String ReadFile()
+  {
+      try
+      {
+          path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+          File file = new File(path + "/" + filename);
+          InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
+          BufferedReader br = new BufferedReader(reader);
+          StringBuilder line = new StringBuilder();
+          String str = "";
+          while((str=br.readLine())!=null)
+          {
+              line.append(str);
+          }
+          ServletActionContext.getRequest().setAttribute("readContext", line.toString());
+          //readContext为输入到前台的文件的内容
+      }
+      catch(Exception e)
+      {
+          e.printStackTrace();
+      }
+      return "read_file_success";
+  }
+  
   
   public String UserCheckFile()
   {
@@ -186,6 +242,20 @@ public class FileAction extends ActionSupport{
     public void setFilerename(String filerename) {
       //this.filerename = Tool.Toutf(filerename);
       this.filerename = filerename;
+    }
+    
+    /**
+     * @return the context
+     */
+    public String getContext() {
+      return context;
+    }
+
+    /**
+     * @param context the context to set
+     */
+    public void setContext(String context) {
+      this.context = context;
     }
      
 }

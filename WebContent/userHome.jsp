@@ -8,7 +8,7 @@
     <title>Blog Magazine</title>
     <script src="js/jquery.js"></script>
     <script src="layer/src/layer.js"></script>
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css"  type="text/css">
     <link rel="stylesheet" href="css/userhome.css" type="text/css" />
   </head>
   <script type="text/javascript">
@@ -51,24 +51,66 @@
     </script>
   <body>
    
-   <div id="DirBoxx">
+   <div >
     <form action="FileAction!createDir">
           <div class="form-group">
-            <label for="InputDirname">文件夹名称</label>
+            <label for="InputDirname">文件夹</label>
             <input class="form-control" name="dirname" id="InputDirname" type="text"  placeholder="Dirname">
           </div>
-           <s:submit class="btn btn-primary btn-block" name ="submit" value="Confirm" />
+           <s:submit class="btn btn-primary btn-block" name ="submit" value="创建文件夹" />
+     </form>
+     </div>
+     
+   <div >
+    <form action="FileAction!deleteDir">
+          <div class="form-group">
+            <label for="InputDirname">文件夹</label>
+            <input class="form-control" name="dirname" id="InputDirname" type="text"  placeholder="Dirname">
+          </div>
+           <s:submit class="btn btn-primary btn-block" name ="submit" value="删除文件夹" />
+     </form>
+     </div>
+     
+     <div>
+     <form action="FileAction!renameDir">
+          <div class="form-group">
+            <label for="InputDirname">文件夹</label>
+            <input class="form-control" name="dirname" id="InputDirname" type="text"  placeholder="Dirname">
+             <input class="form-control" name="dierename" id="InputDirname" type="text"  placeholder="Direname">
+          </div>
+           <s:submit class="btn btn-primary btn-block" name ="submit" value="重命名文件夹" />
      </form>
      </div>
    
     
-   <div id="FileBoxx">
+   <div >
     <form action="FileAction!createFile">
     <div class="form-group">
     <label for="InputFilename">文件名称</label>
     <input class="form-control" name="filename" id="InputFilename" type="text"  placeholder="Filename">
     </div>
-    <s:submit class="btn btn-primary btn-block" name ="submit" value="Confirm" />
+    <s:submit class="btn btn-primary btn-block" name ="submit" value="创建文件" />
+    </form>
+    </div>
+    
+     <div >
+    <form action="FileAction!deleteFile">
+    <div class="form-group">
+    <label for="InputFilename">文件名称</label>
+    <input class="form-control" name="filename" id="InputFilename" type="text"  placeholder="Filename">
+    </div>
+    <s:submit class="btn btn-primary btn-block" name ="submit" value="删除文件" />
+    </form>
+    </div>
+    
+     <div >
+    <form action="FileAction!renameFile">
+    <div class="form-group">
+    <label for="InputFilename">文件名称</label>
+    <input class="form-control" name="filename" id="InputFilename" type="text"  placeholder="Filename">
+    <input class="form-control" name="filerename" id="InputFilename" type="text"  placeholder="Filerename">
+    </div>
+    <s:submit class="btn btn-primary btn-block" name ="submit" value="重命名文件" />
     </form>
     </div>
     
@@ -88,7 +130,7 @@
       {
         for(String file:all)
         {
-          %>
+      %>
           <tr>
           <td align="center"><%=file%></td>
           </tr> 

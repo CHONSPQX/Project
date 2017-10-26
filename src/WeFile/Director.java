@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Director {  
     public static String prePath = "F:/work/";
-	
     public static boolean createFile(String destFileName) {  
         File file = new File(prePath + destFileName);  
         if(file.exists()) {  
@@ -31,8 +30,7 @@ public class Director {
             return false;  
         }  
     }  
-     
-     
+  
     public static boolean createDir(String destDirName) {  
         File dir = new File( prePath + destDirName);  
         if (dir.exists()) {  
@@ -47,8 +45,89 @@ public class Director {
             return false;  
         }  
     }  
-     
-     
+    
+    public static boolean deleteFile(String destFileName){     
+      File file = new File(prePath+destFileName);     
+      if(file.isFile() && file.exists()){     
+          file.delete();     
+          System.out.println("删除单个文件"+prePath+destFileName+"成功！");     
+          return true;     
+      }else{     
+          System.out.println("删除单个文件"+prePath+destFileName+"失败！");     
+          return false;     
+      }     
+  }   
+    
+    public static boolean deleteDir(String destDirName){     
+      //如果destDriName不以文件分隔符结尾，自动添加文件分隔符     
+      if(!destDirName.endsWith(File.separator)){     
+        destDirName = destDirName+File.separator;     
+      }     
+      File dirFile = new File(prePath+destDirName);     
+      //如果destDriName对应的文件不存在，或者不是一个目录，则退出     
+      if(!dirFile.exists() || !dirFile.isDirectory()){     
+          System.out.println("删除目录失败"+prePath+destDirName+"目录不存在！");     
+          return false;     
+      }     
+      boolean flag = true;     
+      //删除文件夹下的所有文件(包括子目录)     
+      File[] files = dirFile.listFiles();     
+      for(int i=0;i<files.length;i++){     
+          //删除子文件     
+          if(files[i].isFile()){     
+              flag = deleteFile(destDirName+files[i].getName());     
+              if(!flag){     
+                  break;     
+              }     
+          }     
+          //删除子目录     
+          else{     
+              flag = deleteDir(destDirName+files[i].getName());     
+              if(!flag){     
+                  break;     
+              }     
+          }     
+      }           
+      if(!flag){     
+          System.out.println("删除目录失败");     
+          return false;     
+      }           
+      //删除当前目录     
+      if(dirFile.delete()){     
+          System.out.println("删除目录"+prePath+destDirName+"成功！");     
+          return true;     
+      }else{     
+          System.out.println("删除目录"+prePath+destDirName+"失败！");     
+          return false;     
+      }     
+  }     
+    
+    public static boolean renameDir(String oldDirName,String newDirName)
+    {
+      File oldName = new File(prePath+oldDirName);
+      File newName = new File(prePath+newDirName);
+      boolean flag=oldName.renameTo(newName);
+      if(flag) {
+          System.out.println("文件夹重命名成功");
+      } else {
+          System.out.println("文件夹重命名失败");
+      }
+      return flag;
+    }
+    
+    public static boolean renameFile(String oldFileName,String newFileName)
+    {
+      File oldName = new File(prePath+oldFileName);
+      File newName = new File(prePath+newFileName);
+      boolean flag=oldName.renameTo(newName);
+      if(flag) {
+          System.out.println("文件重命名成功");
+      } else {
+          System.out.println("文件重命名失败");
+      }
+      return flag;
+    }
+    
     public static String createTempFile(String prefix, String suffix, String dirName) {  
         File tempFile = null;  
         if (dirName == null) {  

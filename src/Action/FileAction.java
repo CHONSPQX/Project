@@ -21,7 +21,8 @@ public class FileAction extends ActionSupport{
    private String path;//
    private String dirname;
    private String filename;
-   
+   private String dirrename;
+   private String filerename;
   public String createDir()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -37,16 +38,28 @@ public class FileAction extends ActionSupport{
   
   public String deleteDir()
   {
-      if(Director.createDir(path))
-        return "createDirok";
-    else return "createDirnotok";
+    path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    boolean flag=Director.deleteDir(path+"/"+dirname);
+    String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    ArrayList<String> all = Director.checkFile(id, "");
+    ServletActionContext.getRequest().setAttribute("AllFiles", all);
+    if(flag)
+      return "delete_dir_success";
+    else
+      return "delete_dir_failed";
   }
   
   public String renameDir()
   {
-      if(Director.createDir(path))
-        return "createDirok";
-    else return "createDirnotok";
+    path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    boolean flag=Director.renameDir(path+"/"+dirname,path+"/"+dirrename);
+    String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    ArrayList<String> all = Director.checkFile(id, "");
+    ServletActionContext.getRequest().setAttribute("AllFiles", all);
+    if(flag)
+      return "rename_dir_success";
+    else
+      return "rename_dir_failed";
   }
   
   public String createFile()
@@ -63,15 +76,27 @@ public class FileAction extends ActionSupport{
   }
   public String deleteFile()
   {
-      if(Director.createDir(path))
-        return "createDirok";
-    else return "createDirnotok";
+    path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    boolean flag=Director.deleteFile(path+"/"+filename);
+    String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    ArrayList<String> all = Director.checkFile(id, "");
+    ServletActionContext.getRequest().setAttribute("AllFiles", all);
+    if(flag)
+      return "delete_file_success";
+    else
+      return "delete_file_failed";
   }
   public String renameFile()
   {
-      if(Director.createDir(path))
-        return "createDirok";
-    else return "createDirnotok";
+    path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    boolean flag=Director.renameFile(path+"/"+filename,path+"/"+filerename);
+    String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    ArrayList<String> all = Director.checkFile(id, "");
+    ServletActionContext.getRequest().setAttribute("AllFiles", all);
+    if(flag)
+      return "rename_file_success";
+    else
+      return "rename_file_failed";
   }
   
   
@@ -118,6 +143,34 @@ public class FileAction extends ActionSupport{
      */
     public void setFilename(String filename) {
       this.filename = filename;
+    }
+
+    /**
+     * @return the dirrename
+     */
+    public String getDirrename() {
+      return dirrename;
+    }
+
+    /**
+     * @param dirrename the dirrename to set
+     */
+    public void setDirrename(String dirrename) {
+      this.dirrename = dirrename;
+    }
+
+    /**
+     * @return the filerename
+     */
+    public String getFilerename() {
+      return filerename;
+    }
+
+    /**
+     * @param filerename the filerename to set
+     */
+    public void setFilerename(String filerename) {
+      this.filerename = filerename;
     }
      
 }

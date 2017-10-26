@@ -2,15 +2,18 @@
  * 
  */
 package Action;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import User.User;
 import WeFile.Director;
 
 /**
@@ -23,6 +26,7 @@ public class FileAction extends ActionSupport{
    private String filename;
    private String dirrename;
    private String filerename;
+   private String context;//用户写入文件的内容
   public String createDir()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -108,12 +112,70 @@ public class FileAction extends ActionSupport{
       return "checkFileok";
   }
  
+  /**
+   * context 是用户写入的文件的内容
+   * @return
+   */
+  public String WriteFile()
+  {
+	  try
+	  {
+		  path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  File file = new File(path + "/" + filename);
+		  file.createNewFile();
+		  BufferedWriter out = new BufferedWriter(new FileWriter(file));
+		  out.write(context);
+		  out.flush();
+		  out.close();
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  }
+ 	  return "write_file_success";
+  }
+  
+  /**
+   * 
+   * @return
+   */
+  public String ReadFile()
+  {
+	  try
+	  {
+		  path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  File file = new File(path + "/" + filename);
+		  InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
+		  BufferedReader br = new BufferedReader(reader);
+		  StringBuilder line = new StringBuilder();
+		  String str = "";
+		  while((str=br.readLine())!=null)
+		  {
+			  line.append(str);
+		  }
+		  ServletActionContext.getRequest().setAttribute("readContext", line.toString());
+		  //readContext为输入到前台的文件的内容
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  }
+	  return "read_file_success";
+  }
   
   public String getPath() {
         return path;
     }
+  
+    public String getContext() {
+	return context;
+}
 
-    public void setPath(String path) {
+public void setContext(String context) {
+	this.context = context;
+}
+
+	public void setPath(String path) {
         this.path = path;
     }
 

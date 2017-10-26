@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
-<%request.setCharacterEncoding("UTF-8");%>
-<%response.setCharacterEncoding("UTF-8");%>
+<%
+  request.setCharacterEncoding("UTF-8");
+%>
+<%
+  response.setCharacterEncoding("UTF-8");
+%>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -45,7 +49,7 @@
 				<label for="InputDirname">文件夹</label> <input class="form-control"
 					name="dirname" id="InputDirname" type="text" placeholder="Dirname">
 			</div>
-			<s:submit class="btn btn-primary btn-block" name="submit"
+			<input type="submit" class="btn btn-primary btn-block" name="submit"
 				value="创建文件夹" />
 		</form>
 	</div>
@@ -56,7 +60,7 @@
 				<label for="InputDirname">文件夹</label> <input class="form-control"
 					name="dirname" id="InputDirname" type="text" placeholder="Dirname">
 			</div>
-			<s:submit class="btn btn-primary btn-block" name="submit"
+			<input type="submit" class="btn btn-primary btn-block" name="submit"
 				value="删除文件夹" />
 		</form>
 	</div>
@@ -64,13 +68,12 @@
 	<div id="renameDirBox" class="hideBox">
 		<form action="FileAction!renameDir">
 			<div class="form-group">
-				<label for="InputDirname">文件夹</label> 
-				<input class="form-control"
+				<label for="InputDirname">文件夹</label> <input class="form-control"
 					name="dirname" id="InputDirname" type="text" placeholder="Dirname">
 				<input class="form-control" name="dirrename" id="InputDirname"
 					type="text" placeholder="Direname">
 			</div>
-			<s:submit class="btn btn-primary btn-block" name="submit"
+			<input type="submit" class="btn btn-primary btn-block" name="submit"
 				value="重命名文件夹" />
 		</form>
 	</div>
@@ -103,11 +106,9 @@
 	<div id="renameFileBox" class="hideBox">
 		<form action="FileAction!renameFile">
 			<div class="form-group">
-				<label for="InputFilename">文件名称</label> 
-				<input class="form-control"
+				<label for="InputFilename">文件名称</label> <input class="form-control"
 					name="filename" id="InputFilename" type="text"
-					placeholder="Filename"> 
-				<input class="form-control"
+					placeholder="Filename"> <input class="form-control"
 					name="filerename" id="InputFilename" type="text"
 					placeholder="Filerename">
 			</div>
@@ -124,18 +125,48 @@
 					<h1>File:</h1>
 					<table width="100%" border="1" align="center">
 						<tr bgcolor="#66ff33">
-							<th>file</th>
+							<th>文件</th>
+							<th>删除</th>
+							<th>重命名</th>
+							<th>编辑</th>
 						</tr>
 						<%
 						  ArrayList<String> all = (ArrayList<String>) request.getAttribute("AllFiles");
 									if (all != null && !all.isEmpty()) {
 										for (String file : all) {
+											if (!file.contains(".")) {
 						%>
 						<tr>
 							<td align="center"><%=file%></td>
+							<td><button type="button" id="createFileButton"
+									class="btn btn-default">删除</button></td>
+							<td><button type="button" id="renameFileButton"
+									class="btn btn-default">重命名</button>
+							</td>
+							<td><button type="button" id="deleteFileButton"
+									class="btn btn-default" disabled="disabled">编辑</button>
+							</td>
 						</tr>
 						<%
 						  }
+										}
+										for (String file : all) {
+											if (file.contains(".")) {
+						%>
+						<tr>
+							<td align="center"><%=file%></td>
+              <td><button type="button" id="createFileButton"
+                  class="btn btn-default">删除</button></td>
+              <td><button type="button" id="renameFileButton"
+                  class="btn btn-default">重命名</button>
+              </td>
+              <td><button type="button" id="deleteFileButton"
+                  class="btn btn-default">编辑</button>
+              </td>
+						</tr>
+						<%
+						  }
+										}
 									}
 						%>
 					</table>

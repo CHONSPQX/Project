@@ -129,12 +129,13 @@ public class FileAction extends ActionSupport{
           out.write(context);
           out.flush();
           out.close();
+          return "write_file_success";
       }
       catch(Exception e)
       {
           e.printStackTrace();
       }
-      return "write_file_success";
+      return "write_file_failed";
   }
   
   /**
@@ -157,12 +158,13 @@ public class FileAction extends ActionSupport{
           }
           ServletActionContext.getRequest().setAttribute("readContext", line.toString());
           //readContext为输入到前台的文件的内容
+          return "read_file_success";
       }
       catch(Exception e)
       {
           e.printStackTrace();
       }
-      return "read_file_success";
+      return "read_file_failed";
   }
   
   

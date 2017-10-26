@@ -1,4 +1,12 @@
 
+.btn4{
+	width: 120px;
+}
+
+.hideBox{
+	display: none;
+}
+
 #DirBox{
 	width:25%;
 	display:block;

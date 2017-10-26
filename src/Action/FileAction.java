@@ -26,6 +26,8 @@ public class FileAction extends ActionSupport{
   public String createDir()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    if(path.equals(""))
+      path="user";
     boolean flag=Director.createDir(path+"/"+dirname);
     String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
     ArrayList<String> all = Director.checkFile(id, "");
@@ -39,6 +41,8 @@ public class FileAction extends ActionSupport{
   public String deleteDir()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    if(path.equals(""))
+      path="user";
     boolean flag=Director.deleteDir(path+"/"+dirname);
     String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
     ArrayList<String> all = Director.checkFile(id, "");
@@ -52,6 +56,8 @@ public class FileAction extends ActionSupport{
   public String renameDir()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    if(path.equals(""))
+      path="user";
     boolean flag=Director.renameDir(path+"/"+dirname,path+"/"+dirrename);
     String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
     ArrayList<String> all = Director.checkFile(id, "");
@@ -65,6 +71,8 @@ public class FileAction extends ActionSupport{
   public String createFile()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    if(path.equals(""))
+      path="user";
     boolean flag=Director.createFile(path+"/"+filename);
     String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
     ArrayList<String> all = Director.checkFile(id, "");
@@ -77,6 +85,8 @@ public class FileAction extends ActionSupport{
   public String deleteFile()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    if(path.equals(""))
+      path="user";
     boolean flag=Director.deleteFile(path+"/"+filename);
     String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
     ArrayList<String> all = Director.checkFile(id, "");
@@ -89,6 +99,8 @@ public class FileAction extends ActionSupport{
   public String renameFile()
   {
     path=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+    if(path.equals(""))
+      path="user";
     boolean flag=Director.renameFile(path+"/"+filename,path+"/"+filerename);
     String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
     ArrayList<String> all = Director.checkFile(id, "");
@@ -103,6 +115,8 @@ public class FileAction extends ActionSupport{
   public String UserCheckFile()
   {
       String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+      if(id.equals(""))
+        id="user";
       ArrayList<String> all = Director.checkFile(id, "");
       ServletActionContext.getRequest().setAttribute("AllFiles", all);
       return "checkFileok";

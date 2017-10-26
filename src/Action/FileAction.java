@@ -2,16 +2,14 @@
  * 
  */
 package Action;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import User.User;
 import WeFile.Director;
+import Tool.Tool;
 
 /**
  * @author Administrator
@@ -156,6 +154,7 @@ public class FileAction extends ActionSupport{
      * @param filename the filename to set
      */
     public void setFilename(String filename) {
+      //this.filename = Tool.Toutf(filename);
       this.filename = filename;
     }
 
@@ -170,6 +169,7 @@ public class FileAction extends ActionSupport{
      * @param dirrename the dirrename to set
      */
     public void setDirrename(String dirrename) {
+      //this.dirrename = Tool.Toutf(dirrename);
       this.dirrename = dirrename;
     }
 
@@ -184,6 +184,7 @@ public class FileAction extends ActionSupport{
      * @param filerename the filerename to set
      */
     public void setFilerename(String filerename) {
+      //this.filerename = Tool.Toutf(filerename);
       this.filerename = filerename;
     }
      

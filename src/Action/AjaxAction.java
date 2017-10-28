@@ -20,14 +20,16 @@ import WeFile.Director;
  * @author Administrator
  *
  */
-public class FileAction extends ActionSupport {
+public class AjaxAction extends ActionSupport {
   private String path;//
   private String dirname;
   private String filename;
   private String dirrename;
   private String filerename;
   private String context;
+  private boolean flag;
 
+  
   public String createDir() {
     path = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");
@@ -124,21 +126,19 @@ public class FileAction extends ActionSupport {
       return "rename_file_failed";
   }
 
-  public String WriteFile() {
-    try {
-      path = (String) ServletActionContext.getRequest().getSession()
-          .getAttribute("userID");
-      File file = new File(path + "/" + filename);
-      file.createNewFile();
-      BufferedWriter out = new BufferedWriter(new FileWriter(file));
-      out.write(context);
-      out.flush();
-      out.close();
-      return "write_file_success";
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return "write_file_failed";
+  public String saveFile() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    System.out.println(context);
+     boolean flag=Director.saveFile(path + "/" + filename, context);
+     ServletActionContext.getRequest().setAttribute("saveFileFlag", flag);
+     this.flag=flag;
+     System.out.println(flag);
+     if(flag)
+       return SUCCESS;
+     
+       return SUCCESS;
+    
   }
 
   /**
@@ -151,7 +151,6 @@ public class FileAction extends ActionSupport {
         .getAttribute("userID");
     String context = Director.readFile(path + "/" + filename);
     ServletActionContext.getRequest().setAttribute("readContext", context);
-    ServletActionContext.getRequest().setAttribute("filename", filename);
     // readContext为输入到前台的文件的内容
     if (context != null)
       return "read_file_success";
@@ -254,5 +253,20 @@ public class FileAction extends ActionSupport {
   public void setContext(String context) {
     this.context = context;
   }
+  
+  /**
+   * @return the flag
+   */
+  public boolean getFlag() {
+    return flag;
+  }
+
+  /**
+   * @param flag the flag to set
+   */
+  public void setFlag(boolean flag) {
+    this.flag = flag;
+  }
+
 
 }

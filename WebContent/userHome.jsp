@@ -14,8 +14,7 @@
 <title>Blog Magazine</title>
 <script src="http://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
 <script src="./layer/dist/layer.js"></script>
-<link rel="stylesheet" href="bootstrap/css/bootstrap.css"
-	type="text/css">
+<link rel="stylesheet" href="bootstrap/css/bootstrap.css" type="text/css">
 <link rel="stylesheet" href="css/userhome.css" type="text/css" />
 </head>
 <body>
@@ -155,13 +154,13 @@
 						%>
 						<tr>
 							<td align="center"><%=file%></td>
-              <td><button type="button" id="createFileButton"
-                  class="btn btn-default">删除</button></td>
+              <td>
+              <a class="btn btn-default" href="FileAction!deleteFile?filename=<%=file%>">删除</a>
               <td><button type="button" id="renameFileButton"
                   class="btn btn-default">重命名</button>
               </td>
-              <td><button type="button" id="deleteFileButton"
-                  class="btn btn-default">编辑</button>
+              <td>
+              <a class="btn btn-default" href="FileAction!ReadFile?filename=<%=file%>">编辑</a>
               </td>
 						</tr>
 						<%

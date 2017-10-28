@@ -1,7 +1,12 @@
 package WeFile;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Director {  
@@ -128,6 +133,43 @@ public class Director {
       return flag;
     }
     
+    public static String readFile(String destFilename)
+    {
+      try {
+      File file = new File(prePath+destFilename);
+      InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
+      BufferedReader br = new BufferedReader(reader);
+      StringBuilder line = new StringBuilder();
+      String str = "";
+      while((str=br.readLine())!=null)
+      {
+          line.append(str);
+      }
+      br.close();
+      return line.toString();
+      }
+      catch(Exception e)
+      {
+        e.printStackTrace();
+        return null;
+      }
+    }
+    
+    public static boolean saveFile(String destFilename,String context)
+    {
+      try {
+      File file = new File(prePath + "/" + destFilename);
+      BufferedWriter out = new BufferedWriter(new FileWriter(file));
+      out.write(context);
+      out.flush();
+      out.close();
+      return true;
+      } catch(Exception e)
+      {
+        e.printStackTrace();
+        return false;
+      }
+    }
     public static String createTempFile(String prefix, String suffix, String dirName) {  
         File tempFile = null;  
         if (dirName == null) {  

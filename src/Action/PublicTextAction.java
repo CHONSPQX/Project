@@ -144,10 +144,9 @@ public class PublicTextAction extends ActionSupport
 	
 	public String checkComment()
 	{
-		//String fileId = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
-		//String newfile = filename;
-		//fileId = fileId + filename.replace(".txt", "");
-		String fileId = "shared";
+		String fileId = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
+		String newfile = filename;
+		fileId = fileId + filename.replace(".txt", "");
 		String mysql = "SELECT ID,userID,context,time FROM "+fileId;
 		try {
 			ArrayList<Comment> all = new ArrayList<Comment>();

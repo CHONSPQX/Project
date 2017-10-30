@@ -146,7 +146,6 @@
 	      dataType:"json"
 	    })
 	    .done(function(data){
-	      alert(data.flag);
 	      if(data.flag==true)
 	      {
 	        confirm("保存成功");

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>jQuery File Tree Demo</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
+		<script src="jquery.min.js" type="text/javascript"></script>
+        <script src="jquery-ui-min.js" type="text/javascript"></script>
+		<script src="gsFileManager.js" type="text/javascript"></script>
+		<script src="jquery.form.js" type="text/javascript"></script>
+		<script src="jquery.Jcrop.js" type="text/javascript"></script>
+		<script src="../lib/ckeditor/ckeditor.js" type="text/javascript"></script>
+	
+		<link href="gsFileManager.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="jquery.Jcrop.css" rel="stylesheet" type="text/css" media="screen" />
+		
+		<style>
+		   body {
+		      height: 100%;
+		      width: 100%;
+		   }
+		   
+		   html {
+		      height: 100%;
+		      width: 100%;
+		   }
+		</style>
+		<script type="text/javascript">
+			
+			$(document).ready( function() {
+				
+				jQuery('#fileTreeDemo_1').gsFileManager({ script: 'connectors/GsFileManager.php' });
+				
+			});
+		</script>
+
+	</head>
+	
+	<body>
+	    <a href="../" title="Free Web File Manager">Back to Free Web File Manager</a>
+	    <div style="height: 16px; line-height: 16px">&nbsp;</div>
+        <div id="fileTreeDemo_1" class="demoto">
+        
+        </div>
+        	
+	</body>
+	
+</html>

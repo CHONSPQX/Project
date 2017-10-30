@@ -4,7 +4,9 @@
 package Action;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -21,17 +23,65 @@ public class UserAction extends ActionSupport{
    private Database database;
    private User user;
    private String path;//
-   
-   
-   
+   private String SharedFilePath;//用户现在查看的分享文件的绝对路径
+   private ConnectionToCommentTable conn;
+   private String context;//用户评论的内容
+
+public String getSharedFilePath() {
+	return SharedFilePath;
+}
+
+public void setSharedFilePath(String sharedFilePath) {
+	SharedFilePath = sharedFilePath;
+}
 
 public UserAction()
    {
      database =new Database();
      database.ConnectMysql();
+     conn = new ConnectionToCommentTable();
+     conn.ConnectMysql();
    }
     
-  public String UserCreate() {
+public String UserComment()
+{
+	try
+	{
+		String userid = "admin3";
+		String mysql = "INSERT INTO shared(userID,context,time) VALUES(?,?,?);";
+		PreparedStatement ps = conn.conn.prepareStatement(mysql);
+		ps.setString(1, userid);
+		ps.setString(2, "感觉这篇文章写的很好");
+		ps.setTimestamp(3, new Timestamp(new Date().getTime()));
+		int result = ps.executeUpdate();
+		if(result>0)
+		{
+			return "comment_success";
+		}
+		else return "comment_filed";
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	return "comment_filed";
+}
+
+public static void main(String args[])
+{
+	UserAction ua = new UserAction();
+	ua.UserComment();
+}
+
+public String getContext() {
+	return context;
+}
+
+public void setContext(String context) {
+	this.context = context;
+}
+
+public String UserCreate() {
     try {
         String insql = "insert into User(UserID,Password,Name,Sex,BirthDate,Message) values(?,?,?,?,?,?)";
         

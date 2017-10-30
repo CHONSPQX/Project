@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%
   request.setCharacterEncoding("UTF-8");
@@ -30,6 +31,11 @@
   <div class="hero-unit">
   <h1>Bootstrap富文本编辑器 <br/></h1>
   <hr/>
+   <%
+              String file= (String) request.getAttribute("readContext");
+              String fileName= (String) request.getAttribute("filename");
+              Date d=new Date();
+   %>
   <div id="alerts"></div>
     <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
       <div class="btn-group">
@@ -79,13 +85,13 @@
       <div class="btn-group">
         <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
         <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
-        <a class="btn" title="Save File"><i class="icon-save"></i></a>
+        <a class="btn" id="saveFile" title="Save File" onclick="saveFile()"><i class="icon-save"></i></a>
       </div>
       <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
     </div>
 
     <div id="editor">
-      输入内容&hellip;
+    <%=file %>
     </div>
   </div>
 <script>
@@ -126,6 +132,35 @@
     initToolbarBootstrapBindings(); 
   $('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
   });
+  
+  
+  function saveFile(){
+	   var file=$('#editor').html();
+	   var name= '<%=fileName %>';
+	   var data ={context:file,filename:name};
+	   console.log(data);
+	    $.ajax({
+	      url:"AjaxAction!saveFile",
+	      data:  data, //$('#context').value
+	      type: "POST",
+	      dataType:"json"
+	    })
+	    .done(function(data){
+	      alert(data.flag);
+	      if(data.flag==true)
+	      {
+	        confirm("保存成功");
+	      }
+	      else
+	      {
+	        confirm("保存失败");
+	      }
+	    })
+	    .fail( function(){
+	      alert("error");
+	    })
+	}
+  
 </script>
 </body>
 </html>

@@ -27,10 +27,10 @@
     <result name="delete_file_failed">/userHome.jsp</result>
     <result name="rename_file_success">/userHome.jsp</result>
     <result name="rename_file_failed">/userHome.jsp</result>
-    <result name="read_file_success">/editor.jsp</result>
-    <result name="read_file_failed">/editor.jsp</result>
-    <result name="write_file_success">/editor.jsp</result>
-    <result name="write_file_failed">/editor.jsp</result>
+    <result name="read_file_success">/uieditor.jsp</result>
+    <result name="read_file_failed">/uieditor.jsp</result>
+    <result name="write_file_success">/uieditor.jsp</result>
+    <result name="write_file_failed">/uieditor.jsp</result>
   </action>
   </package>
   <package name="main" namespace="/" extends="json-default">

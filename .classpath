@@ -9,6 +9,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/desktop/lucene-7.1.0/lucene-7.1.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lucene_path"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

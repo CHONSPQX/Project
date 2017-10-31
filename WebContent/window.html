@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<script> 
+fso = new ActiveXObject("Scripting.FileSystemObject"); 
+   function getFolder(id){ 
+   obj = $(id);//取得为这个id值的对象 
+statu = $(id+"_status"); 
+if(statu.innerHTML=="-"){ 
+   statu.innerHTML="+"; 
+   obj.removeChild(obj.childNodes(0)); 
+   return; 
+}else{ 
+   statu.innerHTML="-"; 
+} 
+    var folder = fso.GetFolder(id+":\\"); 
+parent.MyComputer.location=folder; 
+   var fc=new Enumerator(folder.SubFolders);//folder.SubFolders:返回一个 Folders 集合，由指定文件夹中包含的所有文件夹组成 
+var a="<ul>"; 
+for (; !fc.atEnd(); fc.moveNext())//moveNext()方法将当前项移动到Enumerator的下一项中去 
+   { 
+      a += "<li onclick='getFolders(this)'>"+fc.item()+"</li>"; //item 方法返回 Enumerator                         对象中的当前项。如果集合为空或如果当前项未被定义，它将返回 undefined。 
+   }a+="<ul>"; 
+obj.innerHTML+=a; 
+   }   
+   function getFolders(obj){ 
+   if(obj!=event.srcElement)return;//获取当前鼠标点击的对象 
+if(obj.childNodes.length>1){ 
+obj.removeChild(obj.childNodes(1)); 
+   return; 
+} 
+var folder = fso.GetFolder(obj.innerHTML); 
+   parent.MyComputer.location=folder; 
+   var fc=new Enumerator(folder.SubFolders); 
+if(fc.atEnd()){ 
+return; 
+} 
+var a="<ul>"; 
+for (; ; fc.moveNext()) 
+   { if(fc.atEnd())break; 
+      a += "<li onclick=\"getFolders(this);\">"+fc.item()+"</li><br>";      
+   }a+="<ul>"; 
+obj.innerHTML+=a; 
+   } 
+   function $(id){return document.getElementById(id);} 
+</script> 
+<body> 
+<span onclick="getFolder('a')">本地磁盘(A)</span> <span id="a_status">+</span> [驱动器未就绪]<span id="a"></span><br /> 
+<span onclick="getFolder('c')">本地磁盘(C)</span> <span id="c_status">+</span> <span id="c"></span><br /> 
+<span onclick="getFolder('d')">本地磁盘(D)</span> <span id="d_status">+</span> <span id="d"></span><br /> 
+<span onclick="getFolder('e')">本地磁盘(E)</span> <span id="e_status">+</span> <span id="e"></span><br /> 
+<span onclick="getFolder('f')">本地磁盘(F)</span> <span id="f_status">+</span> <span id="f"></span><br /> 
+<span onclick="getFolder('g')">本地磁盘(G)</span> <span id="g_status">+</span> <span id="g"></span><br /> 
+<span onclick="getFolder('h')">本地磁盘(H)</span> <span id="h_status">+</span> [驱动器未就绪]<span id="h"></span> 
+</body> 
+</html>

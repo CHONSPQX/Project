@@ -70,6 +70,7 @@ public class PublicTextAction extends ActionSupport
 			path1 = "user";
 		path = "shared/" + path1;
 		boolean flag = Director.createFile(path + "/" + filename);
+		System.out.println(flag);
 		if(flag)
 		{
 			File source = new File("F:/work/" + path1 + "/" + filename);
@@ -94,38 +95,55 @@ public class PublicTextAction extends ActionSupport
 		}
 		return null;
 	}
-	public String sharePublixText()//分享文件
+	public String sharePublicText()//分享文件
 	{
 		String newpath = createPublicFileByCopy();//newpath是共享文件在共享池里的绝对路径。
+		System.out.println(newpath);
 		try
 		{
-			String mysql = "insert into publictext(Location,Owner,Time) values(?,?,?)";
-			PreparedStatement ps = conn.conn.prepareStatement(mysql);
+			String mysql = "insert into publictext(Location,Owner,Time) values(?,?,?);";
+			PreparedStatement ps = database.conn.prepareStatement(mysql);
 			ps.setString(1, newpath);
 			ps.setString(2, (String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
 			ps.setTimestamp(3, new Timestamp(new Date().getTime()));
 			int result = ps.executeUpdate();
+			System.out.println(result);
 			if(result>0)
 			{
 				this.createTable();
-				return "shareFile_success";
+				return "share_file_success";
 			}
-			else return "shareFile_filed";
+			else return "share_file_failed";
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		return "shareFile_filed";
+		return "share_file_failed";
 	}
 	
 	public void createTable()
 	{
 		String ID = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
-		String newfile = filename;
-		ID = ID + filename.replace(".txt", "");
+		int pos=filename.indexOf(".");
+		String file="";
+		if(pos>0)
+		  file=filename.substring(0,filename.indexOf("."));
+		else
+		  file=filename;
+		ID = ID + file;
+	//ID = ID + filename.replace(".html", "");
+	   // String ID = "shared";
 		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
-		String mysql = "CREATE TABLE "+ID+" (ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, userID VARCHAR(16), context VARCHAR(140), time DATETIME);";
+		//String mysql = "CREATE TABLE \'comment\'.\'"+ID+"\' (\'ID\' INT NOT NULL AUTO_INCREMENT, \'userID\' VARCHAR(16) NULL, \'context\' VARCHAR(140) NULL, \'time\' DATETIME NULL, PRIMARY KEY(\'ID\'));";
+		String mysql="CREATE TABLE `comment`.`"+ID+"` (`ID` INT NOT NULL AUTO_INCREMENT,`userID` VARCHAR(16) NULL,`context` VARCHAR(140) NULL,`time` DATETIME NULL,PRIMARY KEY (`ID`));";
+		System.out.println(mysql);
+		//CREATE TABLE `comment`.`ness/aaaaaa` (
+		  //`ID` INT NOT NULL AUTO_INCREMENT,
+		 // `userID` VARCHAR(16) NULL,
+		 // `context` VARCHAR(140) NULL,
+		 // `time` DATETIME NULL,
+		//  PRIMARY KEY (`ID`));
 		try {
 			PreparedStatement ps1 = conn.conn.prepareStatement(presql);
 			int rs = ps1.executeUpdate();//如果表已经存在了，返回-1，否则返回0
@@ -163,15 +181,15 @@ public class PublicTextAction extends ActionSupport
 				//System.out.println(""+rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3)+"  "+rs.getDate(4));
 			}
 			ServletActionContext.getRequest().setAttribute("commentTable", all);
-			return "checkComment_success";
+			return "check_comment_success";
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return "checkComment_fail";
+			return "check_comment_failed";
 		}	
 	}
 	public static void main(String args[])
 	{
-		PublicTextAction p = new PublicTextAction();
-		p.checkComment();
+	  PublicTextAction pAction = new PublicTextAction();
+	  pAction.createTable();
 	}
 }

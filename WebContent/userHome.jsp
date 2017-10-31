@@ -145,6 +145,9 @@
 							<td><button type="button" id="deleteFileButton"
 									class="btn btn-default" disabled="disabled">编辑</button>
 							</td>
+							<td><button type="button" id="shareFileButton"
+                  class="btn btn-default" disabled="disabled">分享</button>
+              </td>
 						</tr>
 						<%
 						  }
@@ -161,6 +164,9 @@
               </td>
               <td>
               <a class="btn btn-default" href="FileAction!ReadFile?filename=<%=file%>">编辑</a>
+              </td>
+              <td>
+              <a class="btn btn-default" href="ShareAction!sharePublicText?filename=<%=file%>">分享</a>
               </td>
 						</tr>
 						<%

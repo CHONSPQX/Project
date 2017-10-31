@@ -32,6 +32,10 @@
     <result name="write_file_success">/uieditor.jsp</result>
     <result name="write_file_failed">/uieditor.jsp</result>
   </action>
+  <action name="ShareAction" class="Action.PublicTextAction">
+    <result name="share_file_success">/userHome.jsp</result>
+    <result name="share_file_failed">/userHome.jsp</result>
+  </action>
   </package>
   <package name="main" namespace="/" extends="json-default">
   <action name="AjaxAction" class="Action.AjaxAction">

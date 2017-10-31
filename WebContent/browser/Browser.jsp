@@ -1033,7 +1033,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="pragma" content="no-cache">

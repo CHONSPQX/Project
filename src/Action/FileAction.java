@@ -158,6 +158,19 @@ public class FileAction extends ActionSupport {
     else
       return "read_file_failed";
   }
+  
+  public String showDetail() {
+
+    path = "admin";
+    String context = Director.readFile(path + "/" + filename);
+    ServletActionContext.getRequest().setAttribute("readContext", context);
+    ServletActionContext.getRequest().setAttribute("filename", filename);
+    // readContext为输入到前台的文件的内容
+    if (context != null)
+      return "show_filedetail_success";
+    else
+      return "show_filedetail_failed";
+  }
 
   public String UserCheckFile() {
     String id = (String) ServletActionContext.getRequest().getSession()

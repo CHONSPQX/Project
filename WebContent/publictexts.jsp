@@ -373,6 +373,30 @@
         });
     });
     
+    function MakeForm(filename) 
+    { 
+      // 创建一个 form 
+      var form = document.createElement("form"); 
+      //form1.id = "form1"; 
+      //form1.name = "form1"; 
+      // 添加到 body 中 
+      //document.body.appendChild(form1); 
+      // 创建一个输入 
+      var input = document.createElement("input"); 
+      // 设置相应参数 
+      input.type = "text"; 
+      input.name ="filename"; 
+      input.value = file; 
+      // 将该输入框插入到 form 中 
+      form.appendChild(input); 
+      // form 的提交方式 
+      form.method = "POST"; 
+      // form 提交路径 
+      form.action = "FileAction!"; 
+      // 对该 form 执行提交 
+      form.submit();  
+    } 
+    
     //为获取List对象按钮添加鼠标单击事件  
     </script>
     

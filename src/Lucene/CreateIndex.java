@@ -5,7 +5,7 @@ import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -27,7 +27,7 @@ class CreateIndex {
         Path path = indexrepository_file.toPath();
         Directory directory = FSDirectory.open(path);
         File files = new File(dataPath);
-        Analyzer analyzer = new StandardAnalyzer();
+        Analyzer analyzer = new SmartChineseAnalyzer();
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         IndexWriter indexWriter = new IndexWriter(directory, config);
         for (File f : files.listFiles()) {
@@ -50,5 +50,4 @@ class CreateIndex {
         }
         indexWriter.close();
     }
-
 }

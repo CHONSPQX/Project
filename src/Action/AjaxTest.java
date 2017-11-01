@@ -1,0 +1,87 @@
+/**
+ * 
+ */
+package Action;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.json.annotations.JSON;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import net.sf.json.JSONArray;  
+  
+
+
+
+public class AjaxTest extends ActionSupport{ 
+  
+ /* public String excute()
+  {
+    List<User> list = new ArrayList<User>(); 
+    User u1=new User();
+    u1.age="1";
+    u1.name="u1";
+    list.add(u1); 
+    User u2=new User();
+    u2.age="2";
+    u2.name="u2";
+    list.add(u2);  
+  JSONArray jsonArray = JSONArray.fromObject(list);  
+  HttpServletResponse response = (HttpServletResponse) ActionContext.getContext().get(ServletActionContext.HTTP_RESPONSE);  
+  response.setCharacterEncoding("UTF-8");   
+  try {
+    System.out.println(jsonArray.toString());
+    response.getWriter().print(jsonArray);
+    return SUCCESS;
+  } catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+    return SUCCESS;
+  }  
+  }*/
+    private static final long serialVersionUID = 1L;  
+      
+    private Map<String,Object> dataMap;  
+    private int num; 
+    public String updateContext() {  
+        // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据  
+        dataMap = new HashMap<String, Object>();  
+        dataMap.put("title1", num); 
+        dataMap.put("context1", num); 
+        dataMap.put("footer1", new Date().toString());
+        dataMap.put("title2", num); 
+        dataMap.put("context2", num); 
+        dataMap.put("footer2", new Date().toString()); 
+        dataMap.put("title3", num); 
+        dataMap.put("context3", num); 
+        dataMap.put("footer3", new Date().toString()); 
+        // 返回结果  
+        return SUCCESS;  
+    }  
+  
+    public Map<String, Object> getDataMap() {  
+        return dataMap;  
+    }  
+  
+    //设置key属性不作为json的内容返回  
+    @JSON(serialize=false)  
+    public int getNum() {  
+        return num;  
+    } 
+    
+    public void setNum(int num)
+    {
+      this.num=num;
+    }
+    
+}  

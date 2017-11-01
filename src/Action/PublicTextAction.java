@@ -132,17 +132,14 @@ public class PublicTextAction extends ActionSupport
 		else
 		  file=filename;
 		ID = ID + file;
-	//ID = ID + filename.replace(".html", "");
-	   // String ID = "shared";
 		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
-		//String mysql = "CREATE TABLE \'comment\'.\'"+ID+"\' (\'ID\' INT NOT NULL AUTO_INCREMENT, \'userID\' VARCHAR(16) NULL, \'context\' VARCHAR(140) NULL, \'time\' DATETIME NULL, PRIMARY KEY(\'ID\'));";
 		String mysql="CREATE TABLE `comment`.`"+ID+"` (`ID` INT NOT NULL AUTO_INCREMENT,`userID` VARCHAR(16) NULL,`context` VARCHAR(140) NULL,`time` DATETIME NULL,PRIMARY KEY (`ID`));";
 		System.out.println(mysql);
 		//CREATE TABLE `comment`.`ness/aaaaaa` (
-		  //`ID` INT NOT NULL AUTO_INCREMENT,
-		 // `userID` VARCHAR(16) NULL,
-		 // `context` VARCHAR(140) NULL,
-		 // `time` DATETIME NULL,
+		//`ID` INT NOT NULL AUTO_INCREMENT,
+		// `userID` VARCHAR(16) NULL,
+		// `context` VARCHAR(140) NULL,
+		// `time` DATETIME NULL,
 		//  PRIMARY KEY (`ID`));
 		try {
 			PreparedStatement ps1 = conn.conn.prepareStatement(presql);

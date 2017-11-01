@@ -2,19 +2,30 @@
  * 
  */
 package Action;
+import Article.Txtfile;
+import WeFile.Director;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;  
+import java.util.HashMap;  
+import java.util.List;  
+
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import WeFile.Director;
+
 
 /**
  * @author Administrator
@@ -28,103 +39,27 @@ public class AjaxAction extends ActionSupport {
   private String filerename;
   private String context;
   private boolean flag;
-
+  //private List<Txtfile> txtfiles;
+  //private JSONArray text;
   
-  public String createDir() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    if (path.equals(""))
-      path = "user";
-    boolean flag = Director.createDir(path + "/" + dirname);
-    String id = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    ArrayList<String> all = Director.checkFile(id, "");
-    ServletActionContext.getRequest().setAttribute("AllFiles", all);
-    if (flag)
-      return "create_dir_success";
-    else
-      return "create_dir_failed";
-  }
 
-  public String deleteDir() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    if (path.equals(""))
-      path = "user";
-    boolean flag = Director.deleteDir(path + "/" + dirname);
-    String id = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    ArrayList<String> all = Director.checkFile(id, "");
-    ServletActionContext.getRequest().setAttribute("AllFiles", all);
-    if (flag)
-      return "delete_dir_success";
-    else
-      return "delete_dir_failed";
-  }
+  /**
+   * @return the text
+   */
+ // public JSONArray getText() {
+ //   return text;
+ // }
 
-  public String renameDir() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    if (path.equals(""))
-      path = "user";
-    boolean flag = Director.renameDir(path + "/" + dirname,
-        path + "/" + dirrename);
-    String id = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    ArrayList<String> all = Director.checkFile(id, "");
-    ServletActionContext.getRequest().setAttribute("AllFiles", all);
-    if (flag)
-      return "rename_dir_success";
-    else
-      return "rename_dir_failed";
-  }
 
-  public String createFile() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    if (path.equals(""))
-      path = "user";
-    boolean flag = Director.createFile(path + "/" + filename);
-    String id = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    ArrayList<String> all = Director.checkFile(id, "");
-    ServletActionContext.getRequest().setAttribute("AllFiles", all);
-    if (flag)
-      return "create_file_success";
-    else
-      return "create_file_failed";
-  }
-  public String deleteFile() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    if (path.equals(""))
-      path = "user";
-    boolean flag = Director.deleteFile(path + "/" + filename);
-    String id = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    ArrayList<String> all = Director.checkFile(id, "");
-    ServletActionContext.getRequest().setAttribute("AllFiles", all);
-    if (flag)
-      return "delete_file_success";
-    else
-      return "delete_file_failed";
-  }
-  public String renameFile() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    if (path.equals(""))
-      path = "user";
-    boolean flag = Director.renameFile(path + "/" + filename,
-        path + "/" + filerename);
-    String id = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    ArrayList<String> all = Director.checkFile(id, "");
-    ServletActionContext.getRequest().setAttribute("AllFiles", all);
-    if (flag)
-      return "rename_file_success";
-    else
-      return "rename_file_failed";
-  }
+  /**
+   * @param text the text to set
+   */
+ // public void setText(JSONArray text) {
+ //   this.text = text;
+ // }
+
+
+  private int pagenum;
 
   public String saveFile() {
     path = (String) ServletActionContext.getRequest().getSession()
@@ -139,6 +74,33 @@ public class AjaxAction extends ActionSupport {
      
        return SUCCESS;
     
+  }
+  
+  
+  public String updateContext(){
+    List<Txtfile> txtfiles=new ArrayList<Txtfile>();
+    Txtfile file1=new Txtfile();
+    Txtfile file2=new Txtfile();
+    Txtfile file3=new Txtfile();
+    file1.filename="file1";
+    file1.context="hello";
+    file1.date="2017";
+    System.out.println(file1);
+    file2.filename="file2";
+    file2.context="world";
+    file2.date="11";
+    System.out.println(file2);
+    file3.filename="file3";
+    file3.context="!";
+    file3.date="1";
+    System.out.println(file3);
+    txtfiles.add(file1);
+    txtfiles.add(file2);
+    txtfiles.add(file3);
+    //text=JSONArray.fromObject(txtfiles);
+    this.flag=true;
+    //System.out.println(text.toString(3));
+    return "txtfiles";
   }
 
   /**
@@ -268,5 +230,33 @@ public class AjaxAction extends ActionSupport {
     this.flag = flag;
   }
 
+  /**
+   * @return the pagenum
+   */
+  public int getPagenum() {
+    return pagenum;
+  }
+
+  /**
+   * @param pagenum the pagenum to set
+   */
+  public void setPagenum(int pagenum) {
+    this.pagenum = pagenum;
+  }
+
+  /**
+   * @return the txtfiles
+   */
+  //public List<Txtfile> getTxtfiles() {
+  //  return txtfiles;
+ // }
+
+
+  /**
+   * @param txtfiles the txtfiles to set
+   */
+ // public void setTxtfiles(List<Txtfile> txtfiles) {
+ //   this.txtfiles = txtfiles;
+ // }
 
 }

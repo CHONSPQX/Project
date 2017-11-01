@@ -41,5 +41,11 @@
   <action name="AjaxAction" class="Action.AjaxAction">
     <result name="success" type="json"></result>
   </action>
+  <action name="AjaxTest" class="Action.AjaxTest">  
+            <result type="json">  
+                <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
+                <param name="root">dataMap</param>  
+            </result>  
+        </action>  
 </package>
 </struts>    

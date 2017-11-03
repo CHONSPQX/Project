@@ -3,10 +3,14 @@ package Lucene;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
@@ -34,7 +38,6 @@ import org.apache.lucene.store.FSDirectory;
 public class Lucene {
 	private String indexPath = "D://luceneIndex";
 	private String dataPath = "D://dataIndex";
-
 	
 	public String getIndexPath() {
 		return indexPath;
@@ -48,7 +51,6 @@ public class Lucene {
 	public void setDataPath(String dataPath) {
 		this.dataPath = dataPath;
 	}
-	
 	
 	//新建索引
 	 public void CreateIndex() throws IOException {
@@ -68,17 +70,20 @@ public class Lucene {
 				long fileSize = FileUtils.sizeOf(f);
 				Document document = new Document();
 				
+				long time = f.lastModified();
+		        String fileTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(time));
 				Field nameField = new TextField("name", fileName, Store.YES);
 				Field contentField = new TextField("content", fileContent , Store.YES);
 				Field pathField = new StoredField("path", filePath);
 				Field sizeField = new StoredField("size", fileSize);
-				
+			    Field timeField = new StoredField("time", fileTime);
 				System.out.println(fileName);
 				
 				document.add(nameField);
 				document.add(contentField);
 				document.add(pathField);
 				document.add(sizeField);
+				document.add(timeField);
 				indexWriter.addDocument(document);
 		}
 		indexWriter.close();
@@ -94,6 +99,8 @@ public class Lucene {
 			IndexWriterConfig config = new IndexWriterConfig(analyzer);
 			IndexWriter indexWriter = new IndexWriter(directory, config);
 			
+			long time = file.lastModified();
+	        String fileTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(time));
 			String fileName = file.getName();
 			String fileContent = FileUtils.readFileToString(file);
 			String filePath = file.getPath();
@@ -104,6 +111,7 @@ public class Lucene {
 			Field contentField = new TextField("content", fileContent , Store.YES);
 			Field pathField = new StoredField("path", filePath);
 			Field sizeField = new StoredField("size", fileSize);
+			Field timeField = new StoredField("time", fileTime);
 			
 			System.out.println(fileName);
 			
@@ -111,14 +119,16 @@ public class Lucene {
 			document.add(contentField);
 			document.add(pathField);
 			document.add(sizeField);
+			document.add(timeField);
 			indexWriter.addDocument(document);
 			
 			indexWriter.close();
 		    }
 		
-	 //检索
-	 public HashMap<String, Integer> Search(String field, String text)throws Exception{
-		 	HashMap<String, Integer> texts = new HashMap<>();
+	 //按field进行检索
+	 public HashMap< NewDocument, Integer> FieldSearch(String field, String text)throws Exception{
+		 HashMap< NewDocument, Integer> texts = new HashMap<>();
+	    	
 		 	File file = new File(indexPath);
 	    	Path path = file.toPath();
 	        Directory directory = FSDirectory.open(path);
@@ -129,7 +139,7 @@ public class Lucene {
 	        QueryParser parser = new QueryParser(field, analyzer);
 	        
 	        Query query =parser.parse(text);
-	        TopDocs topDocs = indexSearcher.search(query, 3);
+	        TopDocs topDocs = indexSearcher.search(query, 100);
 	        System.out.println("查询数据为：" + text);
 	        System.out.println("总共的查询结果：" +  topDocs.totalHits);
 	        ScoreDoc[] scoreDocs = topDocs.scoreDocs;
@@ -137,19 +147,30 @@ public class Lucene {
 	            int docID = scoreDoc.doc;
 	            float score = scoreDoc.score;
 	            Document document = indexSearcher.doc(docID);
-	            System.out.println("相关度得分：" + score);
-	            System.out.println(document.get("name"));
-	            System.out.println(document.get("path"));
-	            System.out.println("=======================");
-	            if(texts.containsKey(document.get("name"))){
-	            		texts.put(document.get("name"), texts.get(document.get("name"))+1);
-	            }
-	            	else
-	            		texts.put(document.get("name"),1);
-	        }
-	        System.out.println();
-	        indexReader.close();
+	            NewDocument newdoc = new NewDocument(document, score);
+	            if(texts.containsKey(newdoc))
+	            	texts.put(newdoc, texts.get(newdoc)+1);
+	            else
+	            	texts.put(newdoc,1);
+	        } 
 	        return texts;
+	 }
+	 //直接索引
+	 public HashMap< NewDocument, Integer> Search(String text)throws Exception{
+		 HashMap< NewDocument, Integer> results = new HashMap<>();
+		 
+		 HashMap< NewDocument, Integer> resultTime = FieldSearch("time", text);
+		 HashMap< NewDocument, Integer> resultContent = FieldSearch("content", text);
+		 HashMap< NewDocument, Integer> resultName = FieldSearch("name", text);
+		 
+		 results.putAll(resultTime);
+		 results.putAll(resultContent);
+		 results.putAll(resultName);
+		 
+		 return results;
+		 
+		 
+		 
 	 }
 	 
 	 

@@ -31,6 +31,8 @@
     <result name="read_file_failed">/uieditor.jsp</result>
     <result name="write_file_success">/uieditor.jsp</result>
     <result name="write_file_failed">/uieditor.jsp</result>
+    <result name="show_filedetail_success">/articledetail.jsp</result>
+    <result name="show_filedetail_failed">/articledetail.jsp</result>
   </action>
   <action name="ShareAction" class="Action.PublicTextAction">
     <result name="share_file_success">/userHome.jsp</result>

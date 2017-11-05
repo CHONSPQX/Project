@@ -24,7 +24,7 @@ public class UserAction extends ActionSupport{
    private User user;
    private String path;//
    private String SharedFilePath;//用户现在查看的分享文件的绝对路径
-   private ConnectionToCommentTable conn;
+   private CommentDatabase conn;
    private String context;//用户评论的内容
 
 public String getSharedFilePath() {
@@ -39,7 +39,7 @@ public UserAction()
    {
      database =new Database();
      database.ConnectMysql();
-     conn = new ConnectionToCommentTable();
+     conn = new CommentDatabase();
      conn.ConnectMysql();
    }
     

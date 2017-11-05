@@ -8,12 +8,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import Comment.Comment;
 import WeFile.Director;
 
 /**
@@ -158,18 +162,57 @@ public class FileAction extends ActionSupport {
     else
       return "read_file_failed";
   }
-  
+
   public String showDetail() {
 
     path = "admin";
+    String location = "shared/" + path + "/" + filename;
     String context = Director.readFile(path + "/" + filename);
     ServletActionContext.getRequest().setAttribute("readContext", context);
-    ServletActionContext.getRequest().setAttribute("filename", filename);
-    // readContext为输入到前台的文件的内容
-    if (context != null)
-      return "show_filedetail_success";
-    else
-      return "show_filedetail_failed";
+    ServletActionContext.getRequest().setAttribute("filename", location);
+    Database db = new Database();
+    db.ConnectMysql();
+    // location = location.replace(".txt", "");
+    String presql = "select * from lab7.publictext where Location='" + location
+        + "';";
+    System.out.println(presql);
+    try {
+      PreparedStatement ps1 = db.conn.prepareStatement(presql);
+      ResultSet rs = ps1.executeQuery();// 如果表已经存在了，返回-1，否则返回0
+      if (rs.next()) {
+        location = location.substring(0, location.indexOf("."));
+        System.out.println(location);
+        String mysql = "SELECT ID,userID,context,time FROM `comment`.`" + location+"`;";
+        System.out.println(mysql);
+        ArrayList<Comment> all = new ArrayList<Comment>();
+        CommentDatabase cdb=new CommentDatabase();
+        cdb.ConnectMysql();
+        PreparedStatement ps = cdb.conn.prepareStatement(mysql);
+        ResultSet res = ps.executeQuery();
+        while (res.next()) {
+          Comment co = new Comment();
+          co.setNumber(res.getInt(1));
+          co.setOwner(res.getString(2));
+          co.setMessage(res.getString(3));
+          co.setCommentTime(res.getDate(4));
+          all.add(co);
+          System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
+              + res.getString(3) + "  " + res.getDate(4) + '\n');
+        }
+        ServletActionContext.getRequest().setAttribute("commentTable", all);
+      }
+      if (context != null)
+        return "show_filedetail_success";
+      else
+        return "show_filedetail_failed";
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      if (context != null)
+        return "show_filedetail_success";
+      else
+        return "show_filedetail_failed";
+    }
   }
 
   public String UserCheckFile() {

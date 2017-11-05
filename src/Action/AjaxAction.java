@@ -3,6 +3,7 @@
  */
 package Action;
 import Article.Txtfile;
+import Comment.Comment;
 import WeFile.Director;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -13,7 +14,11 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;  
@@ -39,6 +44,7 @@ public class AjaxAction extends ActionSupport {
   private String filerename;
   private String context;
   private boolean flag;
+  private String commentcontext;
   //private List<Txtfile> txtfiles;
   //private JSONArray text;
   
@@ -50,6 +56,21 @@ public class AjaxAction extends ActionSupport {
  //   return text;
  // }
 
+
+  /**
+   * @return the commentcontext
+   */
+  public String getCommentcontext() {
+    return commentcontext;
+  }
+
+
+  /**
+   * @param commentcontext the commentcontext to set
+   */
+  public void setCommentcontext(String commentcontext) {
+    this.commentcontext = commentcontext;
+  }
 
   /**
    * @param text the text to set
@@ -103,6 +124,39 @@ public class AjaxAction extends ActionSupport {
     return "txtfiles";
   }
 
+  public String sendComment() {
+    String location=filename;
+    Database db = new Database();
+    db.ConnectMysql();
+    String presql = "select * from lab7.publictext where Location='" + location
+        + "';";
+    System.out.println(presql);
+   // String userid="00001111";
+    String userid = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    System.out.println(userid);
+    try{
+      PreparedStatement ps1 = db.conn.prepareStatement(presql);
+      ResultSet rs = ps1.executeQuery();
+    if (rs.next()) {
+      location = location.substring(0, location.indexOf("."));
+      System.out.println(location);
+      String mysql = "insert into `comment`.`"+location+"` (userID,context,time) values(?,?,?);";
+      CommentDatabase cdb=new CommentDatabase();
+      cdb.ConnectMysql();
+      PreparedStatement ps = cdb.conn.prepareStatement(mysql);
+      ps.setString(1, userid);
+      ps.setString(2, commentcontext);
+      ps.setTimestamp(3, new Timestamp(new Date().getTime()));
+      System.out.println(ps);
+      ps.executeUpdate();
+    }
+    return SUCCESS;
+   }catch (Exception e) {
+    e.printStackTrace();
+    return SUCCESS;
+  }
+  }
   /**
    * 
    * @return

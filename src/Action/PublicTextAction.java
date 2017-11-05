@@ -26,13 +26,13 @@ public class PublicTextAction extends ActionSupport
 	private String path;
 	private String filename;
 	private Database database;
-	private ConnectionToCommentTable conn;
+	private CommentDatabase conn;
 	
 	public PublicTextAction()
 	{
 	     database =new Database();
 	     database.ConnectMysql();
-	     conn = new ConnectionToCommentTable();
+	     conn = new CommentDatabase();
 	     conn.ConnectMysql();
 	}
 
@@ -160,7 +160,6 @@ public class PublicTextAction extends ActionSupport
 	public String checkComment()
 	{
 		String fileId = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
-		String newfile = filename;
 		fileId = fileId + filename.replace(".txt", "");
 		String mysql = "SELECT ID,userID,context,time FROM "+fileId;
 		try {

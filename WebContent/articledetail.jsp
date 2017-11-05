@@ -1,3 +1,5 @@
+<%@page import="Comment.Comment"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
@@ -17,39 +19,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   <title>Blog Magazine Flat UI Kit website for high end mobiles,like samsung nokia mobile website templates for free | Home :: w3layouts</title>
   <link href="./css/style.css" rel="stylesheet" type="text/css" media="all">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script type="application/x-javascript">
-    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
-  </script>
-  <script src="./js/jquery.min.js"></script>
-  <script src="./js/login.js"></script>
-  <script src="./js/modernizr.custom.js"></script>
-  <script src="./js/jquery.bxslider.min.js"></script>
   <link href="./css/jquery.bxslider.css" rel="stylesheet">
-  <script>
-    $(document).ready(function(){
-    						  $('.bxslider').bxSlider();
-    					});
-  </script>
+  <%
+      String context=(String)request.getAttribute("readContext");
+      String filename=(String)request.getAttribute("filename");
+      ArrayList<Comment> comments=(ArrayList<Comment>)request.getAttribute("commentTable");
+      
+  %>
   <link rel="stylesheet" href="./css/clndr.css" type="text/css">
   <script src="./js/underscore-min.js"></script>
   <script src="./js/moment-2.2.1.js"></script>
   <script src="./js/clndr.js"></script>
   <script src="./js/site.js"></script>
+  
   <div class="wrap">
     <div class="clear"> </div>
     <div class="clear"> </div>
     <div class="grids-slider">
       <div class="blog-tabs">
+      <h1 id="filename">
+          <%=filename %>
+          </h1>
         <div class="blog-section">
           <div class="blog-artical">
+          
             <div class="artical-info">
-              <a href="#">
-                <h4>What is lorem ipsum ?</h4>
-              </a>
-              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-                'Content here, content here',</p>
-              <p>making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions
-                have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+            <%=context %>
             </div>
             <div class="artical-related-info">
               <div class="artical-related-info-row">
@@ -59,7 +54,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
           </div>
           <!---//Blog comments and news----->
           <div class="clear"> </div>
-          <!---start-comment-section----->
+          <%
+              for(Comment com:comments)
+              {
+          %>
           <div class="comment-section">
             <div class="comment-box">
               <div class="comment-people-pic">
@@ -70,183 +68,29 @@ License URL: http://creativecommons.org/licenses/by/3.0/
               <div class="comment-info">
                 <div class="comment-info-head">
                   <div class="comment-info-head-left">
-                    <a href="#">John Deo</a>
+                    <%=com.getOwner()%>
                   </div>
                   <div class="comment-info-head-right">
                     <ul>
                       <li>
-                        <a class="date-of-post" href="#">August 7,2013</a>
+                       <%=com.getCommentTime() %>
                       </li>
-                      <li>
-                        <a class="replay" href="#">Reply</a>
-                      </li>
+                      
                     </ul>
                   </div>
                   <div class="clear"> </div>
                   <div class="comment-place">
-                    <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to
-                      using 'Content here, content here',</p>
+                    <p><%=com.getMessage() %></p>
                   </div>
                   <div class="clear"> </div>
                 </div>
               </div>
               <div class="clear"> </div>
-            </div>
-            <div class="comment-box-replay">
-              <div class="comment-box-replay-icon">
-                <a href="#">
-                  <img src="./images/replay.png" alt=""> </a>
-              </div>
-              <a href="#"> </a>
-              <div class="comment-box-replay-box">
-                <a href="#"> </a>
-                <div class="comment-people-pic replay-pic">
-                  <a href="#"> </a>
-                  <a href="#">
-                    <img src="./images/comment-people1.png" alt="">
-                  </a>
-                </div>
-                <div class="comment-info replay-comment-info">
-                  <div class="comment-info-head">
-                    <div class="comment-info-head-left">
-                      <a href="#">John Deo</a>
-                    </div>
-                    <div class="comment-info-head-right">
-                      <ul>
-                        <li>
-                          <a class="date-of-post" href="#">August 7,2013</a>
-                        </li>
-                        <li>
-                          <a class="replay" href="#">Reply</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="clear"> </div>
-                    <div class="comment-place">
-                      <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
-                        to using 'Content here, content here',</p>
-                    </div>
-                    <div class="clear"> </div>
-                  </div>
-                </div>
-                <div class="clear"> </div>
-              </div>
-              <div class="clear"> </div>
-            </div>
-            <div class="comment-box-replay">
-              <div class="comment-box-replay-icon">
-                <a href="#">
-                  <img src="./images/replay.png" alt=""> </a>
-              </div>
-              <a href="#"> </a>
-              <div class="comment-box-replay-box comment-box-replay-box-replay-to">
-                <a href="#"> </a>
-                <div class="comment-people-pic replay-pic">
-                  <a href="#"> </a>
-                  <a href="#">
-                    <img src="./images/comment-people1.png" alt="">
-                  </a>
-                </div>
-                <div class="comment-info replay-comment-info">
-                  <div class="comment-info-head">
-                    <div class="comment-info-head-left">
-                      <a href="#">John Deo</a>
-                    </div>
-                    <div class="comment-info-head-right">
-                      <ul>
-                        <li>
-                          <a class="date-of-post" href="#">August 7,2013</a>
-                        </li>
-                        <li>
-                          <a class="replay" href="#">Reply</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="clear"> </div>
-                    <div class="comment-place">
-                      <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
-                        to using 'Content here, content here',</p>
-                    </div>
-                    <div class="clear"> </div>
-                  </div>
-                </div>
-                <div class="clear"> </div>
-              </div>
-              <div class="clear"> </div>
-            </div>
-            <div class="comment-box-replay">
-              <div class="comment-box-replay-icon comment-box-replay-icon-right">
-                <a href="#">
-                  <img src="./images/replay-right.png" alt=""> </a>
-              </div>
-              <a href="#"> </a>
-              <div class="comment-box-replay-box comment-box-replay-box-left">
-                <a href="#"> </a>
-                <div class="comment-people-pic replay-pic">
-                  <a href="#"> </a>
-                  <a href="#">
-                    <img src="./images/comment-people1.png" alt="">
-                  </a>
-                </div>
-                <div class="comment-info replay-comment-info">
-                  <div class="comment-info-head">
-                    <div class="comment-info-head-left">
-                      <a href="#">John Deo</a>
-                    </div>
-                    <div class="comment-info-head-right">
-                      <ul>
-                        <li>
-                          <a class="date-of-post" href="#">August 7,2013</a>
-                        </li>
-                        <li>
-                          <a class="replay" href="#">Reply</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="clear"> </div>
-                    <div class="comment-place">
-                      <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
-                        to using 'Content here, content here',</p>
-                    </div>
-                    <div class="clear"> </div>
-                  </div>
-                </div>
-                <div class="clear"> </div>
-              </div>
-              <div class="clear"> </div>
-            </div>
-            <div class="comment-box">
-              <div class="comment-people-pic">
-                <a href="#">
-                  <img src="./images/comment-people1.png" alt="">
-                </a>
-              </div>
-              <div class="comment-info">
-                <div class="comment-info-head">
-                  <div class="comment-info-head-left">
-                    <a href="#">John Deo</a>
-                  </div>
-                  <div class="comment-info-head-right">
-                    <ul>
-                      <li>
-                        <a class="date-of-post" href="#">August 7,2013</a>
-                      </li>
-                      <li>
-                        <a class="replay" href="#">Reply</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="clear"> </div>
-                  <div class="comment-place">
-                    <p>it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to
-                      using 'Content here, content here',</p>
-                  </div>
-                  <div class="clear"> </div>
-                </div>
-              </div>
-              <div class="clear"> </div>
-            </div>
+            </div>          
           </div>
+          <%
+              }
+          %>
         </div>
         <!----->
         <div class="tabs-cal-social">
@@ -391,15 +235,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
           <!---//End-calender---->
           <!---start-contact-form--->
           <div class="contact-form">
-            <form>
-              <div class="text-box">
-                <input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}"> <span>*</span> </div>
-              <div class="text-box">
-                <input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}"> <span>*</span> </div>
-              <div class="text-box">
-                <input type="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}"> <span>*</span> </div>
-              <div class="text-box textarea-box"> <textarea rows="2" cols="70" onfocus="if(this.value == 'Your Message') this.value='';" onblur="if(this.value == '') this.value='Your Message';">Your Message</textarea> <span>*</span> </div>
-              <input type="submit" value="Send Message"> </form>
+              <div class="text-box textarea-box"> 
+              <textarea id="comment" rows="2" cols="70" onfocus="if(this.value == 'Your Message') this.value='';" onblur="if(this.value == '') this.value='Your Message';">Your Message</textarea> <span>*</span> </div>
+              <button id="sendcomment" value="Send Message" onclick="sendComment();">Send Message</button>
           </div>
           <!---End-contact-form--->
         </div>
@@ -429,4 +267,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   </div>
 </body>
 
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/jquery.js"></script>
+<script>
+   
+    function AlertMessage()
+    {
+      alert('test');
+    }
+    function sendComment(){
+    	  var file=document.getElementById("filename").innerText;
+    	  alert(file);
+    	  var comment=document.getElementById("comment").value;
+    	  alert(comment);
+        var data={filename:file,
+        		      commentcontext:comment};
+          $.ajax({
+            url:"AjaxAction!sendComment",
+            type: "POST",
+            data: data,
+            dataType:"json"
+          })
+          .done(function(data){
+           alert("send comment success");
+          })
+          .fail( function(){
+            alert("send comment error");
+          })
+    }
+  </script>
 </html>

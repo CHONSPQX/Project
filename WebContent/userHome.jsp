@@ -128,6 +128,7 @@
 							<th>删除</th>
 							<th>重命名</th>
 							<th>编辑</th>
+							<th>详情</th>
 						</tr>
 						<%
 						  ArrayList<String> all = (ArrayList<String>) request.getAttribute("AllFiles");
@@ -148,6 +149,9 @@
 							<td><button type="button" id="shareFileButton"
                   class="btn btn-default" disabled="disabled">分享</button>
               </td>
+              <td><button type="button" id="showFileButton"
+                  class="btn btn-default" disabled="disabled">详情</button>
+              </td>
 						</tr>
 						<%
 						  }
@@ -167,6 +171,9 @@
               </td>
               <td>
               <a class="btn btn-default" href="ShareAction!sharePublicText?filename=<%=file%>">分享</a>
+              </td>
+              <td>
+              <a class="btn btn-default" href="FileAction!showDetail?filename=<%=file%>">详情</a>
               </td>
 						</tr>
 						<%

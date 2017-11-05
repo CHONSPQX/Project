@@ -133,7 +133,6 @@
   $('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
   });
   
-  
   function saveFile(){
 	   var file=$('#editor').html();
 	   var name= '<%=fileName %>';

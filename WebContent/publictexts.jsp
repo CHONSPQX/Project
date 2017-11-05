@@ -229,7 +229,7 @@
       <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title" id="title3">
-            Panel title
+           Panel title
           </h3>
         </div>
         <div class="panel-body" id="context3">
@@ -392,7 +392,7 @@
       // form 的提交方式 
       form.method = "POST"; 
       // form 提交路径 
-      form.action = "FileAction!"; 
+      form.action = "FileAction!showDetail"; 
       // 对该 form 执行提交 
       form.submit();  
     } 

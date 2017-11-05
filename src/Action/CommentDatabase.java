@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * @author Administrator
  *
  */
-public class ConnectionToCommentTable {
+public class CommentDatabase {
   String drivename="com.mysql.jdbc.Driver";
   String url="jdbc:mysql://localhost/comment?useSSL=false";
   String user="root";

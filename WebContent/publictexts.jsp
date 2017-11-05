@@ -264,19 +264,19 @@
               <a href="#">Prev</a>
             </li>
             <li>
-              <a onclick="nextpage(1);">1</a>
+              <a onclick="nextpage(0);">1</a>
             </li>
             <li>
-              <a onclick="nextpage(2);">2</a>
+              <a onclick="nextpage(1);">2</a>
             </li>
             <li>
-              <a onclick="nextpage(3);">3</a>
+              <a onclick="nextpage(2);">3</a>
             </li>
             <li>
-              <a onclick="nextpage(4);">4</a>
+              <a onclick="nextpage(3);">4</a>
             </li>
             <li>
-              <a onclick="nextpage(5);">5</a>
+              <a onclick="nextpage(4);">5</a>
             </li>
             <li>
               <a href="#">Next</a>
@@ -329,7 +329,7 @@
           var title1=document.getElementById("title1");
            title1.innerText=data.title1;
            var context1=document.getElementById("context1");
-           context1.innerText=data.context1;
+           context1.innerHTML=data.context1;
            var footer1=document.getElementById("footer1");
            footer1.innerText=data.footer1;
            
@@ -337,7 +337,7 @@
            var title2=document.getElementById("title2");
            title2.innerText=data.title2;
            var context2=document.getElementById("context2");
-           context2.innerText=data.context2;
+           context2.innerHTML=data.context2;
            var footer2=document.getElementById("footer2");
            footer2.innerText=data.footer2;
            
@@ -345,7 +345,7 @@
            var title3=document.getElementById("title3");
            title3.innerText=data.title3;
            var context3=document.getElementById("context3");
-           context3.innerText=data.context3;
+           context3.innerHTML=data.context3;
            var footer3=document.getElementById("footer3");
            footer3.innerText=data.footer3;
            

@@ -1,3 +1,4 @@
+import Action.AjaxTest;
 import Action.FileAction;
 import WeFile.Director;
 
@@ -27,10 +28,13 @@ public class test {
     	//fc.setFilename("11224.html");
     	//String message=fc.showDetail();
     	//System.out.println(message);
-	  Action.AjaxAction aj=new Action.AjaxAction();
-	  aj.setCommentcontext("good");
-	  aj.setFilename("admin/11224.html");
-	  String string=aj.sendComment();
-	  System.out.println(string);
+	  //Action.AjaxAction aj=new Action.AjaxAction();
+	 // aj.setCommentcontext("good");
+	  //aj.setFilename("admin/11224.html");
+	  //String string=aj.sendComment();
+	  //System.out.println(string);
+	  AjaxTest ajaxTest=new AjaxTest();
+	  ajaxTest.setNum(3);
+	  ajaxTest.updateContext();
     }
 }

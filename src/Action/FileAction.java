@@ -168,7 +168,44 @@ public class FileAction extends ActionSupport {
     ServletActionContext.getRequest().setAttribute("AllFiles", all);
     return "checkFileok";
   }
-
+  /*
+   * 搜索用户自己的文件件
+   */
+  public String SearchMyselfFile()
+  {
+	  //path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	  //if (path.equals(""))
+		//  path = "user";
+	  path = "admin3";
+	  String AbsoultPath = "F:\\work\\" + path;
+	  File file = new File(AbsoultPath);
+	  ArrayList<String> all = new ArrayList<String>();
+	  CheckAbsoultPath(file, all);
+	  for(int i = 0;i<all.size();i++)
+	  {
+		  System.out.println(all.get(i));
+	  }
+	  return "rename_file_failed";
+  }
+  
+  private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
+  {
+	  File[] files = file.listFiles();
+	  for(File f : files)
+	  {
+		  if(f.isDirectory())
+			  CheckAbsoultPath(f,all);
+		  else
+		  {
+			  all.add(f.getAbsolutePath());
+		  }
+	  }
+  }
+  public static void main(String args[])
+  {
+	  FileAction fa = new FileAction();
+	  fa.SearchMyselfFile();
+  }
   public String getPath() {
     return path;
   }

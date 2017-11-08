@@ -1,26 +1,27 @@
-import WeFile.Director;
-
-/**
- * 
- */
-
+import java.io.File;
 /**
  * @author Administrator
  *
  */
 public class test {
-	public static void main(String[] args) {  
-        
-		String dirName = "amind2/";
-    	//Director.createDir(dirName);
-        //Director.deleteDir(dirName);
-    	Director.renameFile("123.txt","345.txt");
-    	Director.renameDir("123/","345/");
-		/* 
-        String dirName = "F:/temp1";  
-        Director.createDir(dirName);  
-        
-        String fileName = dirName + "/temp2/tempFile.txt";  
-        Director.createFile(fileName);  */
-    }  
+	
+	public static void showDirectory(File file)
+	{
+		File[] files = file.listFiles();
+		for(File a : files)
+		{
+			System.out.println(a.getAbsolutePath());
+			if(a.isDirectory())
+			{
+				showDirectory(a);
+			}
+		}
+	}
+	    
+	public static void main(String[] args) 
+	{
+	    File file = new File("F:\\work\\admin3");
+	    showDirectory(file);
+	}
+
 }

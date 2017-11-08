@@ -32,6 +32,9 @@
     <result name="write_file_success">/editor.jsp</result>
     <result name="write_file_failed">/editor.jsp</result>
   </action>
+  <action name="SearchAction" class="Action.SearchAction">
+  	<result name="search_MyselfFile_success">/index2.jsp</result>
+  </action>
   </package>
   <package name="main" namespace="/" extends="json-default">
   <action name="AjaxAction" class="Action.AjaxAction">

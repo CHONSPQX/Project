@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import WeFile.Director;
@@ -169,23 +170,35 @@ public class FileAction extends ActionSupport {
     return "checkFileok";
   }
   /*
-   * 搜索用户自己的文件件
+   * 搜索用户自己的文件
    */
-  public String SearchMyselfFile()
+  protected String SearchMyselfFile(String filename)
   {
-	  //path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-	  //if (path.equals(""))
-		//  path = "user";
-	  path = "admin3";
-	  String AbsoultPath = "F:\\work\\" + path;
+	  /*path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	  if (path.equals(""))
+		  path = "user";
+	  String AbsoultPath = "F:\\work\\" + path;*/
+	  String AbsoultPath = "F:\\work\\admin3";
 	  File file = new File(AbsoultPath);
 	  ArrayList<String> all = new ArrayList<String>();
+	  ArrayList<String> All = new ArrayList<String>();
 	  CheckAbsoultPath(file, all);
-	  for(int i = 0;i<all.size();i++)
+	  int i;
+	  for(i = 0;i<all.size();i++)
 	  {
-		  System.out.println(all.get(i));
+		  if(all.get(i).contains(filename))
+			  All.add(all.get(i));
 	  }
-	  return "rename_file_failed";
+	  for(i = 0;i<All.size();i++)
+	  {
+		  System.out.println(All.get(i));
+	  }
+	  if(!All.isEmpty())
+	  {
+		  ServletActionContext.getRequest().setAttribute("allSearchedFiles", All);
+		  return "search_MyselfFile_success";
+	  }
+	  return "search_MyselfFile_filed";
   }
   
   private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
@@ -203,8 +216,7 @@ public class FileAction extends ActionSupport {
   }
   public static void main(String args[])
   {
-	  FileAction fa = new FileAction();
-	  fa.SearchMyselfFile();
+	  
   }
   public String getPath() {
     return path;

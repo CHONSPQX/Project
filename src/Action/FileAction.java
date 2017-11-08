@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import Comment.Comment;
@@ -224,7 +225,55 @@ public class FileAction extends ActionSupport {
     ServletActionContext.getRequest().setAttribute("AllFiles", all);
     return "checkFileok";
   }
-
+  /*
+   * 搜索用户自己的文件
+   */
+  protected String SearchMyselfFile(String filename)
+  {
+	  /*path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	  if (path.equals(""))
+		  path = "user";
+	  String AbsoultPath = "F:\\work\\" + path;*/
+	  String AbsoultPath = "F:\\work\\admin3";
+	  File file = new File(AbsoultPath);
+	  ArrayList<String> all = new ArrayList<String>();
+	  ArrayList<String> All = new ArrayList<String>();
+	  CheckAbsoultPath(file, all);
+	  int i;
+	  for(i = 0;i<all.size();i++)
+	  {
+		  if(all.get(i).contains(filename))
+			  All.add(all.get(i));
+	  }
+	  for(i = 0;i<All.size();i++)
+	  {
+		  System.out.println(All.get(i));
+	  }
+	  if(!All.isEmpty())
+	  {
+		  ServletActionContext.getRequest().setAttribute("allSearchedFiles", All);
+		  return "search_MyselfFile_success";
+	  }
+	  return "search_MyselfFile_filed";
+  }
+  
+  private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
+  {
+	  File[] files = file.listFiles();
+	  for(File f : files)
+	  {
+		  if(f.isDirectory())
+			  CheckAbsoultPath(f,all);
+		  else
+		  {
+			  all.add(f.getAbsolutePath());
+		  }
+	  }
+  }
+  public static void main(String args[])
+  {
+	  
+  }
   public String getPath() {
     return path;
   }

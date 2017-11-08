@@ -36,6 +36,44 @@ public class PublicTextAction extends ActionSupport
 	     conn.ConnectMysql();
 	}
 
+	protected String SearchPublicFile(String filename)
+	{
+		  String AbsoultPath = "F:\\work\\shared";
+		  File file = new File(AbsoultPath);
+		  ArrayList<String> all = new ArrayList<String>();
+		  ArrayList<String> All = new ArrayList<String>();
+		  CheckAbsoultPath(file, all);
+		  int i;
+		  for(i = 0;i<all.size();i++)
+		  {
+			  if(all.get(i).contains(filename))
+				  All.add(all.get(i));
+		  }
+		  for(i = 0;i<All.size();i++)
+		  {
+			  System.out.println(All.get(i));
+		  }
+		  if(!All.isEmpty())
+		  {
+			  ServletActionContext.getRequest().setAttribute("allSearchedFiles", All);
+			  return "search_PublicFile_success";
+		  }
+		  return "search_PublicFile_filed";
+	} 
+	  private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
+	  {
+		  File[] files = file.listFiles();
+		  for(File f : files)
+		  {
+			  if(f.isDirectory())
+				  CheckAbsoultPath(f,all);
+			  else
+			  {
+				  all.add(f.getAbsolutePath());
+			  }
+		  }
+	  }
+	
 	public PublicText getPublictext() {
 		return publictext;
 	}

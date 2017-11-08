@@ -7,17 +7,19 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class SearchAction extends ActionSupport
 {
-	int target;
+	int searchTarget;
 	String CheckedFile;
 	
 	
-	public int getTarget() {
-		return target;
+
+
+	public int getSearchTarget() {
+		return searchTarget;
 	}
 
 
-	public void setTarget(int target) {
-		this.target = target;
+	public void setSearchTarget(int searchTarget) {
+		this.searchTarget = searchTarget;
 	}
 
 
@@ -33,8 +35,8 @@ public class SearchAction extends ActionSupport
 
 	public String SearchFile()
 	{
-		System.out.println(target);
-		if(target==0)
+		System.out.println(searchTarget);
+		if(searchTarget==0)
 		{
 			FileAction fa = new FileAction();
 			return fa.SearchMyselfFile(CheckedFile);

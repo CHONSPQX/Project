@@ -20,7 +20,7 @@
     <link href="http://www.pintuer.com/favicon.ico" rel="bookmark icon"/>
 </head>
 <%
-              ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
+ ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
  %>
 <body>
 

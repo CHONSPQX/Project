@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="css/mycss.css">
     <link rel="stylesheet" href="http://www.pintuer.com/css/pintuer.css">
     <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <script src="http://www.pintuer.com/js/jquery.js"></script>
     <script src="http://www.pintuer.com/js/pintuer.js"></script>
     <script type=text/javascript src=js/query.js></script>
@@ -39,7 +41,7 @@
             </span>
             <ul class="nav nav-inline admin-nav">
             <li class="active">
-            	<a href="content_user.jsp" class="icon-file-text">查看文章</a>
+            	<a href="content_user.jsp" ><i class="fa fa-fw fa-file"></i><span >查看文章</span></a>
                 <ul>
                 	<li><a href="#">添加内容</a></li>
                 	<li><a href="#">内容管理</a></li>

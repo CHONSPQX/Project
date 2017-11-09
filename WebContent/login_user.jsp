@@ -32,7 +32,7 @@
                     <div class="panel-body" style="padding:30px;">
                         <div class="form-group">
                             <div class="field field-icon-right">
-                                <input type="text" class="input" name="user.Name" placeholder="Username"/>
+                                <input type="text" class="input" name="user.UserID" placeholder="Username"/>
                                 <span class="icon icon-user"></span>
                             </div>
                         </div>

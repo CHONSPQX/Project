@@ -163,10 +163,23 @@ public class FileAction extends ActionSupport {
     else
       return "read_file_failed";
   }
+  
+  public String showPrivate() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    String location =path + "/" + filename;
+    String context = Director.readFile(path + "/" + filename);
+    ServletActionContext.getRequest().setAttribute("readContext", context);
+    ServletActionContext.getRequest().setAttribute("filename", location);
+    if (context != null)
+      return "show_private_success";
+    else
+      return "show_private_failed";
+  }
 
-  public String showDetail() {
-
-    path = "admin";
+  public String showPublic() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
     String location = "shared/" + path + "/" + filename;
     String context = Director.readFile(path + "/" + filename);
     ServletActionContext.getRequest().setAttribute("readContext", context);
@@ -203,16 +216,16 @@ public class FileAction extends ActionSupport {
         ServletActionContext.getRequest().setAttribute("commentTable", all);
       }
       if (context != null)
-        return "show_filedetail_success";
+        return "show_public_success";
       else
-        return "show_filedetail_failed";
+        return "show_public_failed";
 
     } catch (SQLException e) {
       e.printStackTrace();
       if (context != null)
-        return "show_filedetail_success";
+        return "show_public_success";
       else
-        return "show_filedetail_failed";
+        return "show_public_failed";
     }
   }
 

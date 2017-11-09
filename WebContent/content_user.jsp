@@ -99,7 +99,7 @@
                     <td><%=type%>
                     </td>
                     <td>
-                        <a class="button border-green button-little" href="FileAction!showDetail?filename=<%=temp%>">详情</a>
+                        <a class="button border-green button-little" href="FileAction!showPrivate?filename=<%=temp%>">详情</a>
                         <a class="button border-blue button-little" href="FileAction!ReadFile?filename=<%=temp%>">编辑</a>
                         <a class="button border-red button-little" href="#" onclick="shareFile('<%=temp%>');">分享</a>
                     </td>

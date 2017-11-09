@@ -1,16 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.util.ArrayList"%>
-<%
-  request.setCharacterEncoding("UTF-8");
-%>
-<%
-  response.setCharacterEncoding("UTF-8");
-%>
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="renderer" content="webkit">
+<title>用户空间</title>
+ <link rel="stylesheet" href="http://www.pintuer.com/css/pintuer.css">
+ <link rel="stylesheet" href="css/admin.css">
+ <script src="http://www.pintuer.com/js/jquery.js"></script>
+ <script src="js/admin.js"></script>
+ <link type="image/x-icon" href="http://www.pintuer.com/favicon.ico" rel="shortcut icon"/>
+ <link href="http://www.pintuer.com/favicon.ico" rel="bookmark icon"/>
 <link href="./bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="./uieditor/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 <link href="./uieditor/bootstrap-responsive.min.css" rel="stylesheet">
@@ -25,15 +29,29 @@
 </style>
 </head>
 <body>
+<div class="righter nav-navicon" id="admin-nav">
+       <div class="admin-navbar">
+          <span class="float-left">
+                    <a class="button button-little bg-main" href="content_user.jsp">回到首页</a>
+          </span>
+          <span class="float-right">
+                    <a class="button button-little bg-yellow" href="login_user.jsp">注销登录</a>
+          </span>
+        </div>
+        <div class="admin-bread">
+            <span>您好，${userID}，欢迎您的光临。</span>
+            <ul class="bread">
+                <li><a href="content.html"> </a></li>
+            </ul>
+        </div>
+</div>
 <div class="container">
   <div class="hero-unit">
   <hr/>
    <%
               String file= (String) request.getAttribute("readContext");
               String fileName= (String) request.getAttribute("filename");
-              Date d=new Date();
    %>
-  <div id="alerts"></div>
     <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
       <div class="btn-group">
         <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
@@ -86,74 +104,75 @@
       </div>
       <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
     </div>
-
     <div id="editor">
     <%=file %>
     </div>
   </div>
-<script>
-  $(function(){
-    function initToolbarBootstrapBindings() {
-      var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
-            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-            'Times New Roman', 'Verdana'],
-            fontTarget = $('[title=Font]').siblings('.dropdown-menu');
-      $.each(fonts, function (idx, fontName) {
-          fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
-      });
-      $('a[title]').tooltip({container:'body'});
-      $('.dropdown-menu input').click(function() {return false;})
-        .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
-        .keydown('esc', function () {this.value='';$(this).change();});
+</div>
+</body>
+<script type="text/javascript">   
+$(function(){
+  function initToolbarBootstrapBindings() {
+    var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+          'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+          'Times New Roman', 'Verdana'],
+          fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+    $.each(fonts, function (idx, fontName) {
+        fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+    });
+    $('a[title]').tooltip({container:'body'});
+    $('.dropdown-menu input').click(function() {return false;})
+      .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+      .keydown('esc', function () {this.value='';$(this).change();});
 
-      $('[data-role=magic-overlay]').each(function () { 
-        var overlay = $(this), target = $(overlay.data('target')); 
-        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-      });
-      if ("onwebkitspeechchange"  in document.createElement("input")) {
-        var editorOffset = $('#editor').offset();
-        $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
-      } else {
-        $('#voiceBtn').hide();
-      }
-  };
-  function showErrorAlert (reason, detail) {
-    var msg='';
-    if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
-    else {
-      console.log("error uploading file", reason, detail);
+    $('[data-role=magic-overlay]').each(function () { 
+      var overlay = $(this), target = $(overlay.data('target')); 
+      overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+    });
+    if ("onwebkitspeechchange"  in document.createElement("input")) {
+      var editorOffset = $('#editor').offset();
+      $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+    } else {
+      $('#voiceBtn').hide();
     }
-    $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
-     '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
-  };
-    initToolbarBootstrapBindings(); 
-  $('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
-  });
-  
-  function saveFile(){
-	   var file=$('#editor').html();
-	   var name= '<%=fileName %>';
-	   var data ={context:file,filename:name};
-	   console.log(data);
-	    $.ajax({
-	      url:"AjaxAction!saveFile",
-	      data:  data, //$('#context').value
-	      type: "POST",
-	      dataType:"json"
-	    })
-	    .done(function(data){
-	      if(data.flag==true)
-	      {
-	        confirm("保存成功");
-	      }
-	      else
-	      {
-	        confirm("保存失败");
-	      }
-	    })
-	    .fail( function(){
-	      alert("error");
-	    })
-	}
-  
+};
+function showErrorAlert (reason, detail) {
+  var msg='';
+  if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+  else {
+    console.log("error uploading file", reason, detail);
+  }
+  $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+   '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+};
+  initToolbarBootstrapBindings(); 
+$('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
+});
+
+function saveFile(){
+   var file=$('#editor').html();
+   var name= '<%=fileName %>';
+   var data ={context:file,filename:name};
+   console.log(data);
+    $.ajax({
+      url:"AjaxAction!saveFile",
+      data:  data, //$('#context').value
+      type: "POST",
+      dataType:"json"
+    })
+    .done(function(data){
+      if(data.flag==true)
+      {
+        confirm("保存成功");
+      }
+      else
+      {
+        confirm("保存失败");
+      }
+    })
+    .fail( function(){
+      alert("error");
+    })
+}
 </script>
+</html>

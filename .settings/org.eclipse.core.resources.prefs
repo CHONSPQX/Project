@@ -1,6 +1,9 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=refs/remotes/origin/yangfan
 eclipse.preferences.version=1
 encoding//WebContent/content_user.jsp=UTF-8
-encoding//WebContent/myIndex.jsp=UTF-8
+encoding//WebContent/index.jsp=UTF-8
 encoding//WebContent/search.jsp=UTF-8
 encoding//WebContent/sharedText.jsp=UTF-8
 encoding/<project>=UTF-8

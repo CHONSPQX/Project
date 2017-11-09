@@ -58,13 +58,13 @@ public String UserComment()
 		{
 			return "comment_success";
 		}
-		else return "comment_filed";
+		else return "comment_failed";
 	}
 	catch(Exception e)
 	{
 		e.printStackTrace();
 	}
-	return "comment_filed";
+	return "comment_failed";
 }
 
 public static void main(String args[])
@@ -99,16 +99,16 @@ public String UserCreate() {
         	String dirName = user.getUserID() + "/";
         	System.out.println(dirName);
         	if(Director.createDir(dirName))
-        		return "createok";
-        	else return "createnotok";
+        		return "create_user_success";
+        	else return "create_user_failed";
         	
         }
         else
-            return "createnotok";
+            return "create_user_success";
     } catch (Exception e) {
         e.printStackTrace();
     }
-    return "createnotok";
+    return "create_user_failed";
 }
   public String UserLogin() {
 	  System.out.println(user.getUserID());
@@ -122,7 +122,7 @@ public String UserCreate() {
         	if(rs.getString(1).equals(user.getPassword()))
         	{
         		ServletActionContext.getRequest().getSession().setAttribute("userID", user.getUserID());
-        		return "loginok";
+        		return "login_success";
         	}
         		
         }
@@ -131,7 +131,7 @@ public String UserCreate() {
 	  {
 		  e.printStackTrace();
 	  }
-        return "loginnotok";
+        return "login_failed";
 }
   public String createDir()
   {
@@ -143,12 +143,12 @@ public String UserCreate() {
   
   public String UserCheckFile()
   {
-	  System.out.print("1111");
-	  String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");
-	  
+	  String id=(String)ServletActionContext.getRequest().getSession().getAttribute("userID");	  
 	  ArrayList<String> all = Director.checkFile(id, "");
+	  for(String s:all)
+	    System.out.println(s);
 	  ServletActionContext.getRequest().setAttribute("AllFiles", all);
-	  return "checkFileok";
+	  return "check_file_success";
   }
   /**
    * @return the user

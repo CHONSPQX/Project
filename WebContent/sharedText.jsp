@@ -102,6 +102,35 @@
 			底部</div>
 	</div></div>
 </div>
+<div class="line">
+        <div class="x8">
+        </div>
+        <div class="x4">
+          <ul class="pagination">
+            <li>
+              <a href="#">Prev</a>
+            </li>
+            <li>
+              <a onclick="nextpage(0);">1</a>
+            </li>
+            <li>
+              <a onclick="nextpage(1);">2</a>
+            </li>
+            <li>
+              <a onclick="nextpage(2);">3</a>
+            </li>
+            <li>
+              <a onclick="nextpage(3);">4</a>
+            </li>
+            <li>
+              <a onclick="nextpage(4);">5</a>
+            </li>
+            <li>
+              <a href="#">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
 </div>
 </body>

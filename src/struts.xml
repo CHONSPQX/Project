@@ -27,7 +27,7 @@
     <result name="delete_file_failed">/userHome.jsp</result>
     <result name="rename_file_success">/content_user.jsp</result>
     <result name="rename_file_failed">/content_user.jsp</result>
-    <result name="read_file_success">/content_user.jsp</result>
+    <result name="read_file_success">/uieditor.jsp</result>
     <result name="read_file_failed">/content_user.jsp</result>
     <result name="write_file_success">/content_user.jsp</result>
     <result name="write_file_failed">/content_user.jsp</result>

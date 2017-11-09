@@ -24,30 +24,6 @@
  %>
 <body>
 
-  <div id="createFileBox" class="hideBox">
-    <form action="FileAction!createFile">
-      <div class="form-group">
-        <label for="InputFilename">文件名称</label> <input class="form-control"
-          name="filename" id="InputFilename" type="text"
-          placeholder="Filename">
-      </div>
-      <button class="button button-block bg-main" >创建文件</button>
-    </form>
-  </div>
-
-  <div id="renameFileBox" class="hideBox">
-    <form action="FileAction!renameFile">
-      <div class="form-group">
-        <label for="InputFilename">文件名称</label> <input class="form-control"
-          name="filename" id="InputFilename" type="text"
-          placeholder="Filename">  
-         <input class="form-control"
-          name="filerename" id="InputFilename" type="text"
-          placeholder="Filerename">
-      </div>
-      <button class="button button-block bg-main" >重命名文件</button>
-    </form>
-  </div>
 <div class="lefter">
     <div class="logo">
         <a href="#" target="_blank"><img src="images/logo.png" alt="后台管理系统"/></a>
@@ -84,7 +60,7 @@
             </ul>
         </div>
         <div class="admin-bread">
-            <span>您好，${username}，欢迎您的光临。</span>
+            <span>您好，${userID}，欢迎您的光临。</span>
             <ul class="bread">
                 <li><a href="content.html"> </a></li>
             </ul>
@@ -97,9 +73,9 @@
         <div class="panel admin-panel">
             <div class="panel-head"><strong>我的文章列表</strong></div>
             <div class="padding border-bottom">
-               <input type="button" id="createFileButton" class="button button-small border-green" value="新建"/>
-               <input type="button" id="deleteFileButton" class="button button-small border-yellow" value="删除"/>
-               <input type="button" id="renameFileButton" class="button button-small border-blue" value="重命名"/>
+               <input type="button" onclick="createFile();" id="createFileButton" class="button button-small border-green" value="新建"/>
+               <input type="button" onclick="deleteFile();" id="deleteFileButton" class="button button-small border-yellow" value="删除"/>
+               <input type="button" onclick="renameFile();" id="renameFileButton" class="button button-small border-blue" value="重命名"/>
             </div>
             <table class="table table-hover">
                 <tr>
@@ -116,19 +92,16 @@
                 %>
                 <tr>
                     <td>
-                        <input type="checkbox" name="filename" value="<%=temp%>"/>
+                        <input type="radio" name="filename" value="<%=temp%>"/>
                     </td>
                     <td><%=temp %>
                     </td>
                     <td><%=type%>
                     </td>
                     <td>
-                        <a class="button border-green button-little" href="#"
-                           onclick="queryInfo('<%=temp%>','news')">详情</a>
-                        <a class="button border-blue button-little" href="#"
-                           onclick="queryInfo('<%=temp%>','news')">修改</a>
-                        <a class="button border-red button-little" href="#"
-                           onclick="{if(confirm('确认删除?')){javascrtpt:window.location.href = 'DeleteOneNews?function=user_delete&destination=content_user.jsp&table=news&newsid=<%=temp%>'}return false;}">删除</a>
+                        <a class="button border-green button-little" href="FileAction!showDetail?filename=<%=temp%>">详情</a>
+                        <a class="button border-blue button-little" href="FileAction!ReadFile?filename=<%=temp%>">编辑</a>
+                        <a class="button border-red button-little" href="#" onclick="shareFile('<%=temp%>');">分享</a>
                     </td>
                 </tr>
                 <%
@@ -152,25 +125,111 @@
             </div>
         </div>
 </div>
-<script src="http://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
-<script src="./layer/dist/layer.js"></script>
-<link rel="stylesheet" href="css/userhome.css" type="text/css" />
 <script type="text/javascript">   
 function createFile() {  
     var name = prompt("请输入文件名", ""); //将输入的内容赋给变量 name ，  
     //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
     if (name)//如果返回的有内容  
     {  
-        alert("欢迎您：" + name)  
+        alert("新建文件：" + name);
+        var data={filename:name};
+        $.ajax({
+          url:"AjaxAction!createFile",
+          type: "POST",
+          data: data,
+          dataType:"json"
+        })
+        .done(function(data){
+        	 window.location.reload();
+        })
+        .fail( function(){
+          alert("添加文件失败");
+        })
     }  
 }  
 function renameFile() {  
     var name = prompt("请输入文件名", ""); //将输入的内容赋给变量 name ，  
     //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
-    if (name)//如果返回的有内容  
+    var radioValue;  
+    if(name){
+    var radioStr=document.getElementsByName("filename");    
+    for(var i=0; i<radioStr.length; i++){  
+     if(radioStr[i].checked){   
+         radioValue=radioStr[i].value;          
+      }  
+     }   
+      if (radioValue)//如果返回的有内容  
+      {  
+    	//输出值和文本  
+          alert("重命名:"+radioValue+" 为  "+name);  
+            //把获得的数据转换为字符串传递到后台             
+          radioValue=radioValue.toString(); 
+          var data={filename:radioValue,
+        		  filerename:name};
+          $.ajax({
+            url:"AjaxAction!renameFile",
+            type: "POST",
+            data: data,
+            dataType:"json"
+          })
+          .done(function(data){
+             window.location.reload();
+          })
+          .fail( function(){
+            alert("重命名文件失败");
+          })
+      }  
+    	}
+}  
+function deleteFile() {  
+    var radioValue;  
+    var radioStr=document.getElementsByName("filename");    
+    for(var i=0; i<radioStr.length; i++)
     {  
-        alert("欢迎您：" + name)  
-    }  
+     if(radioStr[i].checked)
+     {   
+         radioValue=radioStr[i].value;          
+     }  
+    }   
+    if (radioValue)//如果返回的有内容  
+    {  
+     //输出值和文本  
+         alert("删除:"+radioValue);  
+           //把获得的数据转换为字符串传递到后台             
+         radioValue=radioValue.toString(); 
+         var data={filename:radioValue};
+         $.ajax({
+           url:"AjaxAction!deleteFile",
+           type: "POST",
+           data: data,
+           dataType:"json"
+         })
+         .done(function(data){
+            window.location.reload();
+         })
+         .fail( function(){
+           alert("删除文件失败");
+         })
+    }
+}  
+function shareFile(file) {   
+     //输出值和文本  
+         alert("分享:"+file);  
+           //把获得的数据转换为字符串传递到后台              
+         var data={filename:file};
+         $.ajax({
+           url:"AjaxAction!shareFile",
+           type: "POST",
+           data: data,
+           dataType:"json"
+         })
+         .done(function(data){
+        	 alert("分享文件成功");
+         })
+         .fail( function(){
+           alert("分享文件失败");
+         })
+
 }  
 </script>
 </body>

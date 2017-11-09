@@ -11,11 +11,15 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.channels.FileChannel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,9 +42,7 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class AjaxAction extends ActionSupport {
   private String path;//
-  private String dirname;
   private String filename;
-  private String dirrename;
   private String filerename;
   private String context;
   private boolean flag;
@@ -48,14 +50,6 @@ public class AjaxAction extends ActionSupport {
   //private List<Txtfile> txtfiles;
   //private JSONArray text;
   
-
-  /**
-   * @return the text
-   */
- // public JSONArray getText() {
- //   return text;
- // }
-
 
   /**
    * @return the commentcontext
@@ -72,15 +66,103 @@ public class AjaxAction extends ActionSupport {
     this.commentcontext = commentcontext;
   }
 
-  /**
-   * @param text the text to set
-   */
- // public void setText(JSONArray text) {
- //   this.text = text;
- // }
+
 
 
   private int pagenum;
+  
+
+  public  String createPublicFileByCopy()//将作者的文件复制到公共文件池里。/
+  {
+      FileChannel input = null;
+      FileChannel output = null;
+      String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+      System.out.println(path1);
+      path = "shared/" + path1;
+      boolean flag = Director.createFile(path + "/" + filename);
+      System.out.println(flag);
+      if(flag)
+      {
+          File source = new File("F:/work/" + path1 + "/" + filename);
+          File dest = new File("F:/work/shared/" + path1 + "/" + filename);
+          try {
+              input = new FileInputStream(source).getChannel();
+              output = new FileOutputStream(dest).getChannel();
+              output.transferFrom(input, 0, input.size());
+              return ("F:/work/shared/" + path1 + "/" + filename);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          finally
+          {
+              try {
+                  input.close();
+                  output.close();
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }   
+          }
+      }
+      return path + "/" + filename;
+  }
+  public void createTable()
+  {
+      String ID = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
+      int pos=filename.indexOf(".");
+      String file="";
+      if(pos>0)
+        file=filename.substring(0,filename.indexOf("."));
+      else
+        file=filename;
+      ID = ID + file;
+      String presql = "SHOW TABLES LIKE \'" + ID+"\';";
+      String mysql="CREATE TABLE `comment`.`"+ID+"` (`ID` INT NOT NULL AUTO_INCREMENT,`userID` VARCHAR(16) NULL,`context` VARCHAR(140) NULL,`time` DATETIME NULL,PRIMARY KEY (`ID`));";
+      System.out.println(mysql);
+      CommentDatabase commentDatabase=new CommentDatabase();
+      commentDatabase.ConnectMysql();
+      try {
+          PreparedStatement ps1 = commentDatabase.conn.prepareStatement(presql);
+          int rs = ps1.executeUpdate();//如果表已经存在了，返回-1，否则返回0
+          if(rs == -1)
+          {
+              presql = "DROP TABLE " + ID + ";";
+              PreparedStatement ps2 = commentDatabase.conn.prepareStatement(presql);
+              ps2.executeUpdate();
+          }
+          PreparedStatement ps3 = commentDatabase.conn.prepareStatement(mysql);
+          ps3.executeUpdate();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+  }
+  public String shareFile()//分享文件
+  {
+      String newpath = createPublicFileByCopy();//newpath是共享文件在共享池里的绝对路径。
+      System.out.println(newpath);
+      try
+      {
+          String mysql = "insert into publictext(Location,Owner,Time) values(?,?,?);";
+          Database database=new Database();
+          database.ConnectMysql();
+          PreparedStatement ps = database.conn.prepareStatement(mysql);
+          ps.setString(1, newpath);
+          ps.setString(2, (String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
+          ps.setTimestamp(3, new Timestamp(new Date().getTime()));
+          int result = ps.executeUpdate();
+          System.out.println(result);
+          if(result>0)
+          {
+              this.createTable();
+              return SUCCESS;
+          }
+          else return SUCCESS;
+      }
+      catch(Exception e)
+      {
+          e.printStackTrace();
+      }
+      return SUCCESS;
+  }
 
   public String saveFile() {
     path = (String) ServletActionContext.getRequest().getSession()
@@ -92,11 +174,32 @@ public class AjaxAction extends ActionSupport {
      System.out.println(flag);
      if(flag)
        return SUCCESS;
-     
-       return SUCCESS;
-    
+       return SUCCESS;  
   }
   
+  public String createFile() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    if (path.equals(""))
+      path = "user";
+    boolean flag = Director.createFile(path + "/" + filename);
+    return SUCCESS;
+  }
+  
+  public String renameFile() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    boolean flag = Director.renameFile(path + "/" + filename,
+        path + "/" + filerename);
+    return SUCCESS;
+  }
+  
+  public String deleteFile() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    boolean flag = Director.deleteFile(path + "/" + filename);
+    return SUCCESS;
+  }
   
   public String updateContext(){
     List<Txtfile> txtfiles=new ArrayList<Txtfile>();
@@ -161,18 +264,6 @@ public class AjaxAction extends ActionSupport {
    * 
    * @return
    */
-  public String ReadFile() {
-
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    String context = Director.readFile(path + "/" + filename);
-    ServletActionContext.getRequest().setAttribute("readContext", context);
-    // readContext为输入到前台的文件的内容
-    if (context != null)
-      return "read_file_success";
-    else
-      return "read_file_failed";
-  }
 
   public String UserCheckFile() {
     String id = (String) ServletActionContext.getRequest().getSession()
@@ -192,20 +283,7 @@ public class AjaxAction extends ActionSupport {
     this.path = path;
   }
 
-  /**
-   * @return the dirname
-   */
-  public String getDirname() {
-    return dirname;
-  }
-
-  /**
-   * @param dirname
-   *          the dirname to set
-   */
-  public void setDirname(String dirname) {
-    this.dirname = dirname;
-  }
+  
 
   /**
    * @return the filename
@@ -223,21 +301,6 @@ public class AjaxAction extends ActionSupport {
     this.filename = filename;
   }
 
-  /**
-   * @return the dirrename
-   */
-  public String getDirrename() {
-    return dirrename;
-  }
-
-  /**
-   * @param dirrename
-   *          the dirrename to set
-   */
-  public void setDirrename(String dirrename) {
-    // this.dirrename = Tool.Toutf(dirrename);
-    this.dirrename = dirrename;
-  }
 
   /**
    * @return the filerename

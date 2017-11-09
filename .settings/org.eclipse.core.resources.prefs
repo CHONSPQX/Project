@@ -1,4 +1,9 @@
 eclipse.preferences.version=1
 encoding//WebContent/content_user.jsp=UTF-8
+<<<<<<< HEAD
 encoding//WebContent/index.jsp=UTF-8
+=======
+encoding//WebContent/myIndex.jsp=UTF-8
+encoding//WebContent/sharedText.jsp=UTF-8
+>>>>>>> refs/remotes/origin/yangfan
 encoding/<project>=UTF-8

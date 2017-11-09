@@ -58,3 +58,7 @@
 .mybtn:hover {
     background: #f47c20;
 }
+
+#panel-body{
+	height:500px;
+}

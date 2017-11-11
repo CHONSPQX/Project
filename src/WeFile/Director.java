@@ -137,6 +137,7 @@ public class Director {
     {
       try {
       File file = new File(prePath+destFilename);
+      System.out.println(destFilename);
       InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
       BufferedReader br = new BufferedReader(reader);
       StringBuilder line = new StringBuilder();

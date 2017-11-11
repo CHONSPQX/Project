@@ -117,7 +117,7 @@ public class PublicTextAction extends ActionSupport
 				input = new FileInputStream(source).getChannel();
 				output = new FileOutputStream(dest).getChannel();
 				output.transferFrom(input, 0, input.size());
-				return ("F:/work/shared/" + path1 + "/" + filename);
+				return ("shared/" + path1 + "/" + filename);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

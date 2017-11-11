@@ -179,6 +179,7 @@ public class FileAction extends ActionSupport {
 
   public String showPublic() {
     String location =filename;
+    System.out.println(filename);
     String context = Director.readFile(filename);
     ServletActionContext.getRequest().setAttribute("readContext", context);
     ServletActionContext.getRequest().setAttribute("filename", filename);
@@ -208,8 +209,8 @@ public class FileAction extends ActionSupport {
           co.setMessage(res.getString(3));
           co.setCommentTime(res.getDate(4));
           all.add(co);
-          System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
-              + res.getString(3) + "  " + res.getDate(4) + '\n');
+          //System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
+           //   + res.getString(3) + "  " + res.getDate(4) + '\n');
         }
         ServletActionContext.getRequest().setAttribute("commentTable", all);
       }
@@ -219,10 +220,6 @@ public class FileAction extends ActionSupport {
         return "show_public_failed";
 
     } catch (SQLException e) {
-      e.printStackTrace();
-      if (context != null)
-        return "show_public_success";
-      else
         return "show_public_failed";
     }
   }

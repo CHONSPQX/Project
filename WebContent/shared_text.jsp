@@ -1,6 +1,5 @@
 ﻿<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
-<html lang="zh-cn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,7 @@
   <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>	
   <style>
-  .panel-body {height:380px}
+  .panel-body {height:380px;overflow:scroll;max-height:380px}
   </style>
 </head>
 <%
@@ -60,8 +59,8 @@
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">登录</a></li>
-          <li><a href="#">注册</a></li>
+          <li><a href="login_user.jsp">登录</a></li>
+          <li><a href="register_user.jsp">注册</a></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">用户<span class="caret"></span></a>
@@ -115,7 +114,7 @@
             Panel title
           </h3>
         </div>
-        <div class="panel-body" id="context2">
+        <div class="panel-body" id="context2" >
           Panel content
         </div>
         <div class="panel-footer" id="footer2">
@@ -210,7 +209,6 @@
       getContext(num);
       pagenum=num;
     }
-
     function getContext(num){
         var data={num:num};
           $.ajax({
@@ -256,23 +254,7 @@
     }
     $(document).ready(function(){
         nextpage(0);
-    });
-    $(document).ready(function(){
-        $("#detail1").click(function(){
-          
-        });
-    });
-    $(document).ready(function(){
-        $("#detail2").click(function(){
-           $.post("POST","http://www.baidu.com");
-        });
-    });
-    $(document).ready(function(){
-        $("#detail3").click(function(){
-           $.post("POST","http://www.baidu.com");
-        });
-    });
-    
+    });    
     function ShowDetail() 
     { 
     	console.log(event.target.id)
@@ -289,7 +271,6 @@
     		var file=document.getElementById("title3").innerText;
     		window.location.href="FileAction!showPublic?filename="+file;
     	}
-    	//window.location.href="login.jsp?backurl="+window.location.href; 
-    } 
-    </script>
+   } 
+</script>
 </html>

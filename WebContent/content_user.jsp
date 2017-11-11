@@ -1,6 +1,5 @@
 ﻿<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
-<html lang="zh-cn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,8 +55,8 @@
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">登录</a></li>
-					<li><a href="#">注册</a></li>
+					<li><a href="login_user.jsp">登录</a></li>
+					<li><a href="register_user.jsp">注册</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">用户<span class="caret"></span></a>
@@ -106,7 +105,10 @@
 						  if (allFile != null && allFile.size() > 0)
 										for (int i = 0; i < allFile.size(); i++) {
 											String temp = allFile.get(i);
-											String type = temp.substring(temp.lastIndexOf("."), temp.length());
+											String type=new String();
+											if(temp.contains("."))
+										     type = temp.substring(temp.lastIndexOf("."), temp.length());
+											
 						%>
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />

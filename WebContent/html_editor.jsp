@@ -3,7 +3,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@page import="java.util.Date"%>
 <!DOCTYPE html>
-<html lang="en">
 <head>
 <link href="./bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="./uieditor/bootstrap-combined.no-icons.min.css" rel="stylesheet">

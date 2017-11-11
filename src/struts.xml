@@ -21,14 +21,14 @@
     <result name="delete_file_failed">/content_user.jsp</result>
     <result name="rename_file_success">/content_user.jsp</result>
     <result name="rename_file_failed">/content_user.jsp</result>
-    <result name="read_file_success">/htmleditor.jsp</result>
+    <result name="read_file_success">/html_editor.jsp</result>
     <result name="read_file_failed">/content_user.jsp</result>
     <result name="write_file_success">/content_user.jsp</result>
     <result name="write_file_failed">/content_user.jsp</result>
     <result name="show_private_success">/article_private.jsp</result>
     <result name="show_private_failed">/content_user.jsp</result>
     <result name="show_public_success">/article_public.jsp</result>
-    <result name="show_public_failed">/shared_text.jsp</result>
+    <result name="show_public_failed">/article_public.jsp</result>
   </action>
   <action name="ShareAction" class="Action.PublicTextAction">
     <result name="share_file_success">/content_user.jsp</result>

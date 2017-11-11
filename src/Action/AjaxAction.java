@@ -89,7 +89,7 @@ public class AjaxAction extends ActionSupport {
               input = new FileInputStream(source).getChannel();
               output = new FileOutputStream(dest).getChannel();
               output.transferFrom(input, 0, input.size());
-              return ("F:/work/shared/" + path1 + "/" + filename);
+              return ("shared/" + path1 + "/" + filename);
           } catch (IOException e) {
               e.printStackTrace();
           }
@@ -231,19 +231,17 @@ public class AjaxAction extends ActionSupport {
     String location=filename;
     Database db = new Database();
     db.ConnectMysql();
-    String presql = "select * from lab7.publictext where Location='" + location
-        + "';";
+    String presql = "select * from lab7.publictext where Location='" + location + "';";
     System.out.println(presql);
-   // String userid="00001111";
     String userid = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");
-    System.out.println(userid);
+    //System.out.println(userid);
     try{
       PreparedStatement ps1 = db.conn.prepareStatement(presql);
       ResultSet rs = ps1.executeQuery();
     if (rs.next()) {
       location = location.substring(0, location.indexOf("."));
-      System.out.println(location);
+      //System.out.println(location);
       String mysql = "insert into `comment`.`"+location+"` (userID,context,time) values(?,?,?);";
       CommentDatabase cdb=new CommentDatabase();
       cdb.ConnectMysql();
@@ -251,14 +249,16 @@ public class AjaxAction extends ActionSupport {
       ps.setString(1, userid);
       ps.setString(2, commentcontext);
       ps.setTimestamp(3, new Timestamp(new Date().getTime()));
-      System.out.println(ps);
+      //System.out.println(ps);
       ps.executeUpdate();
+      //System.out.println(SUCCESS);
     }
     return SUCCESS;
    }catch (Exception e) {
     e.printStackTrace();
     return SUCCESS;
-  }
+   }
+  
   }
   /**
    * 

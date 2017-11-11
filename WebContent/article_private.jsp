@@ -18,61 +18,68 @@
 </head>
 <body>
 <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+          data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+          aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span> <span
+            class="icon-bar"></span> <span class="icon-bar"></span> <span
+            class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Brand</a>
+      </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">登录</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse"
+        id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="UserAction!UserCheckFile">我的空间 <span class="sr-only">(current)</span></a></li>
+          <li><a href="shared_text.jsp">共享空间</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle"
+            data-toggle="dropdown" role="button" aria-haspopup="true"
+            aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul></li>
+        </ul>
+        <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="login_user.jsp">登录</a></li>
+          <li><a href="register_user.jsp">注册</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle"
+            data-toggle="dropdown" role="button" aria-haspopup="true"
+            aria-expanded="false">用户<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul></li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
-  </div>
-</nav>
+    <!-- /.container-fluid -->
+  </nav>
 <%
       String context=(String)request.getAttribute("readContext");
-      String filename=(String)request.getAttribute("filename");      
+      String filename=(String)request.getAttribute("filename");
+      if(filename.contains("/"))
+        filename=filename.substring(filename.lastIndexOf("/")+1,filename.length());
 %>
 <div class="container">
 <div class="row">
@@ -83,20 +90,20 @@
 	<div class="panel-body">
 		<div class="btn-group btn-group-justified" role="group" aria-label="...">
 			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default" onclick="createFile();" id="createFileButton">返回<tton>
+				<button type="button" class="btn btn-default" onclick="pageBack();" >返回<tton>
 			</div>
 			<div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" onclick="renameFile();" id="renameFileButton">编辑<tton>
+                <button type="button" class="btn btn-default" onclick="editorFile();">编辑<tton>
             </div>
 			<div class="btn-group" role="group">
-			    <button type="button" class="btn btn-default" onclick="deleteFile();" id="deleteFileButton">分享<tton>
+			    <button type="button" class="btn btn-default" onclick="shareFile();">分享<tton>
 			</div> 
 		</div>
 	</div>
 	<div class="panel-body">
 	<div class="panel panel-default">
-	<div class="panel-heading"><%=filename %></div>
-	<div class="panel-body" style="height:750px">
+	<div class="panel-heading" id="filename"><%=filename %></div>
+	<div class="panel-body" style="overflow:scroll; max-height:550px;height:550px" >
 		<div><%=context %></div>
 	</div>
 	</div>
@@ -108,9 +115,9 @@
 </div>
 </body>
 <script type="text/javascript">   
-function shareFile(file) 
+function shareFile() 
 {   
-     //输出值和文本  
+	var file=document.getElementById("filename").innerText;
      alert("分享:"+file);  
      //把获得的数据转换为字符串传递到后台              
          var data={filename:file};
@@ -128,5 +135,13 @@ function shareFile(file)
          })
 
 }  
+function pageBack(){
+    history.go(-1);
+}
+function editorFile()
+{  
+	var file=document.getElementById("filename").innerText;
+   window.location.href="FileAction!ReadFile?filename="+file;
+}
 </script>
 </html>

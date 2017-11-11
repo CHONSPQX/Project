@@ -107,7 +107,7 @@
         </div>
         <div class="col-md-4">
            
-          <button type="button" class="btn btn-primary btn-sm" id="detail1">
+          <button type="button" class="btn btn-primary btn-sm" id="detail1"  onclick="ShowDetail();">
             ShowDetail
           </button>
         </div>
@@ -134,7 +134,7 @@
         </div>
         <div class="col-md-4">
            
-          <button type="button" class="btn btn-success btn-sm" id="detail2">
+         <button type="button" class="btn btn-primary btn-sm" id="detail2"  onclick="ShowDetail();">
             ShowDetail
           </button>
         </div>
@@ -161,7 +161,7 @@
         </div>
         <div class="col-md-4">
            
-          <button type="button" class="btn btn-info btn-sm" id="detail3">
+          <button type="button" class="btn btn-primary btn-sm" id="detail3" onclick="ShowDetail();">
             ShowDetail
           </button>
         </div>
@@ -223,18 +223,18 @@
           .done(function(data){
            
           var title1=document.getElementById("title1");
-          alert(data.title1);
+          //alert(data.title1);
            title1.innerText=data.title1;
            var context1=document.getElementById("context1");
-           alert(data.context1);
+           //alert(data.context1);
            context1.innerHTML=data.context1;
            var footer1=document.getElementById("footer1");
-           alert(data.footer1);
+           //alert(data.footer1);
            footer1.innerText=data.footer1;
            
            
            var title2=document.getElementById("title2");
-           alert(data.title2);
+          // alert(data.title2);
            title2.innerText=data.title2;
            var context2=document.getElementById("context2");
            context2.innerHTML=data.context2;
@@ -243,7 +243,7 @@
            
            
            var title3=document.getElementById("title3");
-           alert(data.title3);
+           //alert(data.title3);
            title3.innerText=data.title3;
            var context3=document.getElementById("context3");
            context3.innerHTML=data.context3;
@@ -274,28 +274,23 @@
         });
     });
     
-    function MakeForm(filename) 
+    function ShowDetail() 
     { 
-      // 创建一个 form 
-      var form = document.createElement("form"); 
-      //form1.id = "form1"; 
-      //form1.name = "form1"; 
-      // 添加到 body 中 
-      //document.body.appendChild(form1); 
-      // 创建一个输入 
-      var input = document.createElement("input"); 
-      // 设置相应参数 
-      input.type = "text"; 
-      input.name ="filename"; 
-      input.value = file; 
-      // 将该输入框插入到 form 中 
-      form.appendChild(input); 
-      // form 的提交方式 
-      form.method = "POST"; 
-      // form 提交路径 
-      form.action = "FileAction!showDetail"; 
-      // 对该 form 执行提交 
-      form.submit();  
+    	console.log(event.target.id)
+    	
+    	if(event.target.id=="detail1"){
+    		var file=document.getElementById("title1").innerText;
+    		window.location.href="FileAction!showPublic?filename="+file;
+    	}
+    	else if(event.target.id=="detail2"){
+    		var file=document.getElementById("title2").innerText;
+    		window.location.href="FileAction!showPublic?filename="+file;
+    	}
+    	else if(event.target.id=="detail3"){
+    		var file=document.getElementById("title3").innerText;
+    		window.location.href="FileAction!showPublic?filename="+file;
+    	}
+    	//window.location.href="login.jsp?backurl="+window.location.href; 
     } 
     
     //为获取List对象按钮添加鼠标单击事件  

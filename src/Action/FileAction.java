@@ -178,16 +178,14 @@ public class FileAction extends ActionSupport {
   }
 
   public String showPublic() {
-    path = (String) ServletActionContext.getRequest().getSession()
-        .getAttribute("userID");
-    String location = "shared/" + path + "/" + filename;
-    String context = Director.readFile(path + "/" + filename);
+    String location =filename;
+    String context = Director.readFile(filename);
     ServletActionContext.getRequest().setAttribute("readContext", context);
-    ServletActionContext.getRequest().setAttribute("filename", location);
+    ServletActionContext.getRequest().setAttribute("filename", filename);
     Database db = new Database();
     db.ConnectMysql();
     // location = location.replace(".txt", "");
-    String presql = "select * from lab7.publictext where Location='" + location
+    String presql = "select * from lab7.publictext where Location='" + filename
         + "';";
     System.out.println(presql);
     try {

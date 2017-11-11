@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
+<%@page import="Comment.Comment"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,6 +15,7 @@
     <script src="http://www.pintuer.com/js/jquery.js"></script>
     <script src="http://www.pintuer.com/js/pintuer.js"></script>
     <script type=text/javascript src=js/query.js></script>
+    <script type="text/javascript" src="js/updateNews.js"></script>
     <script src="js/admin.js"></script>
     <link type="image/x-icon" href="http://www.pintuer.com/favicon.ico" rel="shortcut icon"/>
     <link href="http://www.pintuer.com/favicon.ico" rel="bookmark icon"/>
@@ -64,7 +66,9 @@
 </div>
 <%
       String context=(String)request.getAttribute("readContext");
-      String filename=(String)request.getAttribute("filename");      
+      String filename=(String)request.getAttribute("filename");  
+      ArrayList<Comment> comments=(ArrayList<Comment>)request.getAttribute("commentTable");
+      
 %>
 <div class="admin">
 
@@ -101,6 +105,49 @@
     </div>
   </div>
 </div>
+<%
+              if(comments!=null&&comments.size()>0)
+              for(Comment com:comments)
+              {
+       %>
+          <div class="comment-section">
+            <div class="comment-box">
+              <div class="comment-people-pic">
+                <a href="#">
+                  <img src="./images/comment-people1.png" alt="">
+                </a>
+              </div>
+              <div class="comment-info">
+                <div class="comment-info-head">
+                  <div class="comment-info-head-left">
+                    <%=com.getOwner()%>
+                  </div>
+                  <div class="comment-info-head-right">
+                    <ul>
+                      <li>
+                       <%=com.getCommentTime() %>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                  <div class="clear"> </div>
+                  <div class="comment-place">
+                    <p><%=com.getMessage() %></p>
+                  </div>
+                  <div class="clear"> </div>
+                </div>
+              </div>
+              <div class="clear"> </div>
+            </div>          
+          </div>
+          <%
+              }
+          %>
+      <div class="contact-form">
+         <div class="text-box textarea-box"> 
+           <textarea id="comment" rows="2" cols="70" onfocus="if(this.value == 'Your Message') this.value='';" onblur="if(this.value == '') this.value='Your Message';">Your Message</textarea> <span>*</span> </div>
+           <button id="sendcomment" value="Send Message" onclick="sendComment();">Send Message</button>
+    </div>
 </div>
 </body>
 <script type="text/javascript">   
@@ -124,4 +171,30 @@ function shareFile(file) {
 
 }  
 </script>
+<script>
+    function AlertMessage()
+    {
+      alert('test');
+    }
+    function sendComment(){
+        var file=document.getElementById("filename").innerText;
+        alert(file);
+        var comment=document.getElementById("comment").value;
+        alert(comment);
+        var data={filename:file,
+                  commentcontext:comment};
+          $.ajax({
+            url:"AjaxAction!sendComment",
+            type: "POST",
+            data: data,
+            dataType:"json"
+          })
+          .done(function(data){
+           alert("send comment success");
+          })
+          .fail( function(){
+            alert("send comment error");
+          })
+    }
+  </script>
 </html>

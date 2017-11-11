@@ -1,0 +1,109 @@
+@CHARSET "UTF-8";
+.page-home body {
+  background: #fff; }
+
+.page-home .header {
+  margin: 0 auto;
+  margin-top: 180px;
+  max-width: 640px;
+  text-align: center; }
+
+.page-home .page-home .footer {
+  text-align: center;
+  color: #bbb;
+  margin-top: 200px; }
+
+.page-home .page-home .footer a {
+  color: #bbb; }
+
+.page-home .course-list {
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 150px;
+  font-size: 16px;
+  text-align: center; }
+
+.page-home .block-title {
+  margin-bottom: 40px;
+  color: #bbb;
+  font-size: 20px;
+  font-weight: 300;
+  text-align: center; }
+
+.page-home .learning-path {
+  text-align: center;
+  margin-top: 70px; }
+
+.page-home .step-icon {
+  font-size: 40px;
+  color: rgba(0, 0, 0, 0.15);
+  margin: 25px 0;
+  display: block; }
+
+.page-home .step {
+  line-height: 1.8; }
+
+.page-home .step .title {
+  color: #333;
+  font-size: 18px; }
+
+.page-home .step .title:hover {
+  color: #4285f4; }
+
+.page-home .step .desc {
+  color: rgba(0, 0, 0, 0.4); }
+
+.page-home .step .desc p {
+  margin: 0; }
+
+.page-home .course-list * {
+  -webkit-transition: color .2s;
+  -moz-transition: color .2s;
+  -ms-transition: color .2s;
+  -o-transition: color .2s;
+  transition: color .2s; }
+
+.page-home .course-list .item {
+  display: inline-block;
+  margin-bottom: 15px;
+  line-height: 1.7;
+  padding: 0 20px; }
+
+.page-home .course-list .item a.new:before {
+  content: "new";
+  font-size: 60%;
+  color: #fff;
+  background: #999;
+  padding: 2px 3px;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+  position: absolute;
+  left: -30px;
+  top: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px; }
+
+.page-home .course-list .item a {
+  display: inline-block;
+  color: #999;
+  line-height: 1; }
+
+.page-home .course-list .item a:hover {
+  -webkit-box-shadow: 0 4px 0 -2px #444;
+  -moz-box-shadow: 0 4px 0 -2px #444;
+  box-shadow: 0 4px 0 -2px #444; }
+
+.page-home .course-list:hover .item a {
+  color: #444; }
+
+.page-home .course-list:hover .item a.new:before {
+  background: #444; }
+
+.page-home .footer {
+  margin: 0 auto;
+  margin-top: 200px;
+  padding-bottom: 50px;
+  max-width: 800px;
+  text-align: center; }

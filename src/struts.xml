@@ -9,22 +9,16 @@
   <package name="first" namespace="/" extends="struts-default">
   <action name="UserAction" class="Action.UserAction">
 		<result name="create_user_success">/index.jsp</result>
-		<result name="create_user_failed">/register.jsp</result>
+		<result name="create_user_failed">/register_user.jsp</result>
 		<result name="login_success">/index.jsp</result>
 		<result name="login_failed">/login_user.jsp</result>
 	  <result name="check_file_success">/content_user.jsp</result>
   </action>
   <action name="FileAction" class="Action.FileAction">
-    <result name="create_dir_success">/userHome.jsp</result>
-    <result name="create_dir_failed">/userHome.jsp</result>
-    <result name="delete_dir_success">/userHome.jsp</result>
-    <result name="delete_dir_failed">/userHome.jsp</result>
-    <result name="rename_dir_success">/userHome.jsp</result>
-    <result name="rename_dir_failed">/userHome.jsp</result>
-    <result name="create_file_success">/userHome.jsp</result>
-    <result name="create_file_failed">/userHome.jsp</result>
-    <result name="delete_file_success">/userHome.jsp</result>
-    <result name="delete_file_failed">/userHome.jsp</result>
+    <result name="create_file_success">/content_user.jsp</result>
+    <result name="create_file_failed">/content_user.jsp</result>
+    <result name="delete_file_success">/content_user.jsp</result>
+    <result name="delete_file_failed">/content_user.jsp</result>
     <result name="rename_file_success">/content_user.jsp</result>
     <result name="rename_file_failed">/content_user.jsp</result>
     <result name="read_file_success">/htmleditor.jsp</result>
@@ -34,7 +28,7 @@
     <result name="show_private_success">/article_private.jsp</result>
     <result name="show_private_failed">/content_user.jsp</result>
     <result name="show_public_success">/article_public.jsp</result>
-    <result name="show_public_failed">/sharedText.jsp</result>
+    <result name="show_public_failed">/shared_text.jsp</result>
   </action>
   <action name="ShareAction" class="Action.PublicTextAction">
     <result name="share_file_success">/content_user.jsp</result>

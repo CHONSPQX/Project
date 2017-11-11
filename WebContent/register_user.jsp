@@ -19,22 +19,6 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
 </head>
-<%@page import="java.sql.*"%>
-<%
-	String submit = null;
-	submit = request.getParameter("submit");
-	if (submit != null) {
-		String uname = request.getParameter("admin.username");
-		String pwd = request.getParameter("admin.userpwd");
-		String message=(String)request.getAttribute("admin_check_message");
-		System.out.println(message);
-		if (message!=null&&message.equals("admin_check_success")) 
-		{
-			session.setAttribute("user", uname);
-			response.sendRedirect("index.jsp");
-		} 
-	}
-%>
 <body class="bg-dark">
   <div class="container">
     <div class="card card-login mx-auto mt-5">
@@ -51,7 +35,7 @@
           </div>
           <div class="form-group">
             <label for="InputPassword">Confirm Password</label>
-            <input class="form-control"  id="InputPassword" type="password" placeholder="Password">
+            <input class="form-control"  name="confirmword" id="InputPassword" type="password" placeholder="Password">
           </div>
           </div>
            <s:submit class="btn btn-primary btn-block" name ="submit" value="Register" />

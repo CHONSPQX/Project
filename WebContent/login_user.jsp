@@ -1,58 +1,47 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html>
-<html lang="zh-cn">
-
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="renderer" content="webkit">
-    <title>用户登录</title>
-
-    <link rel="stylesheet" href="http://www.pintuer.com/css/pintuer.css">
-    <link rel="stylesheet" href="css/admin.css">
-    <!--  link type="image/x-icon" href="images/favicon.ico" rel="shortcut icon"/>-->
-    <link href="images/favicon.ico" rel="bookmark icon"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>文章管理器</title>
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="css/sb-admin.css" rel="stylesheet">
 </head>
-
-<body>
-<div class="container">
-    <div class="line">
-        <div class="xs6 xm4 xs3-move xm4-move">
-            <br/>
-            <br/>
-            <div class="media media-y">
-                <img src="images/logo1.png" class="radius" alt="后台管理系统"/>
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        <form action="UserAction!UserLogin">
+          <div class="form-group">
+            <label for="InputUsername">UserID</label>
+            <input class="form-control" name="user.UserID" id="InputUsername" type="text"  placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label for="InputPassword">Password</label>
+            <input class="form-control" name="user.Password" id="InputPassword" type="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Remember Password</label>
             </div>
-            <br/>
-            <br/>
-            <form method="post" action="UserAction!UserLogin">
-                <div class="panel">
-                    <div class="panel-head"><strong>用户登录</strong></div>
-                    <div class="panel-body" style="padding:30px;">
-                        <div class="form-group">
-                            <div class="field field-icon-right">
-                                <input type="text" class="input" name="user.UserID" placeholder="Username"/>
-                                <span class="icon icon-user"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="field field-icon-right">
-                                <input type="password" class="input" name="user.Password" placeholder="Password"/>
-                                <span class="icon icon-key"></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="panel-foot text-center">
-                        <button class="button button-block bg-main text-big">登录</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+          </div>
+           <s:submit class="btn btn-primary btn-block" name ="submit" value="Login" />
+        </form>
+      </div>
     </div>
-</div>
-
+  </div>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/popper/popper.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
-
 </html>

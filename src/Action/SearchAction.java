@@ -34,17 +34,16 @@ public class SearchAction extends ActionSupport
 
 
 	public String SearchFile()
-	{
-		System.out.println(searchTarget);
-		if(searchTarget==0)
-		{
-			FileAction fa = new FileAction();
-			return fa.SearchMyselfFile(CheckedFile);
-		}
-		else
-		{
-			PublicTextAction pa = new PublicTextAction();
-			return pa.SearchPublicFile(CheckedFile);
-		}
-	}
+    {
+        System.out.println(CheckedFile);
+        FileAction fa = new FileAction();
+        PublicTextAction pa = new PublicTextAction();
+        if(pa.SearchPublicFile(CheckedFile)&&fa.SearchMyselfFile(CheckedFile))
+        {
+            return "SearchFile_success";
+        }
+        else
+            return "SearchFile_filed";
+    }
+
 }

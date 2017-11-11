@@ -35,7 +35,8 @@
     <result name="share_file_failed">/content_user.jsp</result>
   </action>
   <action name="SearchAction" class="Action.SearchAction">
-  	<result name="search_MyselfFile_success">/index2.jsp</result>
+  	<result name="SearchFile_success">/SearchResult.jsp</result>
+  	<result name="SearchFile_filed">/home_page.jsp</result>
   </action>
   </package>
   <package name="main" namespace="/" extends="json-default">

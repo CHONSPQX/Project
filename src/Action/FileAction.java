@@ -179,7 +179,6 @@ public class FileAction extends ActionSupport {
 
   public String showPublic() {
     String location =filename;
-    System.out.println(filename);
     String context = Director.readFile(filename);
     ServletActionContext.getRequest().setAttribute("readContext", context);
     ServletActionContext.getRequest().setAttribute("filename", filename);
@@ -209,8 +208,8 @@ public class FileAction extends ActionSupport {
           co.setMessage(res.getString(3));
           co.setCommentTime(res.getDate(4));
           all.add(co);
-          //System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
-           //   + res.getString(3) + "  " + res.getDate(4) + '\n');
+          System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
+              + res.getString(3) + "  " + res.getDate(4) + '\n');
         }
         ServletActionContext.getRequest().setAttribute("commentTable", all);
       }
@@ -220,6 +219,10 @@ public class FileAction extends ActionSupport {
         return "show_public_failed";
 
     } catch (SQLException e) {
+      e.printStackTrace();
+      if (context != null)
+        return "show_public_success";
+      else
         return "show_public_failed";
     }
   }
@@ -236,51 +239,47 @@ public class FileAction extends ActionSupport {
   /*
    * 搜索用户自己的文件
    */
-  protected String SearchMyselfFile(String filename)
+  protected boolean SearchMyselfFile(String filename)
   {
-	  /*path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-	  if (path.equals(""))
-		  path = "user";
-	  String AbsoultPath = "F:\\work\\" + path;*/
-	  String AbsoultPath = "F:\\work\\admin3";
-	  File file = new File(AbsoultPath);
-	  ArrayList<String> all = new ArrayList<String>();
-	  ArrayList<String> All = new ArrayList<String>();
-	  CheckAbsoultPath(file, all);
-	  int i;
-	  for(i = 0;i<all.size();i++)
-	  {
-		  if(all.get(i).contains(filename))
-			  All.add(all.get(i));
-	  }
-	  for(i = 0;i<All.size();i++)
-	  {
-		  System.out.println(All.get(i));
-	  }
-	  if(!All.isEmpty())
-	  {
-		  ServletActionContext.getRequest().setAttribute("allSearchedFiles", All);
-		  return "search_MyselfFile_success";
-	  }
-	  return "search_MyselfFile_filed";
+      /*path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+      if (path.equals(""))
+          path = "user";*/
+      path="admin3";
+      String AbsoultPath = "F:\\work\\" + path;
+      File file = new File(AbsoultPath);
+      ArrayList<String> all = new ArrayList<String>();
+      ArrayList<String> All = new ArrayList<String>();
+      CheckAbsoultPath(file, all);
+      int i;
+      for(i = 0;i<all.size();i++)
+      {
+          if(all.get(i).contains(filename))
+              All.add(all.get(i));
+      }
+      if(!All.isEmpty())
+      {
+          ServletActionContext.getRequest().setAttribute("allSearchedMyFiles", All);
+          return true;
+      }
+      return false;
   }
   
   private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
   {
-	  File[] files = file.listFiles();
-	  for(File f : files)
-	  {
-		  if(f.isDirectory())
-			  CheckAbsoultPath(f,all);
-		  else
-		  {
-			  all.add(f.getAbsolutePath());
-		  }
-	  }
+      File[] files = file.listFiles();
+      for(File f : files)
+      {
+          if(f.isDirectory())
+              CheckAbsoultPath(f,all);
+          else
+          {
+              all.add(f.getAbsolutePath());
+          }
+      }
   }
   public static void main(String args[])
   {
-	  
+      
   }
   public String getPath() {
     return path;

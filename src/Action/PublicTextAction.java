@@ -36,7 +36,7 @@ public class PublicTextAction extends ActionSupport
 	     conn.ConnectMysql();
 	}
 
-	protected String SearchPublicFile(String filename)
+	protected boolean SearchPublicFile(String filename)
 	{
 		  String AbsoultPath = "F:\\work\\shared";
 		  File file = new File(AbsoultPath);
@@ -55,10 +55,10 @@ public class PublicTextAction extends ActionSupport
 		  }
 		  if(!All.isEmpty())
 		  {
-			  ServletActionContext.getRequest().setAttribute("allSearchedFiles", All);
-			  return "search_PublicFile_success";
+			  ServletActionContext.getRequest().setAttribute("allSearchedPublicFiles", All);
+			  return true;
 		  }
-		  return "search_PublicFile_filed";
+		  return false;
 	} 
 	  private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
 	  {

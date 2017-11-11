@@ -50,11 +50,11 @@
               <li><a href="#">One more separated link</a></li>
             </ul></li>
         </ul>
-        <form class="navbar-form navbar-left">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
+        <form class="navbar-form navbar-left" action="SearchAction!SearchFile">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="CheckedFile">
+              </div>
+              <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="login_user.jsp">登录</a></li>

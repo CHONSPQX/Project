@@ -33,6 +33,8 @@
     <result name="write_file_failed">/content_user.jsp</result>
     <result name="show_private_success">/article_private.jsp</result>
     <result name="show_private_failed">/content_user.jsp</result>
+    <result name="show_public_success">/article_public.jsp</result>
+    <result name="show_public_failed">/sharedText.jsp</result>
   </action>
   <action name="ShareAction" class="Action.PublicTextAction">
     <result name="share_file_success">/content_user.jsp</result>

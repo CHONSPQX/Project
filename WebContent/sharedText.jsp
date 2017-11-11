@@ -42,7 +42,7 @@
             </span>
             <ul class="nav nav-inline admin-nav">
             <li class="active">
-            	<a href="content_user.jsp" ><i class="fa fa-fw fa-file"></i><span >查看文章</span></a>
+            	<a href="content_user.jsp" ><i class="fa fa-camera-retro fa-2x"></i><span > 查看文章</span></a>
                 <ul>
                 	<li><a href="#">添加内容</a></li>
                 	<li><a href="#">内容管理</a></li>
@@ -50,17 +50,17 @@
                 	<li><a href="#">链接管理</a></li>
             	</ul>
             </li>
-            <li ><a href="Authorization_user.jsp" class="icon-file">文章授权</a></li>
-                <li>
-                    <a href="AddNews_user.jsp" class="icon-cog">发布文章</a>
-                    <ul>
-                        <li><a href="#">全局设置</a></li>
-                        <li class="active"><a href="#">系统设置</a></li>
-                        <li><a href="#">会员设置</a></li>
-                        <li><a href="#">积分设置</a></li>
-                    </ul>
-                </li>
-            <li><a href="Dustbin_user.jsp" class="icon-th-list">回收站</a></li>
+            <li ><a href="Authorization_user.jsp" ><i class="fa fa-th-list fa-2x"></i><span > 文章授权</span></a></li>
+            <li>
+                 <a href="AddNews_user.jsp" ><i class="fa fa-envelope-open"></i> 发布文章</a>
+                 <ul>
+                     <li><a href="#">全局设置</a></li>
+                     <li class="active"><a href="#">系统设置</a></li>
+                     <li><a href="#">会员设置</a></li>
+                     <li><a href="#">积分设置</a></li>
+                </ul>
+            </li>
+            <li><a href="Dustbin_user.jsp" class="icon-th-list">回收站</a></li>```````````````````````````````
             </ul>
         </div>
         <div class="admin-bread">
@@ -71,8 +71,21 @@
 </div>
 
 <div class="admin">
-    
- <div class="row">
+<div class="line">
+	<div class="x4">
+		<div class="panel">
+			<div class="panel-head"></div>
+			<div class="panel-body"></div>
+			<div class="panel-foot"></div>
+		</div>
+		
+	
+	</div>
+
+</div>
+
+ <!--
+  <div class="row">
     <div class="col-md-4">
       <div class="panel panel-primary">
         <div class="panel-heading">
@@ -155,38 +168,7 @@
       </div>
     </div>
   </div>
-<div class="line">
-	<div class="x4">
-	<div class="panel border-red-light">
-		<div class="panel-head  border-red-light bg-red-light">
-			<strong>标题</strong>
-		</div>
-		<div class="panel-body" id="panel-body">
-			内容</div>
-		<div class="panel-foot border-red-light bg-red-light">
-			底部</div>
-	</div></div>
-	<div class="x4">
-	<div class="panel border-red-light">
-		<div class="panel-head  border-red-light bg-red-light">
-			<strong>标题</strong>
-		</div>
-		<div class="panel-body" id="panel-body">
-			内容</div>
-		<div class="panel-foot border-red-light bg-red-light">
-			底部</div>
-	</div></div>
-	<div class="x4">
-	<div class="panel border-red-light">
-		<div class="panel-head  border-red-light bg-red-light">
-			<strong>标题</strong>
-		</div>
-		<div class="panel-body" id="panel-body">
-			内容</div>
-		<div class="panel-foot border-red-light bg-red-light">
-			底部</div>
-	</div></div>
-</div>
+-->
 <div class="line">
         <div class="x8">
         </div>
@@ -216,33 +198,6 @@
           </ul>
         </div>
       </div>
-        <div class="x8">
-        </div>
-        <div class="x4">
-          <ul class="pagination">
-            <li>
-              <a href="#">Prev</a>
-            </li>
-            <li>
-              <a onclick="nextpage(0);">1</a>
-            </li>
-            <li>
-              <a onclick="nextpage(1);">2</a>
-            </li>
-            <li>
-              <a onclick="nextpage(2);">3</a>
-            </li>
-            <li>
-              <a onclick="nextpage(3);">4</a>
-            </li>
-            <li>
-              <a onclick="nextpage(4);">5</a>
-            </li>
-            <li>
-              <a href="#">Next</a>
-            </li>
-          </ul>
-        </div>
       </div>
 </div>
 </body>

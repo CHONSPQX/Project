@@ -18,9 +18,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-/**
- * 索引存储
- */
 class CreateIndex {
     
     public CreateIndex(String dataPath,String indexPath) throws IOException {

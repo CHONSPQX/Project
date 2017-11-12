@@ -8,12 +8,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import Comment.Comment;
 import WeFile.Director;
 
 /**
@@ -158,6 +163,69 @@ public class FileAction extends ActionSupport {
     else
       return "read_file_failed";
   }
+  
+  public String showPrivate() {
+    path = (String) ServletActionContext.getRequest().getSession()
+        .getAttribute("userID");
+    String location =path + "/" + filename;
+    String context = Director.readFile(path + "/" + filename);
+    ServletActionContext.getRequest().setAttribute("readContext", context);
+    ServletActionContext.getRequest().setAttribute("filename", location);
+    if (context != null)
+      return "show_private_success";
+    else
+      return "show_private_failed";
+  }
+
+  public String showPublic() {
+    String location =filename;
+    String context = Director.readFile(filename);
+    ServletActionContext.getRequest().setAttribute("readContext", context);
+    ServletActionContext.getRequest().setAttribute("filename", filename);
+    Database db = new Database();
+    db.ConnectMysql();
+    // location = location.replace(".txt", "");
+    String presql = "select * from lab7.publictext where Location='" + filename
+        + "';";
+    System.out.println(presql);
+    try {
+      PreparedStatement ps1 = db.conn.prepareStatement(presql);
+      ResultSet rs = ps1.executeQuery();// 如果表已经存在了，返回-1，否则返回0
+      if (rs.next()) {
+        location = location.substring(0, location.indexOf("."));
+        System.out.println(location);
+        String mysql = "SELECT ID,userID,context,time FROM `comment`.`" + location+"`;";
+        System.out.println(mysql);
+        ArrayList<Comment> all = new ArrayList<Comment>();
+        CommentDatabase cdb=new CommentDatabase();
+        cdb.ConnectMysql();
+        PreparedStatement ps = cdb.conn.prepareStatement(mysql);
+        ResultSet res = ps.executeQuery();
+        while (res.next()) {
+          Comment co = new Comment();
+          co.setNumber(res.getInt(1));
+          co.setOwner(res.getString(2));
+          co.setMessage(res.getString(3));
+          co.setCommentTime(res.getDate(4));
+          all.add(co);
+          System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
+              + res.getString(3) + "  " + res.getDate(4) + '\n');
+        }
+        ServletActionContext.getRequest().setAttribute("commentTable", all);
+      }
+      if (context != null)
+        return "show_public_success";
+      else
+        return "show_public_failed";
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      if (context != null)
+        return "show_public_success";
+      else
+        return "show_public_failed";
+    }
+  }
 
   public String UserCheckFile() {
     String id = (String) ServletActionContext.getRequest().getSession()
@@ -168,7 +236,56 @@ public class FileAction extends ActionSupport {
     ServletActionContext.getRequest().setAttribute("AllFiles", all);
     return "checkFileok";
   }
-
+  /*
+   * 搜索用户自己的文件
+   */
+  protected boolean SearchMyselfFile(String filename)
+  {
+      path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+      if (path.equals(""))
+          path = "user";
+      String AbsoultPath = "F:\\work\\" + path;
+      File file = new File(AbsoultPath);
+      ArrayList<String> all = new ArrayList<String>();
+      ArrayList<String> All = new ArrayList<String>();
+      CheckAbsoultPath(file, all);
+      int i;
+      for(i = 0;i<all.size();i++)
+      {
+          if(all.get(i).contains(filename))
+            
+              All.add(all.get(i));
+      }
+      if(!All.isEmpty())
+      {
+          ServletActionContext.getRequest().setAttribute("allSearchedMyFiles", All);
+          return true;
+      }
+      return false;
+  }
+  
+  private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
+  {
+      File[] files = file.listFiles();
+      for(File f : files)
+      {
+          if(f.isDirectory())
+              CheckAbsoultPath(f,all);
+          else
+          {
+            String string = f.getAbsolutePath();
+            if(string.contains("\\"))
+            {    
+              string =string.substring(string.lastIndexOf("\\")+1, string.length());  
+            }
+            all.add(string);
+          }
+      }
+  }
+  public static void main(String args[])
+  {
+      
+  }
   public String getPath() {
     return path;
   }

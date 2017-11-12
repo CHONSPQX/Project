@@ -1,16 +1,20 @@
-﻿<%@ page import="java.util.ArrayList"%>
-<!DOCTYPE html>
-<html lang="zh-cn">
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Comment.Comment" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>玩转Bootstrap</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="bootstrap/js/popper.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="renderer" content="webkit">
+<title>用户空间</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <%
   ArrayList<String> allMyFile = (ArrayList<String>) request.getAttribute("allSearchedMyFiles");
@@ -35,7 +39,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="UserAction!UserCheckFile">我的空间 <span class="sr-only">(current)</span></a></li>
+					<li><a href="UserAction!UserCheckFile">我的空间</a></li>
 					<li><a href="shared_text.jsp">共享空间</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -57,8 +61,6 @@
               <button type="submit" class="btn btn-default">Submit</button>
         </form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">登录</a></li>
-					<li><a href="#">注册</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">用户<span class="caret"></span></a>
@@ -112,11 +114,12 @@
 				<td><input type="radio" name="filename" value="<%=temp%>" /></td>
 				<td><%=temp%></td>
 				<td><%=type%></td>
-				<td>
-					<a class="button border-green button-little" href="FileAction!showPrivate?filename=<%=temp%>">详情</a> 
-					<a class="button border-blue button-little" href="FileAction!ReadFile?filename=<%=temp%>">编辑</a> 
-					<a class="button border-red button-little" href="#" onclick="shareFile('<%=temp%>');">分享</a>
-				</td>
+				<td><a class="button border-green button-little"
+                href="FileAction!showPrivate?filename=<%=temp%>">详情</a> <a
+                class="button border-blue button-little"
+                href="FileAction!ReadFile?filename=<%=temp%>">编辑</a> <a
+                class="button border-red button-little" href="#"
+                onclick="shareFile('<%=temp%>');">分享</a></td>
 			</tr>
 		<%
 			}
@@ -154,11 +157,9 @@
 				<td><input type="radio" name="filename" value="<%=temp%>" /></td>
 				<td><%=temp%></td>
 				<td><%=type%></td>
-				<td>
-					<a class="button border-green button-little" href="FileAction!showPrivate?filename=<%=temp%>">详情</a> 
-					<a class="button border-blue button-little" href="FileAction!ReadFile?filename=<%=temp%>">编辑</a> 
-					<a class="button border-red button-little" href="#" onclick="shareFile('<%=temp%>');">分享</a>
-				</td>
+				<td><a class="button border-green button-little"
+                onclick="ShowDetail('<%=temp%>')">详情</a>       
+           </td>
 			</tr>
 		<%
 			}
@@ -178,90 +179,6 @@
 	</nav>
 
 	<script type="text/javascript">
-		function createFile() {
-			var name = prompt("请输入文件名", ""); //将输入的内容赋给变量 name ，  
-			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
-			if (name)//如果返回的有内容  
-			{
-				alert("新建文件：" + name);
-				var data = {
-					filename : name
-				};
-				$.ajax({
-					url : "AjaxAction!createFile",
-					type : "POST",
-					data : data,
-					dataType : "json"
-				}).done(function(data) {
-					window.location.reload();
-				}).fail(function() {
-					alert("添加文件失败");
-				})
-			}
-		}
-		function renameFile() {
-			var name = prompt("请输入文件名", ""); //将输入的内容赋给变量 name ，  
-			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
-			var radioValue;
-			if (name) {
-				var radioStr = document.getElementsByName("filename");
-				for (var i = 0; i < radioStr.length; i++) {
-					if (radioStr[i].checked) {
-						radioValue = radioStr[i].value;
-					}
-				}
-				if (radioValue)//如果返回的有内容  
-				{
-					//输出值和文本  
-					alert("重命名:" + radioValue + " 为  " + name);
-					//把获得的数据转换为字符串传递到后台             
-					radioValue = radioValue.toString();
-					var data = {
-						filename : radioValue,
-						filerename : name
-					};
-					$.ajax({
-						url : "AjaxAction!renameFile",
-						type : "POST",
-						data : data,
-						dataType : "json"
-					}).done(function(data) {
-						window.location.reload();
-					}).fail(function() {
-						alert("重命名文件失败");
-					})
-				}
-			}
-		}
-		function deleteFile() {
-			var radioValue;
-			var radioStr = document.getElementsByName("filename");
-			for (var i = 0; i < radioStr.length; i++) {
-				if (radioStr[i].checked) {
-					radioValue = radioStr[i].value;
-				}
-			}
-			if (radioValue)//如果返回的有内容  
-			{
-				//输出值和文本  
-				alert("删除:" + radioValue);
-				//把获得的数据转换为字符串传递到后台             
-				radioValue = radioValue.toString();
-				var data = {
-					filename : radioValue
-				};
-				$.ajax({
-					url : "AjaxAction!deleteFile",
-					type : "POST",
-					data : data,
-					dataType : "json"
-				}).done(function(data) {
-					window.location.reload();
-				}).fail(function() {
-					alert("删除文件失败");
-				})
-			}
-		}
 		function shareFile(file) {
 			//输出值和文本  
 			alert("分享:" + file);
@@ -279,8 +196,11 @@
 			}).fail(function() {
 				alert("分享文件失败");
 			})
-
 		}
+		 function ShowDetail(file) 
+		 { 
+		  window.location.href="FileAction!showPublic?filename="+file;
+		} 
 	</script>
 </body>
 </html>

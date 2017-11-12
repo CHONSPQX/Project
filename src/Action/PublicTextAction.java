@@ -38,7 +38,7 @@ public class PublicTextAction extends ActionSupport
 
 	protected boolean SearchPublicFile(String filename)
 	{
-		  String AbsoultPath = "F:\\work\\shared";
+		  String AbsoultPath = "F:/work/shared";
 		  File file = new File(AbsoultPath);
 		  ArrayList<String> all = new ArrayList<String>();
 		  ArrayList<String> All = new ArrayList<String>();
@@ -69,7 +69,13 @@ public class PublicTextAction extends ActionSupport
 				  CheckAbsoultPath(f,all);
 			  else
 			  {
-				  all.add(f.getAbsolutePath());
+			    String string = f.getPath();
+			    string = string.replace("\\", "/");
+	            if(string.contains("F:/work/"))
+	            {    
+	              string =string.substring(string.lastIndexOf("F:/work/")+8, string.length());  
+	            }
+	            all.add(string);
 			  }
 		  }
 	  }

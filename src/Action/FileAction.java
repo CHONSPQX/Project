@@ -241,10 +241,9 @@ public class FileAction extends ActionSupport {
    */
   protected boolean SearchMyselfFile(String filename)
   {
-      /*path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+      path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
       if (path.equals(""))
-          path = "user";*/
-      path="admin3";
+          path = "user";
       String AbsoultPath = "F:\\work\\" + path;
       File file = new File(AbsoultPath);
       ArrayList<String> all = new ArrayList<String>();
@@ -254,6 +253,7 @@ public class FileAction extends ActionSupport {
       for(i = 0;i<all.size();i++)
       {
           if(all.get(i).contains(filename))
+            
               All.add(all.get(i));
       }
       if(!All.isEmpty())
@@ -273,7 +273,12 @@ public class FileAction extends ActionSupport {
               CheckAbsoultPath(f,all);
           else
           {
-              all.add(f.getAbsolutePath());
+            String string = f.getAbsolutePath();
+            if(string.contains("\\"))
+            {    
+              string =string.substring(string.lastIndexOf("\\")+1, string.length());  
+            }
+            all.add(string);
           }
       }
   }

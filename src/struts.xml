@@ -10,7 +10,7 @@
   <action name="UserAction" class="Action.UserAction">
 		<result name="create_user_success">/index.jsp</result>
 		<result name="create_user_failed">/register_user.jsp</result>
-		<result name="login_success">/index.jsp</result>
+		<result name="login_success">/home_page.html</result>
 		<result name="login_failed">/login_user.jsp</result>
 	  <result name="check_file_success">/content_user.jsp</result>
   </action>
@@ -28,7 +28,7 @@
     <result name="show_private_success">/article_private.jsp</result>
     <result name="show_private_failed">/content_user.jsp</result>
     <result name="show_public_success">/article_public.jsp</result>
-    <result name="show_public_failed">/public_text.jsp</result>
+    <result name="show_public_failed">/article_public.jsp</result>
   </action>
   <action name="ShareAction" class="Action.PublicTextAction">
     <result name="share_file_success">/content_user.jsp</result>
@@ -36,7 +36,7 @@
   </action>
   <action name="SearchAction" class="Action.SearchAction">
   	<result name="SearchFile_success">/SearchResult.jsp</result>
-  	<result name="SearchFile_filed">/home_page.jsp</result>
+  	<result name="SearchFile_failed">/home_page.html</result>
   </action>
   </package>
   <package name="main" namespace="/" extends="json-default">

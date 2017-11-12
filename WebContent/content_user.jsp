@@ -1,15 +1,19 @@
-﻿<%@ page import="java.util.ArrayList"%>
-<!DOCTYPE html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>玩转Bootstrap</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="bootstrap/js/popper.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="renderer" content="webkit">
+<title>用户空间</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <%
   ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
@@ -55,8 +59,6 @@
               <button type="submit" class="btn btn-default">Submit</button>
         </form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="login_user.jsp">登录</a></li>
-					<li><a href="register_user.jsp">注册</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">用户<span class="caret"></span></a>
@@ -254,6 +256,12 @@
 			})
 
 		}
-	</script>
+function Search()
+{  
+  var file=document.getElementById("search").innerText;
+  //alert(file);
+   window.location.href="SearchAction!SearchFile?CheckedFile="+file;
+}
+</script>
 </body>
 </html>

@@ -9,9 +9,6 @@ public class SearchAction extends ActionSupport
 {
 	int searchTarget;
 	String CheckedFile;
-	
-	
-
 
 	public int getSearchTarget() {
 		return searchTarget;
@@ -43,7 +40,7 @@ public class SearchAction extends ActionSupport
             return "SearchFile_success";
         }
         else
-            return "SearchFile_filed";
+            return "SearchFile_failed";
     }
 
 }

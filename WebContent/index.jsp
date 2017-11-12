@@ -1,4 +1,4 @@
-﻿<%@ page import="java.util.ArrayList" %>
+﻿<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
@@ -30,8 +30,8 @@
       <div class="collapse navbar-collapse"
         id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="UserAction!UserCheckFile">我的空间 <span class="sr-only">(current)</span></a></li>
-          <li><a href="shared_text.jsp">共享空间</a></li>
+          <li><a href="#">我的空间</a></li>
+          <li><a href="#">共享空间</a></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -45,12 +45,12 @@
               <li><a href="#">One more separated link</a></li>
             </ul></li>
         </ul>
-        <form class="navbar-form navbar-left">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+         <div class="navbar-form navbar-left">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" id="search">
+              </div>
+              <button class="btn btn-default" onclick="Search();">Submit</button>
+        </div>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="login_user.jsp">登录</a></li>
           <li><a href="register_user.jsp">注册</a></li>
@@ -95,4 +95,12 @@
 </nav>
 
 </body>
+<script>
+function Search()
+{  
+  var file=document.getElementById("search").value;
+  //alert(file);
+   window.location.href="SearchAction!SearchFile?CheckedFile="+file;
+}
+</script>
 </html>

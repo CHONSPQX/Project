@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="renderer" content="webkit">
 <title>用户空间</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="bootstrap/js/popper.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
@@ -55,6 +54,8 @@
               <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
+          <li><a href="login_user.jsp">登录</a></li>
+          <li><a href="register_user.jsp">注册</a></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">用户<span class="caret"></span></a>
@@ -82,70 +83,32 @@
 <div class="col-md-1"></div>
 <div class="col-md-10">
 <div class="panel panel-default">
-	<div class="panel-heading">文章详情</div>
-	<div class="panel-body">
-		<div class="btn-group btn-group-justified" role="group" aria-label="...">
-			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default" onclick="pageBack();" >返回</button>
-			</div>
-			<div class="btn-group" role="group">
+  <div class="panel-heading">文章详情</div>
+  <div class="panel-body">
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" onclick="pageBack();" >返回</button>
+      </div>
+      <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default" onclick="editorFile();">编辑</button>
             </div>
-			<div class="btn-group" role="group">
-			    <button type="button" class="btn btn-default" onclick="shareFile();">分享</button>
-			</div> 
-		</div>
-	</div>
-	<div class="panel-body">
-	<div class="panel panel-default">
-	<div class="panel-heading" id="filename"><%=filename %></div>
-	<div class="panel-body" style="overflow:scroll; max-height:550px;height:550px" >
-		<div><%=context %></div>
-	</div>
-	</div>
-	</div>
-	<div class="panel-footer">最后更新时间:</div>
+      <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default" onclick="shareFile();">分享</button>
+      </div> 
+    </div>
+  </div>
+  <div class="panel-body">
+  <div class="panel panel-default">
+  <div class="panel-heading" id="filename"><%=filename %></div>
+  <div class="panel-body" style="overflow:scroll; max-height:550px;height:550px" >
+    <div><%=context %></div>
+  </div>
+  </div>
+  </div>
+  <div class="panel-footer">最后更新时间:</div>
 </div>
 </div>
 </div>
 </div>
 </body>
-<script type="text/javascript">   
-function shareFile() 
-{   
-	var file=document.getElementById("filename").innerText;
-     alert("分享:"+file);  
-     //把获得的数据转换为字符串传递到后台              
-         var data={filename:file};
-         $.ajax({
-           url:"AjaxAction!shareFile",
-           type: "POST",
-           data: data,
-           dataType:"json"
-         })
-         .done(function(data){
-           alert("分享文件成功");
-         })
-         .fail( function(){
-           alert("分享文件失败");
-         })
-
-}  
-function pageBack(){
-    history.go(-1);
-}
-function editorFile()
-{  
-	var file=document.getElementById("filename").innerText;
-   window.location.href="FileAction!ReadFile?filename="+file;
-}
-</script>
-<script>
-function Search()
-{  
-  var file=document.getElementById("search").innerText;
-  //alert(file);
-   window.location.href="SearchAction!SearchFile?CheckedFile="+file;
-}
-</script>
 </html>

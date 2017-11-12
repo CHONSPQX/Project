@@ -1,15 +1,19 @@
-﻿<%@ page import="java.util.ArrayList" %>
-<!DOCTYPE html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>玩转Bootstrap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="renderer" content="webkit">
+<title>用户空间</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <script type="text/javascript" src="js/jquery.js"></script>
-  <script type="text/javascript" src="bootstrap/js/popper.js"></script>
-  <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>	
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
   <style>
   .panel-body {height:380px;overflow:scroll;max-height:380px}
   </style>
@@ -37,8 +41,8 @@
       <div class="collapse navbar-collapse"
         id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="UserAction!UserCheckFile">我的空间 <span class="sr-only">(current)</span></a></li>
-          <li><a href="shared_text.jsp">共享空间</a></li>
+          <li><a href="UserAction!UserCheckFile">我的空间 </a></li>
+          <li class="active"><a href="shared_text.jsp">共享空间<span class="sr-only">(current)</span></a></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -59,8 +63,6 @@
               <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login_user.jsp">登录</a></li>
-          <li><a href="register_user.jsp">注册</a></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">用户<span class="caret"></span></a>
@@ -257,8 +259,6 @@
     });    
     function ShowDetail() 
     { 
-    	console.log(event.target.id)
-    	
     	if(event.target.id=="detail1"){
     		var file=document.getElementById("title1").innerText;
     		window.location.href="FileAction!showPublic?filename="+file;

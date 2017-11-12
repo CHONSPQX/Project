@@ -1,4 +1,3 @@
-<!-- 显示用户的共享文章 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
@@ -36,8 +35,8 @@
       <div class="collapse navbar-collapse"
         id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="UserAction!UserCheckFile">我的空间 <span class="sr-only">(current)</span></a></li>
-          <li><a href="shared_text.jsp">共享空间</a></li>
+          <li><a href="UserAction!UserCheckFile">我的空间</a></li>
+          <li class="active"><a href="shared_text.jsp">共享空间 <span class="sr-only">(current)</span></a></li>
           <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -58,9 +57,7 @@
               <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="login_user.jsp">登录</a></li>
-          <li><a href="register_user.jsp">注册</a></li>
-          <li class="dropdown"><a href="#" class="dropdown-toggle"
+         <li class="dropdown"><a href="#" class="dropdown-toggle"
             data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">用户<span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -151,7 +148,9 @@
 <script type="text/javascript">   
 function sendComment(){
         var file=document.getElementById("filename").innerText;
+        //alert(file);
         var comment=document.getElementById("comment").value;
+        //alert(comment);
         var data={filename:file,
                   commentcontext:comment};
           $.ajax({
@@ -161,7 +160,7 @@ function sendComment(){
             dataType:"json"
           })
           .done(function(data){
-           //alert("成功");
+           alert("成功");
            window.location.reload();
            //var file=document.getElementById("filename").innerText;
           // alert(file);
@@ -177,6 +176,14 @@ function sendComment(){
     }
 function pageBack(){
     history.go(-1);
+}
+</script>
+<script>
+function Search()
+{  
+  var file=document.getElementById("search").innerText;
+  //alert(file);
+   window.location.href="SearchAction!SearchFile?CheckedFile="+file;
 }
 </script>
 </html>

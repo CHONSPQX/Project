@@ -35,7 +35,10 @@ public class SearchAction extends ActionSupport
         System.out.println(CheckedFile);
         FileAction fa = new FileAction();
         PublicTextAction pa = new PublicTextAction();
-        if(pa.SearchPublicFile(CheckedFile)&&fa.SearchMyselfFile(CheckedFile))
+        boolean flag1 = pa.SearchPublicFile(CheckedFile);
+        boolean flag2 = fa.SearchMyselfFile(CheckedFile);
+        
+        if(flag1||flag2)
         {
             return "SearchFile_success";
         }

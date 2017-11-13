@@ -4,6 +4,7 @@
 <%@page import="java.util.Date"%>
 <!DOCTYPE html>
 <head>
+<title>文本编辑</title>
 <link href="./bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="./uieditor/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 <link href="./uieditor/bootstrap-responsive.min.css" rel="stylesheet">

@@ -109,12 +109,12 @@ public class PublicTextAction extends ActionSupport
 		FileChannel input = null;
 		FileChannel output = null;
 		String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-		System.out.println(path1);
+		//System.out.println(path1);
 		if (path1.equals(""))
 			path1 = "user";
 		path = "shared/" + path1;
 		boolean flag = Director.createFile(path + "/" + filename);
-		System.out.println(flag);
+		//System.out.println(flag);
 		if(flag)
 		{
 			File source = new File("F:/work/" + path1 + "/" + filename);

@@ -1,7 +1,7 @@
 package Lucene;
 import org.apache.lucene.document.Document;
 
-class NewDocument {
+public class NewDocument {
 	private String name;
 	private String path;
 	private String content;

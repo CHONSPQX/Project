@@ -44,16 +44,22 @@ public class FullTextRetrieval extends ActionSupport {
 		this.dataPath = dataPath;
 	}
 	public String CreateIndex() throws IOException{
+		dataPath ="F:/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		indexPath = "F:/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 		if(new Lucene().CreateIndex(dataPath, indexPath))
 			return "success";
 		return "fail";
 	}
-	public String AddIndex() throws IOException{
+	public String AddIndex(String fileName) throws IOException{
+		//dataPath ="F:/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		//indexPath = "F:/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 		if(new Lucene().AddIndex(addPath, indexPath))
 			return "success";
 		return "fail";
 	}
-	public String CreateShareIndex()throws IOException{
+	public String CreateSharedIndex()throws IOException{
+		dataPath = "F:/work/shared";
+		indexPath = "F:/work/index/shared";
 		if(new Lucene().CreateShareIndex(dataPath, indexPath))
 			return "success";
 		return "fail";
@@ -70,7 +76,8 @@ public class FullTextRetrieval extends ActionSupport {
 		ServletActionContext.getRequest().setAttribute("allResult", results);
 		return "success";	
 	}
-	public String SearchShare()throws Exception{
+	public String SearchShared()throws Exception{
+		indexPath = "F:/work/index/shared";
 		HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
 		ArrayList<String> results = new ArrayList<>();
 		Iterator iter = result.entrySet().iterator();

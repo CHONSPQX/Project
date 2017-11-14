@@ -19,10 +19,10 @@
 </head>
 <%
   ArrayList<String> allMyFile = (ArrayList<String>) request.getAttribute("allSearchedMyFiles");
-			ArrayList<String> allPublicFile = (ArrayList<String>) request.getAttribute("allSearchedPublicFiles");
+  ArrayList<String> allPublicFile = (ArrayList<String>) request.getAttribute("allSearchedPublicFiles");
 %>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -79,6 +79,9 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
+	<br>
+  <br>
+  <br>
 	<!-- 搜索道德用户的自己的文章   -->
 	<div class="container">
 		<div class="row">
@@ -177,10 +180,8 @@
 			<div class="col-md-1"></div>
 		</div>
 	</div>
-
-
-
-
+<br>
+  <br>
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
 	<div class="container">CopyRight@QYZ team</div>
 	</nav>

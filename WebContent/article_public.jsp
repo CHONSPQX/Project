@@ -18,7 +18,7 @@
 <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -76,6 +76,9 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
+	<br>
+  <br>
+  <br>
 	<%
 	  String context = (String) request.getAttribute("readContext");
 				String filename = (String) request.getAttribute("filename");

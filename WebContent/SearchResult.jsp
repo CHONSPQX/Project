@@ -46,7 +46,7 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">Dropdown <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
+						<li><a href="UserAction!UserLogout">注销</a></li>
 						<li><a href="#">Another action</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li role="separator" class="divider"></li>
@@ -91,23 +91,7 @@
 					<div class="panel-heading">
 						<strong>我的文章列表</strong>
 					</div>
-					<div class="panel-body">
-						<div class="btn-group btn-group-justified" role="group"
-							aria-label="...">
-							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-default"
-									onclick="createFile();" id="createFileButton">新建</button>
-							</div>
-							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-default"
-									onclick="renameFile();" id="renameFileButton">重命名</button>
-							</div>
-							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-default"
-									onclick="deleteFile();" id="deleteFileButton">删除</button>
-							</div>
-						</div>
-					</div>
+					
 					<table class="table table-hover">
 						<tr>
 							<th width="45">选择</th>
@@ -186,7 +170,7 @@
 	<div class="container">CopyRight@QYZ team</div>
 	</nav>
 
-	<script type="text/javascript">
+	<script type="text/javascript">	
 		function shareFile(file) {
 			//输出值和文本  
 			alert("分享:" + file);

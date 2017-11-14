@@ -103,6 +103,15 @@ public class UserAction extends ActionSupport {
     }
     return "create_user_failed";
   }
+  
+  public String UserLogout()
+  {
+      if((String)ServletActionContext.getRequest().getSession().getAttribute("userID")==null)
+          return "logout_failed";
+      ServletActionContext.getRequest().getSession().removeAttribute("userID");
+      return "logout_success";
+  }
+
   public String UserLogin() {
     System.out.println(user.getUserID());
     try {

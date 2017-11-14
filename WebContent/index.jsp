@@ -50,7 +50,7 @@
 						<input type="text" class="form-control" placeholder="Search"
 							id="search">
 					</div>
-					<button class="btn btn-default" onclick="Search();">Submit</button>
+					<button class="btn btn-default">Submit</button>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="login_user.jsp">登录</a></li>

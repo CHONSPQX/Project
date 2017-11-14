@@ -12,6 +12,8 @@
 		<result name="create_user_failed">/register_user.jsp</result>
 		<result name="login_success">/home_page.html</result>
 		<result name="login_failed">/login_user.jsp</result>
+		<result name="logout_success">/index.jsp</result>
+		<result name="logout_failed">/index.jsp</result>
 	  <result name="check_file_success">/content_user.jsp</result>
   </action>
   <action name="FileAction" class="Action.FileAction">
@@ -36,7 +38,7 @@
   </action>
   <action name="SearchAction" class="Action.SearchAction">
   	<result name="SearchFile_success">/SearchResult.jsp</result>
-  	<result name="SearchFile_failed">/home_page.html</result>
+  	<result name="SearchFile_failed">/SearchResult.jsp</result>
   </action>
   </package>
   <package name="main" namespace="/" extends="json-default">

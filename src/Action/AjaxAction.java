@@ -74,7 +74,7 @@ public class AjaxAction extends ActionSupport {
 
   public  String createPublicFileByCopy()//将作者的文件复制到公共文件池里。/
   {
-    String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");  
+    String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
     File de = new File("F:/work/shared/" + path1 + "/" + filename);
     if(de.exists())
     {

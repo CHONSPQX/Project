@@ -1,19 +1,27 @@
 package Lucene;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class LuceneMain {
 	public  static  void  main(String[] args) throws Exception{
-		new CreateIndex("F:\\work\\shared\\admin", "F:/luceneIndex");
-        new LuceneSearch("F:/luceneIndex","name", "小米");
-		//new LuceneSearch("F:/luceneIndex","name", "any");
-		//new LuceneSearch("F:/luceneIndex","name", "hello");
-		//new LuceneSearch("F:/luceneIndex", "content","设想");
-		//new LuceneSearch("F:/luceneIndex", "content","不能设想");
-		
-		new LuceneSearch("F:/luceneIndex", "content","科技");
-		//new LuceneSearch("F:/luceneIndex", "content","2017-11");
-		//new LuceneSearch("F:/luceneIndex", "name","mother.txt");
-		//new LuceneSearch("F:/luceneIndex", "content","古罗马");
+		Lucene lucene = new Lucene( );
+		lucene.CreateIndex("D://LuceneData",  "D://luceneIndex");
+		lucene.AddIndex("D:\\luceneData\\add.txt", "D://luceneIndex");
+		HashMap< NewDocument, Integer>  result = new HashMap<>();
+		result =lucene.Search( "铜器",  "D://luceneIndex");
+
+		Iterator iter = result.entrySet().iterator();
+		while(iter.hasNext()){
+			HashMap.Entry  entry = (HashMap.Entry) iter.next();
+			NewDocument key = (NewDocument) entry.getKey();
+			int value = (int) entry.getValue();
+			System.out.println("查询次数为"+value);
+			System.out.println(key.getPath());
+			System.out.println(key.getTime());
+			System.out.println(key.getName());
+			
+		}
 	}
 }

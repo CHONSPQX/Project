@@ -70,7 +70,7 @@ import org.apache.lucene.store.FSDirectory;
 	 public Boolean CreateShareIndex(String dataPath,String indexPath)  throws IOException{
 		 File paths = new File(dataPath);
 		 for(File f: paths.listFiles()){
-			 CreateIndex(indexPath, f.getPath());
+			 CreateIndex( f.getPath(),indexPath);
 		 }
 		 return true;
 	 }

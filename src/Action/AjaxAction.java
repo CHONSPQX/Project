@@ -146,18 +146,20 @@ public class AjaxAction extends ActionSupport {
       System.out.println(newpath);
       try
       {
+          String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
           String mysql = "insert into publictext(Location,Owner,Time) values(?,?,?);";
           Database database=new Database();
           database.ConnectMysql();
           PreparedStatement ps = database.conn.prepareStatement(mysql);
           ps.setString(1, newpath);
-          ps.setString(2, (String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
+          ps.setString(2,userID);
           ps.setTimestamp(3, new Timestamp(new Date().getTime()));
           int result = ps.executeUpdate();
           System.out.println(result);
           if(result>0)
           {
               this.createTable();
+              FullTextRetrieval.AddPublicIndex(userID, filename);
               return SUCCESS;
           }
           else return SUCCESS;
@@ -177,6 +179,7 @@ public class AjaxAction extends ActionSupport {
      ServletActionContext.getRequest().setAttribute("saveFileFlag", flag);
      this.flag=flag;
      System.out.println(flag);
+     FullTextRetrieval.AddIndex(path, filename);
      if(flag)
        return SUCCESS;
        return SUCCESS;  
@@ -188,6 +191,7 @@ public class AjaxAction extends ActionSupport {
     if (path.equals(""))
       path = "user";
     boolean flag = Director.createFile(path + "/" + filename);
+    FullTextRetrieval.AddIndex(path, filename);
     return SUCCESS;
   }
   

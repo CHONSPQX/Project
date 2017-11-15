@@ -92,7 +92,10 @@ public class UserAction extends ActionSupport {
         String dirName = user.getUserID() + "/";
         System.out.println(dirName);
         if (Director.createDir(dirName))
+        {
+          FullTextRetrieval.CreateIndex(user.getUserID());
           return "create_user_success";
+        }
         else
           return "create_user_failed";
 

@@ -43,7 +43,7 @@ public class FullTextRetrieval extends ActionSupport {
 	public void setDataPath(String dataPath) {
 		this.dataPath = dataPath;
 	}
-	 public String CreateIndex(String userID){
+	 public static String CreateIndex(String userID){
 	    try {
 	     String dataPath ="F:/work/" +userID; 
 	     String indexPath = "F:/work/index/" +userID; 
@@ -56,7 +56,7 @@ public class FullTextRetrieval extends ActionSupport {
 	      return "fail";
 	    }
 	  }
-	  public String AddIndex(String userID,String fileName){
+	  public static String AddIndex(String userID,String fileName){
 	    try {
 	      String addPath ="F:/work/" +userID+"/"+fileName;
 	      String indexPath = "F:/work/index/" +userID; 
@@ -69,6 +69,19 @@ public class FullTextRetrieval extends ActionSupport {
 	      return "fail";
 	    }
 	  }
+	  public static String AddPublicIndex(String userID,String fileName){
+        try {
+          String addPath ="F:/work/shared/" +userID+"/"+fileName;
+          String indexPath = "F:/work/index/shared";
+          if(new Lucene().AddIndex(addPath, indexPath))
+              return "success";
+          return "fail";
+        }
+        catch (Exception e) {
+          // TODO: handle exception
+          return "fail";
+        }
+      }
 	  public String CreateSharedIndex(){
 	    try {
 	      String dataPath = "F:/work/shared";

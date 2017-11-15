@@ -28,7 +28,7 @@ import org.apache.lucene.store.FSDirectory;
 
  public class Lucene {
 
-	//新建个人用户索引
+	//新建个人用户索引 dataPath 文章目录  indexPath 索引位置
 	 public Boolean CreateIndex(String dataPath,String indexPath) throws IOException {
 		File indexfile = new File(indexPath);
 		Path path = indexfile.toPath();

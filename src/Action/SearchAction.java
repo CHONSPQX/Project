@@ -33,17 +33,21 @@ public class SearchAction extends ActionSupport
 	public String SearchFile()
     {
         System.out.println(CheckedFile);
-        FileAction fa = new FileAction();
-        PublicTextAction pa = new PublicTextAction();
-        boolean flag1 = pa.SearchPublicFile(CheckedFile);
-        boolean flag2 = fa.SearchMyselfFile(CheckedFile);
+        FullTextRetrieval fr=new FullTextRetrieval();
+        fr.Search(CheckedFile);
+        fr.SearchShared(CheckedFile);
+        //FileAction fa = new FileAction();
+       // PublicTextAction pa = new PublicTextAction();
+        //boolean flag1 = pa.SearchPublicFile(CheckedFile);
+        //boolean flag2 = fa.SearchMyselfFile(CheckedFile);
+    
         
-        if(flag1||flag2)
-        {
+        //if(flag1||flag2)
+        //{
             return "SearchFile_success";
-        }
-        else
-            return "SearchFile_failed";
+        //}
+        //else
+            //return "SearchFile_failed";
     }
 
 }

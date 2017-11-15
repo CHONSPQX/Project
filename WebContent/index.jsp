@@ -12,7 +12,7 @@
 <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -50,7 +50,7 @@
 						<input type="text" class="form-control" placeholder="Search"
 							id="search">
 					</div>
-					<button class="btn btn-default" onclick="Search();">Submit</button>
+					<button class="btn btn-default">Submit</button>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="login_user.jsp">登录</a></li>
@@ -71,6 +71,9 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
+	<br>
+  <br>
+  <br>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>

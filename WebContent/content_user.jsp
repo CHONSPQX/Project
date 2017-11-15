@@ -20,7 +20,7 @@
   ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
 %>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -68,7 +68,7 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
+						<li><a href="index.jsp">注销</a></li>
 						<li><a href="#">Another action</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li role="separator" class="divider"></li>
@@ -79,6 +79,9 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
+	<br>
+  <br>
+  <br>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>
@@ -155,16 +158,24 @@
 			<div class="col-md-1"></div>
 		</div>
 	</div>
+	<br>
+	<br>
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
 	<div class="container">CopyRight@QYZ team</div>
 	</nav>
 
 	<script type="text/javascript">
 		function createFile() {
-			var name = prompt("请输入文件名", ""); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			if (name)//如果返回的有内容  
 			{
+				var reg=/[\.]html$/;
+				if(!reg.test(name))
+				{
+					alert("文件名格式，错误！请以(.html)结尾");
+					return;
+				}
 				alert("新建文件：" + name);
 				var data = {
 					filename : name
@@ -182,7 +193,7 @@
 			}
 		}
 		function renameFile() {
-			var name = prompt("请输入文件名", ""); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			var radioValue;
 			if (name) {
@@ -195,6 +206,12 @@
 				if (radioValue)//如果返回的有内容  
 				{
 					//输出值和文本  
+					var reg=/[\.]html$/;
+          if(!reg.test(name))
+          {
+            alert("文件名格式，错误！请以(.html)结尾");
+            return;
+          }
 					alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();

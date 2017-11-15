@@ -1,5 +1,14 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import org.apache.struts2.ServletActionContext;
+
 import Action.AjaxTest;
 import Action.FileAction;
+import Lucene.Lucene;
+import Lucene.NewDocument;
 import WeFile.Director;
 
 /**
@@ -14,29 +23,96 @@ import WeFile.Director;
 public class test {
 
 	public static void main(String[] args) {  
+        //String a=CreateIndex("admin");
+        //String b=CreateIndex("yangfan");
+        //String c=CreateIndex("zhouxiong");
+        //String d=CreateSharedIndex();
+        Search("阿里巴巴", "yangfan");
+        //SearchShared("双十一");
         
-		//String dirName = "amind2/";
-    	//Director.createDir(dirName);
-       //Director.deleteDir(dirName);
-    	//Director.renameFile("123.txt","345.txt");
-    	//Director.renameDir("123/","345/");
-		/* 
-        String dirName = "F:/temp1";  
-        Director.createDir(dirName);  
-        
-        String fileName = dirName + "/temp2/tempFile.txt";  
-        Director.createFile(fileName);  */
-    	//FileAction fc=new FileAction();
-    	//fc.setFilename("11224.html");
-    	//String message=fc.showDetail();
-    	//System.out.println(message);
-	  //Action.AjaxAction aj=new Action.AjaxAction();
-	 // aj.setCommentcontext("good");
-	  //aj.setFilename("admin/11224.html");
-	  //String string=aj.sendComment();
-	  //System.out.println(string);
-	  AjaxTest ajaxTest=new AjaxTest();
-	  ajaxTest.setNum(3);
-	  ajaxTest.updateContext();
     }
+  public static String CreateIndex(String userID){
+    try {
+     String dataPath ="F:/work/" +userID; 
+     String indexPath = "F:/work/index/" +userID; 
+      if(new Lucene().CreateIndex(dataPath, indexPath))
+          return "success";
+      return "fail";
+    }
+    catch (Exception e) {
+      // TODO: handle exception
+      return "fail";
+    }
+  }
+  public static String AddIndex(String userID,String fileName){
+    try {
+      String addPath ="F:/work/" +userID+"/"+fileName;
+      String indexPath = "F:/work/index/" +userID; 
+      if(new Lucene().AddIndex(addPath, indexPath))
+          return "success";
+      return "fail";
+    }
+    catch (Exception e) {
+      // TODO: handle exception
+      return "fail";
+    }
+  }
+  public static String CreateSharedIndex(){
+    try {
+      String dataPath = "F:/work/shared";
+      String indexPath = "F:/work/index/shared";
+      if(new Lucene().CreateShareIndex(dataPath, indexPath))
+          return "success";
+      return "fail";
+    }
+    catch (Exception e) {
+      // TODO: handle exception
+      return "fail";
+    }
+  }
+  public  static String Search(String input,String userID){
+    try {
+    String indexPath = "F:/work/index/" +userID; 
+      HashMap< NewDocument, Integer> result = new Lucene().Search(input,  indexPath);
+      ArrayList<String> results = new ArrayList<>();
+      Iterator iter = result.entrySet().iterator();
+      while(iter.hasNext()){
+          HashMap.Entry  entry = (HashMap.Entry) iter.next();
+          NewDocument key = (NewDocument) entry.getKey();
+          String path=key.getPath();
+          path=path.substring(path.lastIndexOf("F:/work/"+userID)+userID.length()+10);
+          results.add(path);
+          System.out.println(path);
+      }
+      //ServletActionContext.getRequest().setAttribute("allResult", results);
+      return "success";  
+    }
+    catch (Exception e) {
+      // TODO: handle exception
+      return "fail";
+    }
+  }
+  public  static String SearchShared(String input){
+    try {
+      String indexPath = "F:/work/index/shared";
+      HashMap< NewDocument, Integer> result = new Lucene().Search(input,  indexPath);
+      ArrayList<String> results = new ArrayList<>();
+      Iterator iter = result.entrySet().iterator();
+      while(iter.hasNext()){
+          HashMap.Entry  entry = (HashMap.Entry) iter.next();
+          NewDocument key = (NewDocument) entry.getKey();
+          String path=key.getPath();
+          path=path.substring(path.lastIndexOf("F:/work/shared/")+9);
+          path=path.replace("\\", "/");
+          results.add(key.getPath());
+          System.out.println(path);
+      }
+      //ServletActionContext.getRequest().setAttribute("allResult", results);
+      return "success";
+    }
+    catch (Exception e) {
+      // TODO: handle exception
+      return "fail";
+    }         
+  }
 }

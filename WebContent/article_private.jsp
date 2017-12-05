@@ -42,7 +42,7 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">Dropdown <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="index.jsp">注销</a></li>
+						<li><a href="#">Action</a></li>
 						<li><a href="#">Another action</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li role="separator" class="divider"></li>
@@ -64,8 +64,8 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
+						<li><a href="index.jsp">注销</a></li>
+						<li><a href="people_account.jsp">密码</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">Separated link</a></li>

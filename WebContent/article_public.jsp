@@ -36,9 +36,10 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="UserAction!UserCheckFile">我的空间</a></li>
-				<li class="active"><a href="shared_text.jsp">共享空间 <span
-						class="sr-only">(current)</span></a></li>
+				<li class="active"><a href="UserAction!UserCheckFile">我的空间
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li><a href="shared_text.jsp">共享空间</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -66,7 +67,7 @@
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="index.jsp">注销</a></li>
-						<li><a href="#">Another action</a></li>
+						<li><a href="people_account.jsp">密码</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">Separated link</a></li>

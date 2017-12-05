@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList"%>
+<!DOCTYPE html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="renderer" content="webkit">
-<title>用户空间</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>文章管理系统</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="gitcss/gitcss0.css" />
 <link rel="stylesheet" href="gitcss/gitcss1.css" />
@@ -18,64 +18,66 @@
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-				aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Brand</a>
-		</div>
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Brand</a>
+			</div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="UserAction!UserCheckFile">我的空间</a></li>
-				<li><a href="shared_text.jsp">共享空间</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
-			</ul>
-			<form class="navbar-form navbar-left"
-				action="SearchAction!SearchFile">
-				<div class="form-groupc">
-					<input type="text" class="form-control" placeholder="Search"
-						name="CheckedFile">
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="#">我的空间</a></li>
+					<li><a href="#">共享空间</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Dropdown <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul></li>
+				</ul>
+				<div class="navbar-form navbar-left">
+					<div class="form-groupc">
+						<input type="text" class="form-control" placeholder="Search"
+							id="search">
+					</div>
+					<button class="btn btn-default">Submit</button>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">用户<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="index.jsp">注销</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-					</ul></li>
-			</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="login_user.jsp">登录</a></li>
+					<li><a href="register_user.jsp">注册</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">用户<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
 		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container-fluid --> </nav>
+		<!-- /.container-fluid -->
+	</nav>
 	<br>
-	<br>
+  	<br>
 	<br>
 	<div class="container">
 		<div class="row">
@@ -112,7 +114,7 @@
 							<!-- </textarea></xmp> -->
 							</option>
 							</form>
-							<form accept-charset="UTF-8" action="/account" class="edit_user"
+							<div accept-charset="UTF-8" action="/account" class="edit_user"
 								id="change_password" method="post">
 								<div style="margin: 0; padding: 0; display: inline">
 									<input name="utf8" type="hidden" value="&#x2713;" /><input
@@ -126,7 +128,7 @@
 									</dt>
 									<dd>
 										<input class="form-control form-control"
-											id="user_old_password" name="user[old_password]"
+											id="user_old_password" 
 											required="required" tabindex="2" type="password" />
 									</dd>
 								</dl>
@@ -136,9 +138,7 @@
 									</dt>
 									<dd>
 										<input class="form-control form-control"
-											data-autocheck-authenticity-token="e0a9r4wOYvBM2fpDwu1rHaQE8WIkpra5Qm3CH/QmJI9QgwIVHJb6PuvsjtLfjocYS+z/bkUzQ5McMSeOo3aHXA=="
-											data-autocheck-url="/signup_check/password"
-											id="user_new_password" name="user[password]"
+											id="user_new_password"
 											required="required" tabindex="2" type="password" />
 									</dd>
 								</dl>
@@ -150,15 +150,15 @@
 									<dd>
 										<input class="form-control form-control"
 											id="user_confirm_new_password"
-											name="user[password_confirmation]" required="required"
+											required="required"
 											tabindex="2" type="password" />
 									</dd>
 								</dl>
 								<p>
-									<button class="btn mr-2" type="submit">Update password</button>
+									<button class="btn mr-2" onclick="changePassword();">Update password</button>
 									<span><a href="/password_reset">I forgot my password</a></span>
 								</p>
-							</form>
+							</div>
 							<p class="text-small text-gray mt-3">
 								<svg aria-hidden="true" class="octicon octicon-question"
 									height="16" version="1.1" viewBox="0 0 14 16" width="14">
@@ -168,70 +168,6 @@
 									href="/settings/security">Security</a>.
 							</p>
 
-
-							<!-- Change Username -->
-
-							<div class="Subhead Subhead--spacious">
-								<h2 class="Subhead-heading">Change username</h2>
-							</div>
-							<p>
-								Changing your username can have <a
-									href="https://help.github.com/articles/what-happens-when-i-change-my-username/">unintended
-									side effects</a>.
-							</p>
-							<p>
-								<a class="btn" href="#rename-user-confirm" rel="facebox"
-									tabindex="3">Change username</a>
-							</p>
-							<div id="rename-user-confirm" style="display: none;">
-								<div class="rename-warning js-user-rename-warning">
-									<h2 class="facebox-header" data-facebox-id="facebox-header">Really
-										change your username?</h2>
-									<div class="facebox-alert"
-										data-facebox-id="facebox-description">Unexpected bad
-										things will happen if you don’t read this!</div>
-									<ul>
-										<li>We <strong>will not</strong> set up redirects for
-											your old profile page.
-										</li>
-										<li>We <strong>will not</strong> set up redirects for
-											Pages sites.
-										</li>
-										<li>We <strong>will</strong> create redirects for your
-											repositories (web and git access).
-										</li>
-										<li>Renaming may take a few minutes to complete.</li>
-									</ul>
-									<button type="button"
-										class="btn btn-block btn-danger js-user-rename-warning-continue">
-										I understand, let’s change my username</button>
-								</div>
-
-								<div class="rename-form js-user-rename-form d-none">
-									<h2 class="facebox-header" data-facebox-id="facebox-header">Enter
-										a new username</h2>
-
-									<!-- '"` -->
-									<!-- </textarea></xmp> -->
-									</option>
-									</form>
-									<form accept-charset="UTF-8" action="/users/CHONSPQX/rename"
-										method="post">
-										<div style="margin: 0; padding: 0; display: inline">
-											<input name="utf8" type="hidden" value="&#x2713;" /><input
-												name="authenticity_token" type="hidden"
-												value="iFrLqQwF9SsXsJDB/BcvQVSY1St/J/86vNPCRJ4AzFwr46mi6gvWPmw96RvOnnfUHW6YwCilp8pDHDQ4ox0e2w==" />
-										</div>
-										<p>
-											<input type="text" name="login" value="CHONSPQX"
-												class="form-control input-block"
-												aria-label="Enter a new username" autofocus>
-										</p>
-										<button type="submit" class="btn btn-block btn-primary">Change
-											my username</button>
-									</form>
-								</div>
-							</div>
 
 							<!-- Delete Account -->
 							<div class="Subhead Subhead--spacious">
@@ -274,10 +210,8 @@
 
 								<hr class="facebox-separator">
 
-								<!-- '"` -->
-								<!-- </textarea></xmp> -->
-								</option>
-								</form>
+								
+						
 								<form accept-charset="UTF-8" action="/users/CHONSPQX"
 									method="post">
 									<div style="margin: 0; padding: 0; display: inline">
@@ -326,7 +260,7 @@
 	</div>
 
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
-	<div class="container">CopyRight@QYZ team</div>
+		<div class="container">CopyRight@QYZ team</div>
 	</nav>
 
 </body>
@@ -335,6 +269,34 @@
 		var file = document.getElementById("search").value;
 		//alert(file);
 		window.location.href = "SearchAction!SearchFile?CheckedFile=" + file;
+	}
+	function changePassword()
+	{
+		var oldpwd=document.getElementById("user_old_password").value;
+		var newpwd=document.getElementById("user_new_password").value;
+		var conpwd=document.getElementById("user_confirm_new_password").value;
+		var data = {
+			    oldpassword : oldpwd,
+				newpassword : newpwd
+			};
+			$.ajax({
+				url : "AjaxAction!changePassword",
+				type : "POST",
+				data : data,
+				dataType : "json"
+			}).done(function(data) {
+				alert("成功");
+				window.location.reload();
+				//var file=document.getElementById("filename").innerText;
+				// alert(file);
+				//window.location.href="FileAction!showPublic?filename=shared/admin/2333.html";
+			}).fail(function() {
+				alert("失败");
+				window.location.reload();
+				//var file=document.getElementById("filename").innerText;
+				// alert(file);
+				//window.location.href="FileAction!showPublic?filename=shared/admin/2333.html";
+			});
 	}
 </script>
 </html>

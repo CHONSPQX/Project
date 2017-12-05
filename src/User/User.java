@@ -10,7 +10,17 @@ public class User {
 	private Date BirthDate;
 	private String Message;
 	private String UserEmail;
+	private String Address;
 	
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String address) {
+		Address = address;
+	}
+	public void setBirthDate(Date birthDate) {
+		BirthDate = birthDate;
+	}
 	public String getUserEmail() {
 		return UserEmail;
 	}

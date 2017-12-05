@@ -31,6 +31,7 @@ import java.util.List;
 
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.tomcat.dbcp.dbcp.DbcpException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -47,6 +48,8 @@ public class AjaxAction extends ActionSupport {
   private String context;
   private boolean flag;
   private String commentcontext;
+  private String newpassword;
+  private String oldpassword;
   //private List<Txtfile> txtfiles;
   //private JSONArray text;
   
@@ -59,19 +62,35 @@ public class AjaxAction extends ActionSupport {
   }
 
 
-  /**
+  public String getNewpassword() {
+	return newpassword;
+}
+
+
+public void setNewpassword(String newpassword) {
+	this.newpassword = newpassword;
+}
+
+
+public String getOldpassword() {
+	return oldpassword;
+}
+
+
+public void setOldpassword(String oldpassword) {
+	this.oldpassword = oldpassword;
+}
+
+
+/**
    * @param commentcontext the commentcontext to set
    */
   public void setCommentcontext(String commentcontext) {
     this.commentcontext = commentcontext;
   }
 
-
-
-
   private int pagenum;
   
-
   public  String createPublicFileByCopy()//将作者的文件复制到公共文件池里。/
   {
     String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
@@ -240,7 +259,7 @@ public class AjaxAction extends ActionSupport {
     String location=filename;
     Database db = new Database();
     db.ConnectMysql();
-    String presql = "select * from lab7.publictext where Location='" + location + "';";
+    String presql = "select * from project.publictext where Location='" + location + "';";
     System.out.println(presql);
     String userid = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");
@@ -274,6 +293,27 @@ public class AjaxAction extends ActionSupport {
    * @return
    */
 
+  public String changePassword()
+  {
+	  String id = (String) ServletActionContext.getRequest().getSession()
+		        .getAttribute("userID");
+	  Database database=new Database();
+	  database.ConnectMysql();
+	  String presql = "update user set Password='"+newpassword+"' where UserID='" + id + "' and Password='"+oldpassword+"';";
+	  System.out.println(presql);
+	  try{
+	  PreparedStatement ps1 = database.conn.prepareStatement(presql);
+      int rs = ps1.executeUpdate();
+	  }
+	  catch (Exception e) {
+		// TODO: handle exception
+		  System.out.println("failed");
+		  return "failed";
+	}
+	    return "success";
+  }
+  
+  
   public String UserCheckFile() {
     String id = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");

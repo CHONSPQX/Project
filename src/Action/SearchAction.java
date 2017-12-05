@@ -36,13 +36,7 @@ public class SearchAction extends ActionSupport
         FullTextRetrieval fr=new FullTextRetrieval();
         fr.Search(CheckedFile);
         fr.SearchShared(CheckedFile);
-        //FileAction fa = new FileAction();
-       // PublicTextAction pa = new PublicTextAction();
-        //boolean flag1 = pa.SearchPublicFile(CheckedFile);
-        //boolean flag2 = fa.SearchMyselfFile(CheckedFile);
-    
-        
-        //if(flag1||flag2)
+       //if(flag1||flag2)
         //{
             return "SearchFile_success";
         //}

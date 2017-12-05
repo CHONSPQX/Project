@@ -10,7 +10,7 @@ public class LuceneMain {
 		lucene.CreateIndex("D://LuceneData",  "D://luceneIndex");
 		lucene.AddIndex("D:\\luceneData\\add.txt", "D://luceneIndex");
 		HashMap< NewDocument, Integer>  result = new HashMap<>();
-		result =lucene.Search( "铜器",  "D://luceneIndex");
+		result =lucene.Search( "罗马",  "D://luceneIndex");
 		
 		Iterator iter = result.entrySet().iterator();
 		while(iter.hasNext()){
@@ -21,7 +21,8 @@ public class LuceneMain {
 			System.out.println(key.getPath());
 			System.out.println(key.getTime());
 			System.out.println(key.getName());
-			
+			System.out.println(key.getScore());
+			System.out.println();
 		}
 	}
 }

@@ -30,16 +30,17 @@ import org.apache.lucene.store.FSDirectory;
 
 	//新建个人用户索引
 	 public Boolean CreateIndex(String dataPath,String indexPath) throws IOException {
+		 
 		File indexfile = new File(indexPath);
 		Path path = indexfile.toPath();
 		Directory directory = FSDirectory.open(path);
-		
 		File files = new File(dataPath);
 		Analyzer analyzer = new SmartChineseAnalyzer();
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		IndexWriter indexWriter = new IndexWriter(directory, config);
 		
 		for (File f : files.listFiles()) {
+			
 				String fileName = f.getName();
 				String fileContent = FileUtils.readFileToString(f);
 				String filePath = f.getPath();
@@ -68,6 +69,7 @@ import org.apache.lucene.store.FSDirectory;
 	 
 	 //新建共享索引
 	 public Boolean CreateShareIndex(String dataPath,String indexPath)  throws IOException{
+		 
 		 File paths = new File(dataPath);
 		 for(File f: paths.listFiles()){
 			 CreateIndex( f.getPath(),indexPath);

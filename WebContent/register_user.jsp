@@ -27,21 +27,25 @@
 					<div class="form-group">
 						<label for="InputUsername">UserID</label> <input
 							class="form-control" name="user.UserID" id="InputUsername"
-							type="text" placeholder="Username">
+							type="text" placeholder="Username" required="required">
+					</div>
+					<div class="form-group">
+						<label for="InputUseremail">UserEmail</label> <input
+							class="form-control" name="user.UserEmail" id="InputUseremail"
+							type="text" placeholder="Useremail" required="required">
 					</div>
 					<div class="form-group">
 						<label for="InputPassword">Password</label> <input
-							class="form-control" name="user.Password" id="InputPassword"
-							type="password" placeholder="Password">
+							class="form-control" name="user.Password" id="InputPassword1"
+							type="password" placeholder="Password" required="required">
 					</div>
 					<div class="form-group">
 						<label for="InputPassword">Confirm Password</label> <input
-							class="form-control" name="confirmword" id="InputPassword"
-							type="password" placeholder="Password">
+							class="form-control" name="confirmword" id="InputPassword2"
+							type="password" placeholder="Password" required="required">
 					</div>
 			</div>
-			<s:submit class="btn btn-primary btn-block" name="submit"
-				value="Register" />
+			<s:submit class="btn btn-primary btn-block" name="submit" value="Register" onclick="return check()"/>
 			</form>
 		</div>
 	</div>
@@ -52,6 +56,40 @@
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Core plugin JavaScript-->
 	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script>
+	function check()
+	{
+		var a = document.getElementById("InputUseremail").value;
+		var pat = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+	    var p = pat.test(a);
+		if(!p)
+		{
+			alert("请输入合法的邮件地址");
+			return false;
+		}
+		var b = document.getElementById("InputPassword1").value;
+		var patt1 = /[A-Z]/;
+		var patt2 = /[a-z]/;
+		var patt3 = /[0-9]/;
+		var p1 = patt1.test(b);
+		var p2 = patt2.test(b);
+		var p3 = patt3.test(b);
+		if(!(p1&&p2&&p3))
+		{
+			alert("密码须同时包含大、小写字母和阿拉伯数字");
+			return false;
+		}
+		var b2 = document.getElementById("InputPassword2").value;
+		var p4 = (b2==b);
+		if(!p4)
+			{
+				alert("请确保两次输入的密码一致");
+				return false;
+			}
+	}
+	
+		
+	</script>
 </body>
 
 </html>

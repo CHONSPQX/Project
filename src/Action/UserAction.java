@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -63,11 +65,6 @@ public class UserAction extends ActionSupport {
     return "comment_failed";
   }
 
-  public static void main(String args[]) {
-    UserAction ua = new UserAction();
-    ua.UserComment();
-  }
-
   public String getContext() {
     return context;
   }
@@ -79,7 +76,7 @@ public class UserAction extends ActionSupport {
   public String UserCreate() {
     if(confirmword.equals(user.getPassword()))
     try {
-      String insql = "insert into User(UserID,Password,Name,Sex,BirthDate,Message) values(?,?,?,?,?,?)";
+      String insql = "insert into User(UserID,Password,Name,Sex,BirthDate,Message,UserEmail) values(?,?,?,?,?,?,?)";
       PreparedStatement ps = database.conn.prepareStatement(insql);
       ps.setString(1, user.getUserID());
       ps.setString(2, user.getPassword());
@@ -87,6 +84,8 @@ public class UserAction extends ActionSupport {
       ps.setInt(4, user.getSex());
       ps.setDate(5, user.getBirthDate());
       ps.setString(6, user.getMessage());
+      ps.setString(7, user.getUserEmail());
+      System.out.println(user.getUserEmail());
       int result = ps.executeUpdate();
       if (result > 0) {
         String dirName = user.getUserID() + "/";
@@ -97,7 +96,9 @@ public class UserAction extends ActionSupport {
           return "create_user_success";
         }
         else
-          return "create_user_failed";
+          {
+        	return "create_user_failed";
+          }
 
       } else
         return "create_user_success";
@@ -116,16 +117,30 @@ public class UserAction extends ActionSupport {
   }
 
   public String UserLogin() {
-    System.out.println(user.getUserID());
     try {
-      String insql = "select Password from User where UserID = ?";
+      String regEx1 = "([\\w\\-\\.]+)@([0-9a-zA-Z\\-]+)(\\.[a-zA-Z]{2,4}){1,2}";
+      Pattern p1 = Pattern.compile(regEx1); 
+      Matcher m1 = p1.matcher(user.getUserID()); 
+      boolean b = m1.matches();
+      System.out.println(b);
+      String insql;
+      if(!b)
+      {
+    	  insql = "select Password from User where UserID = ?";
+      }
+      else
+      {
+    	  insql = "select Password from User where UserEmail = ?";
+      }
       PreparedStatement ps = database.conn.prepareStatement(insql);
       ps.setString(1, user.getUserID());
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
         if (rs.getString(1).equals(user.getPassword())) {
-          ServletActionContext.getRequest().getSession().setAttribute("userID",
-              user.getUserID());
+        	if(!b)
+        		ServletActionContext.getRequest().getSession().setAttribute("userID",user.getUserID());
+        	else
+        		ServletActionContext.getRequest().getSession().setAttribute("userEmail",user.getUserID());
           return "login_success";
         }
 

@@ -22,9 +22,9 @@
 			<div class="card-body">
 				<form action="UserAction!UserLogin">
 					<div class="form-group">
-						<label for="InputUsername">UserID</label> <input
+						<label for="InputUsername">UserID or UserEmail</label> <input
 							class="form-control" name="user.UserID" id="InputUsername"
-							type="text" placeholder="Username">
+							type="text" placeholder="Username or Useremail" required="required">
 					</div>
 					<div class="form-group">
 						<label for="InputPassword">Password</label> <input
@@ -39,8 +39,7 @@
 							</label>
 						</div>
 					</div>
-					<s:submit class="btn btn-primary btn-block" name="submit"
-						value="Login" />
+					<s:submit class="btn btn-primary btn-block" onclick="return check()" name="submit" value="Login" />
 				</form>
 			</div>
 		</div>
@@ -49,5 +48,22 @@
 	<script src="vendor/popper/popper.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script>
+		function check()
+		{
+			var a = document.getElementById("InputPassword").value;
+			var patt1 = /[A-Z]/;
+			var patt2 = /[a-z]/;
+			var patt3 = /[0-9]/;
+			var p1 = patt1.test(a);
+			var p2 = patt2.test(a);
+			var p3 = patt3.test(a);
+			if(!(p1&&p2&&p3))
+			{
+				alert("密码须同时包含大、小写字母和阿拉伯数字！");
+				return false;
+			}
+		}
+	</script>
 </body>
 </html>

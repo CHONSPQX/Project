@@ -9,7 +9,14 @@ public class User {
 	private int Sex;
 	private Date BirthDate;
 	private String Message;
+	private String UserEmail;
 	
+	public String getUserEmail() {
+		return UserEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		UserEmail = userEmail;
+	}
 	public void setUserID(String userID){
 		UserID = userID;
 	}

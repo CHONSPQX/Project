@@ -38,11 +38,7 @@
   </action>
   <action name="SearchAction" class="Action.SearchAction">
   	<result name="SearchFile_success">/SearchResult.jsp</result>
-<<<<<<< HEAD
-  	<result name="SearchFile_failed">/home_page.html</result>
-=======
   	<result name="SearchFile_failed">/SearchResult.jsp</result>
->>>>>>> qiaoxin
   </action>
   </package>
   <package name="main" namespace="/" extends="json-default">

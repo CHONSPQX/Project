@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class Database {
   String drivename="com.mysql.jdbc.Driver";
-  String url="jdbc:mysql://localhost/lab7?useSSL=false";
+  String url="jdbc:mysql://localhost/project?useSSL=false";
   String user="root";
   String password="123456";
   Connection conn;

@@ -15,6 +15,8 @@
 		<result name="logout_success">/index.jsp</result>
 		<result name="logout_failed">/index.jsp</result>
 	  <result name="check_file_success">/content_user.jsp</result>
+	  <result name="get_user_profile_success">/people_profile.jsp</result>
+	  <result name="get_user_profile_failed">/people_profile.jsp</result>
   </action>
   <action name="FileAction" class="Action.FileAction">
     <result name="create_file_success">/content_user.jsp</result>
@@ -45,6 +47,9 @@
   <action name="AjaxAction" class="Action.AjaxAction">
     <result name="success" type="json"></result>
   </action>
+   <action name="AjaxUserProfile" class="Action.AjaxUserProfile">
+    <result name="success" type="json"></result>
+  </action>
   <action name="AjaxTest" class="Action.AjaxTest">  
             <result type="json">  
                 <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
@@ -52,4 +57,4 @@
             </result>  
         </action>  
 </package>
-</struts>    
+</struts>  

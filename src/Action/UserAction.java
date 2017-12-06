@@ -2,6 +2,7 @@ package Action;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.regex.Pattern;
 import org.apache.struts2.ServletActionContext;
 import org.eclipse.jdt.internal.compiler.lookup.ReductionResult;
 
+import com.ibm.icu.impl.StringRange;
 import com.opensymphony.xwork2.ActionSupport;
 
 import User.User;
@@ -71,9 +73,34 @@ public class UserAction extends ActionSupport {
 		this.context = context;
 	}
 
-	public String UserProfile()
+	public String getUserProfile()
 	{
-		return "get_userprofile_success";
+		String id=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		User user=new User();
+		String sql="select Name,Sex,BirthDate,Message,UserEmail,Address from project.user where UserID='"+id+"';";
+		database.ConnectMysql();
+		PreparedStatement presql;
+		try {
+			presql = database.conn.prepareStatement(sql);
+			ResultSet rs=presql.executeQuery();
+			if(rs.next())
+			{
+				user.setName(rs.getString(1));
+				user.setSex(rs.getInt(2));
+				user.setBirthDate(rs.getDate(3));
+				user.setMessage(rs.getString(4));
+				user.setUserEmail(rs.getString(5));
+				user.setAddress(rs.getString(6));
+				//System.out.println(user.getName()+" "+user.getSex());
+				ServletActionContext.getRequest().setAttribute("user_profile", user);
+				return "get_user_profile_success";
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "get_user_profile_failed";
+		}
+		return "get_user_profile_failed";
 	}
 	
 	public String UserCreate() {

@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
+<%request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -66,9 +67,9 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="index.jsp">注销</a></li>
-						<li><a href="people_account.jsp">密码</a></li>
-						<li><a href="#">Something else here</a></li>
+						<li><a href="index.jsp">用户注销</a></li>
+						<li><a href="people_account.jsp">密码管理</a></li>
+						<li><a href="UserAction!getUserProfile">个人信息</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">Separated link</a></li>
 					</ul></li>

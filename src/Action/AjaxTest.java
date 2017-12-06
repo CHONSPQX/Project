@@ -63,7 +63,7 @@ public class AjaxTest extends ActionSupport{
     private int num; 
     public String updateContext() {  
         // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据  
-        String sql="select * from lab7.publictext limit ?,3";
+        String sql="select * from project.publictext limit ?,3";
         Database database=new Database();
         database.ConnectMysql();
         try {

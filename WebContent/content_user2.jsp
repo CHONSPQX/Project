@@ -10,12 +10,14 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="renderer" content="webkit">
 <title>用户空间</title>
-<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="bootstrap/js/popper.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <%
-	ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
+  ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
 %>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -78,8 +80,8 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 	<br>
-	<br>
-	<br>
+  <br>
+  <br>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>
@@ -113,12 +115,12 @@
 							<th width="150">操作</th>
 						</tr>
 						<%
-							if (allFile != null && allFile.size() > 0)
-								for (int i = 0; i < allFile.size(); i++) {
-									String temp = allFile.get(i);
-									String type = new String();
-									if (temp.contains("."))
-										type = temp.substring(temp.lastIndexOf("."), temp.length());
+						  if (allFile != null && allFile.size() > 0)
+										for (int i = 0; i < allFile.size(); i++) {
+											String temp = allFile.get(i);
+											String type = new String();
+											if (temp.contains("."))
+												type = temp.substring(temp.lastIndexOf("."), temp.length());
 						%>
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />
@@ -126,20 +128,14 @@
 							<td><%=temp%></td>
 							<td><%=type%></td>
 							<td><a class="button border-green button-little"
-								href="FileAction!showPrivate?filename=<%=temp%>">详情</a>
-								<a
+								href="FileAction!showPrivate?filename=<%=temp%>">详情</a> <a
 								class="button border-blue button-little"
-								href="FileAction!ReadFile?filename=<%=temp%>">编辑</a>
-								<a
+								href="FileAction!ReadFile?filename=<%=temp%>">编辑</a> <a
 								class="button border-red button-little" href="#"
-								onclick="shareFile('<%=temp%>');">分享</a>
-								<a
-								class="button border-red button-little" href="#"
-								onclick="showModal('<%=temp%>','一级分类','二级分类','三级分类','关键字');">分类</a>
-								</td>
+								onclick="shareFile('<%=temp%>');">分享</a></td>
 						</tr>
 						<%
-							}
+						  }
 						%>
 					</table>
 					<div class="panel-foot text-center">
@@ -162,44 +158,6 @@
 			<div class="col-md-1"></div>
 		</div>
 	</div>
-	<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="myModalLabel">
-					模态框（Modal）标题
-				</h4>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-               <label for="name">一级分类</label>
-               <input type="text" class="form-control" id="label1" placeholder="请输入名称">
-               </div>
-			  <div class="form-group">
-               <label for="name">二级分类</label>
-              <input type="text" class="form-control" id="label2" placeholder="请输入名称">
-              </div>
-				<div class="form-group">
-               <label for="name">三级分类</label>
-              <input type="text" class="form-control" id="label3" placeholder="请输入名称">
-              </div>
-				<div class="form-group">
-               <label for="name">关键字</label>
-              <input type="text" class="form-control" id="keyword" placeholder="请输入名称">
-              </div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-black" onclick="changeLable();">
-					提交更改
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
 	<br>
 	<br>
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
@@ -212,8 +170,9 @@
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			if (name)//如果返回的有内容  
 			{
-				var reg = /[\.]html$/;
-				if (!reg.test(name)) {
+				var reg=/[\.]html$/;
+				if(!reg.test(name))
+				{
 					alert("文件名格式，错误！请以(.html)结尾");
 					return;
 				}
@@ -247,11 +206,12 @@
 				if (radioValue)//如果返回的有内容  
 				{
 					//输出值和文本  
-					var reg = /[\.]html$/;
-					if (!reg.test(name)) {
-						alert("文件名格式，错误！请以(.html)结尾");
-						return;
-					}
+					var reg=/[\.]html$/;
+          if(!reg.test(name))
+          {
+            alert("文件名格式，错误！请以(.html)结尾");
+            return;
+          }
 					alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
@@ -325,26 +285,6 @@
 			//alert(file);
 			window.location.href = "SearchAction!SearchFile?CheckedFile="
 					+ file;
-		}
-		function showModal(file,label1,label2,label3,keyword)
-		{
-			document.getElementById("myModalLabel").innerText=file;
-			document.getElementById("label1").value=label1;
-			document.getElementById("label2").value=label2;
-			document.getElementById("label3").value=label3;
-			document.getElementById("keyword").value=keyword;
-			$('#myModal').modal();
-			//alert(0);
-		}
-		function changeLable()
-		{
-			var filename=document.getElementById("myModalLabel").innerText;
-			//alert(filename);
-			var label1=document.getElementById("label1").value;
-			var label2=document.getElementById("label2").value;
-			var label3=document.getElementById("label3").value;
-			var keyword=document.getElementById("keyword").value;
-			alert(filename+label1+label2+label3+keyword);
 		}
 	</script>
 </body>

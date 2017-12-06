@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.struts2.ServletActionContext;
+import org.eclipse.jdt.internal.compiler.lookup.ReductionResult;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -70,6 +71,11 @@ public class UserAction extends ActionSupport {
 		this.context = context;
 	}
 
+	public String UserProfile()
+	{
+		return "get_userprofile_success";
+	}
+	
 	public String UserCreate() {
 		if (confirmword.equals(user.getPassword()))
 			try {

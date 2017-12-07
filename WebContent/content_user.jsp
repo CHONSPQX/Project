@@ -1,7 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
-<%request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -194,7 +193,7 @@
               </div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-black" onclick="changeLable();">
+				<button type="button" class="btn btn-black" onclick="SetLables();">
 					提交更改
 				</button>
 			</div>
@@ -337,7 +336,7 @@
 			$('#myModal').modal();
 			//alert(0);
 		}
-		function changeLable()
+		function SetLables()
 		{
 			var filename=document.getElementById("myModalLabel").innerText;
 			//alert(filename);
@@ -346,6 +345,19 @@
 			var label3=document.getElementById("label3").value;
 			var keyword=document.getElementById("keyword").value;
 			alert(filename+label1+label2+label3+keyword);
+			var data = {
+					filename : file
+				};
+				$.ajax({
+					url : "AjaxAction!shareFile",
+					type : "POST",
+					data : data,
+					dataType : "json"
+				}).done(function(data) {
+					alert("分享文件成功");
+				}).fail(function() {
+					alert("分享文件失败");
+				})
 		}
 	</script>
 </body>

@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,8 +29,20 @@ public class test {
         //String b=CreateIndex("yangfan");
         //String c=CreateIndex("zhouxiong");
         //String d=CreateSharedIndex();
-        Search("阿里巴巴", "yangfan");
+        //Search("阿里巴巴", "yangfan");
         //SearchShared("双十一");
+		String name;
+		try {
+			//name = java.net.URLEncoder.encode("小米", "ISO-8859-1");
+			//System.out.println(name);
+			//System.out.println(java.net.URLDecoder.decode(name, "UTF-8"));
+			String defaultCharsetName=Charset.defaultCharset().displayName();   
+	        System.out.println("defaultCharsetName:"+defaultCharsetName); 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
         
     }
   public static String CreateIndex(String userID){

@@ -206,6 +206,7 @@ public void setOldpassword(String oldpassword) {
      this.flag=flag;
      System.out.println(flag);
      FullTextRetrieval.AddIndex(path, filename);
+     save_file();
      if(flag)
        return SUCCESS;
        return SUCCESS;  
@@ -439,10 +440,26 @@ public void setOldpassword(String oldpassword) {
   {
 	  try
 	  {
-		  String id = "00001111";
-		  //String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		  String ss = new java.sql.Date(new java.util.Date().getTime()).toString();
 		  String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "',path='"+id+"/"+filerename +"' where title='"+filename+"'";
+		  //String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "' where title='"+filename+"'";
+		  PreparedStatement ps = fconn.conn.prepareStatement(sql);
+		  ps.executeUpdate();
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  } 
+  }
+  public void save_file()
+  {
+	  try
+	  {
+		  //String id = "yangfan";
+		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String ss = new java.sql.Date(new java.util.Date().getTime()).toString();
+		  String sql = "update `"+id+"` set time= '"+ss+ "' where title='"+filename+"'";
 		  //String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "' where title='"+filename+"'";
 		  PreparedStatement ps = fconn.conn.prepareStatement(sql);
 		  ps.executeUpdate();
@@ -488,9 +505,8 @@ public void setOldpassword(String oldpassword) {
   public static void main(String args[])
   {
 	  AjaxAction aa = new AjaxAction();
-	  aa.filename = "ggggg.html";
-	  aa.filerename = "88888.html";
-	  aa.rename_file();
+	  aa.filename = "战神.html";
+	  aa.save_file();
   }
 
 }

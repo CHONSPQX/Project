@@ -57,6 +57,7 @@ public class FullTextRetrieval extends ActionSupport {
 			return "success";
 		return "fail";
 	}
+	
 	public String CreateSharedIndex()throws IOException{
 		dataPath = "F:/work/shared";
 		indexPath = "F:/work/index/shared";
@@ -64,31 +65,50 @@ public class FullTextRetrieval extends ActionSupport {
 			return "success";
 		return "fail";
 	}
+	
 	public String Search()throws Exception{
 		HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
 		ArrayList<String> results = new ArrayList<>();
+		ArrayList<String> times = new ArrayList<>();
+		ArrayList<Float> scores = new ArrayList<>();
+		ArrayList<Integer> searchTimes = new ArrayList<>();
 		Iterator iter = result.entrySet().iterator();
 		while(iter.hasNext()){
 			HashMap.Entry  entry = (HashMap.Entry) iter.next();
 			NewDocument key = (NewDocument) entry.getKey();
-			results.add(key.getPath());
+			results.add(key.getPath() );
+			times.add(key.getTime());
+			scores.add(key.getScore());
+			searchTimes.add((Integer) entry.getValue());
 		}
+		ServletActionContext.getRequest().setAttribute("allTime", times);
+		ServletActionContext.getRequest().setAttribute("allScore", scores);
+		ServletActionContext.getRequest().setAttribute("allSearchTime", searchTimes);
 		ServletActionContext.getRequest().setAttribute("allResult", results);
 		return "success";	
 	}
+	
 	public String SearchShared()throws Exception{
 		indexPath = "F:/work/index/shared";
 		HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
 		ArrayList<String> results = new ArrayList<>();
+		ArrayList<String> times = new ArrayList<>();
+		ArrayList<Float> scores = new ArrayList<>();
+		ArrayList<Integer> searchTimes = new ArrayList<>();
 		Iterator iter = result.entrySet().iterator();
 		while(iter.hasNext()){
 			HashMap.Entry  entry = (HashMap.Entry) iter.next();
 			NewDocument key = (NewDocument) entry.getKey();
-			results.add(key.getPath());
+			results.add(key.getPath() );
+			times.add(key.getTime());
+			scores.add(key.getScore());
+			searchTimes.add((Integer) entry.getValue());
 		}
+		ServletActionContext.getRequest().setAttribute("allTime", times);
+		ServletActionContext.getRequest().setAttribute("allScore", scores);
+		ServletActionContext.getRequest().setAttribute("allSearchTime", searchTimes);
 		ServletActionContext.getRequest().setAttribute("allResult", results);
 		return "success";
-		
 			
 	}
 

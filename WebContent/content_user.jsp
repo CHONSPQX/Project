@@ -308,7 +308,7 @@ if (session_user == null)
 		}
 		function shareFile(file) {
 			//输出值和文本  
-			alert("分享:" + file);
+			//alert("分享:" + file);
 			//把获得的数据转换为字符串传递到后台              
 			var data = {
 				filename : file
@@ -351,17 +351,21 @@ if (session_user == null)
 			var keyword=document.getElementById("keyword").value;
 			alert(filename+label1+label2+label3+keyword);
 			var data = {
-					filename : file
+					'article.Title' : filename,
+					'article.Label1':label1,
+					'article.Label2':label2,
+					'article.Label3':label3,
+					'article.Keyword':keyword
 				};
 				$.ajax({
-					url : "AjaxAction!shareFile",
+					url : "AjaxFileLabel!SetFileLable",
 					type : "POST",
 					data : data,
 					dataType : "json"
 				}).done(function(data) {
-					alert("分享文件成功");
+					window.location.reload();
 				}).fail(function() {
-					alert("分享文件失败");
+					alert("分类失败");
 				})
 		}
 	</script>

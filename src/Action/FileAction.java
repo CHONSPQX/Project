@@ -281,10 +281,6 @@ public class FileAction extends ActionSupport {
           }
       }
   }
-  public static void main(String args[])
-  {
-      
-  }
   public String getPath() {
     return path;
   }

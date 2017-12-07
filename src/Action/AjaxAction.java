@@ -50,10 +50,17 @@ public class AjaxAction extends ActionSupport {
   private String commentcontext;
   private String newpassword;
   private String oldpassword;
+  private FileDatabase fconn;
   //private List<Txtfile> txtfiles;
   //private JSONArray text;
   
-
+  
+  public AjaxAction()
+  {
+	  fconn = new FileDatabase();
+	  fconn.ConnectMysql();
+  }
+  
   /**
    * @return the commentcontext
    */
@@ -199,6 +206,7 @@ public void setOldpassword(String oldpassword) {
      this.flag=flag;
      System.out.println(flag);
      FullTextRetrieval.AddIndex(path, filename);
+     save_file();
      if(flag)
        return SUCCESS;
        return SUCCESS;  
@@ -211,6 +219,7 @@ public void setOldpassword(String oldpassword) {
       path = "user";
     boolean flag = Director.createFile(path + "/" + filename);
     FullTextRetrieval.AddIndex(path, filename);
+    create_file();
     return SUCCESS;
   }
   
@@ -219,6 +228,7 @@ public void setOldpassword(String oldpassword) {
         .getAttribute("userID");
     boolean flag = Director.renameFile(path + "/" + filename,
         path + "/" + filerename);
+    rename_file();
     return SUCCESS;
   }
   
@@ -226,6 +236,7 @@ public void setOldpassword(String oldpassword) {
     path = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");
     boolean flag = Director.deleteFile(path + "/" + filename);
+    delete_file();
     return SUCCESS;
   }
   
@@ -424,5 +435,78 @@ public void setOldpassword(String oldpassword) {
  // public void setTxtfiles(List<Txtfile> txtfiles) {
  //   this.txtfiles = txtfiles;
  // }
+  
+  public void rename_file()
+  {
+	  try
+	  {
+		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String ss = new java.sql.Date(new java.util.Date().getTime()).toString();
+		  String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "',path='"+id+"/"+filerename +"' where title='"+filename+"'";
+		  //String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "' where title='"+filename+"'";
+		  PreparedStatement ps = fconn.conn.prepareStatement(sql);
+		  ps.executeUpdate();
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  } 
+  }
+  public void save_file()
+  {
+	  try
+	  {
+		  //String id = "yangfan";
+		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String ss = new java.sql.Date(new java.util.Date().getTime()).toString();
+		  String sql = "update `"+id+"` set time= '"+ss+ "' where title='"+filename+"'";
+		  //String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "' where title='"+filename+"'";
+		  PreparedStatement ps = fconn.conn.prepareStatement(sql);
+		  ps.executeUpdate();
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  } 
+  }
+  public void create_file()
+  {
+	  try
+	  {
+		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String insql = "insert into `"+id+"`(title,path,time,owner) values(?,?,?,?)";
+		  PreparedStatement ps = fconn.conn.prepareStatement(insql);
+		  ps.setString(1, filename);
+		  String st = id+"/"+filename;
+		  ps.setString(2, st);
+		  ps.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
+		  ps.setString(4, id);
+		  ps.executeUpdate();
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  }
+  }
+  public void delete_file()
+  {
+	  try
+	  {
+		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String insql = "delete from `"+id+"`where title = '"+filename+"'";
+		  PreparedStatement ps = fconn.conn.prepareStatement(insql);
+		  ps.executeUpdate();
+	  }
+	  catch(Exception e)
+	  {
+		  e.printStackTrace();
+	  }
+  }
+  public static void main(String args[])
+  {
+	  AjaxAction aa = new AjaxAction();
+	  aa.filename = "战神.html";
+	  aa.save_file();
+  }
 
 }

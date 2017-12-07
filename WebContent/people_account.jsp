@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
+<%
+String session_user = (String) session.getAttribute("userID");
+if (session_user == null) 
+	response.sendRedirect("index.jsp");
+%>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

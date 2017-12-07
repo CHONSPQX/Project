@@ -10,7 +10,7 @@
   <action name="UserAction" class="Action.UserAction">
 		<result name="create_user_success">/index.jsp</result>
 		<result name="create_user_failed">/register_user.jsp</result>
-		<result name="login_success">/home_page.html</result>
+		<result name="login_success">/home_page.jsp</result>
 		<result name="login_failed">/login_user.jsp</result>
 		<result name="logout_success">/index.jsp</result>
 		<result name="logout_failed">/index.jsp</result>

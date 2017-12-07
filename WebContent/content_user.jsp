@@ -3,6 +3,11 @@
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<%
+String session_user = (String) session.getAttribute("userID");
+if (session_user == null) 
+	response.sendRedirect("index.jsp");
+%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,7 +71,7 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="index.jsp">用户注销</a></li>
+						<li><a href="UserAction!UserLogout">用户注销</a></li>
 						<li><a href="people_account.jsp">密码管理</a></li>
 						<li><a href="UserAction!getUserProfile">个人信息</a></li>
 						<li role="separator" class="divider"></li>

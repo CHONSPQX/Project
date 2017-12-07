@@ -136,9 +136,14 @@ public class UserAction extends ActionSupport {
 	}
 
 	public String UserLogout() {
+		
 		if ((String) ServletActionContext.getRequest().getSession().getAttribute("userID") == null)
 			return "logout_failed";
 		ServletActionContext.getRequest().getSession().removeAttribute("userID");
+		System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("testmessage"));
+		ServletActionContext.getRequest().getSession().invalidate();
+		System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
+		System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("testmessage"));
 		return "logout_success";
 	}
 
@@ -162,12 +167,16 @@ public class UserAction extends ActionSupport {
 			if (rs.next()) {
 				if (rs.getString(1).equals(user.getPassword())) {
 					if (!b)
+					{
 						ServletActionContext.getRequest().getSession().setAttribute("userID", user.getUserID());
+						ServletActionContext.getRequest().getSession().setAttribute("testmessage", "404");
+						System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
+						
+					}
 					else
 						ServletActionContext.getRequest().getSession().setAttribute("userEmail", user.getUserID());
 					return "login_success";
 				}
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -184,6 +193,7 @@ public class UserAction extends ActionSupport {
 
 	public String UserCheckFile() {
 		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		System.out.println(id);
 		ArrayList<String> all = Director.checkFile(id, "");
 		for (String s : all)
 			System.out.println(s);

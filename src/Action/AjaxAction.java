@@ -439,8 +439,11 @@ public void setOldpassword(String oldpassword) {
   {
 	  try
 	  {
-		  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-		  String sql = "update `"+id+"` set title='"+filerename+"' where title='"+filename+"'";
+		  String id = "00001111";
+		  //String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		  String ss = new java.sql.Date(new java.util.Date().getTime()).toString();
+		  String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "',path='"+id+"/"+filerename +"' where title='"+filename+"'";
+		  //String sql = "update `"+id+"` set title='"+filerename+"', time= '"+ss+ "' where title='"+filename+"'";
 		  PreparedStatement ps = fconn.conn.prepareStatement(sql);
 		  ps.executeUpdate();
 	  }
@@ -485,8 +488,9 @@ public void setOldpassword(String oldpassword) {
   public static void main(String args[])
   {
 	  AjaxAction aa = new AjaxAction();
-	  aa.filename = "战神.html";
-	  aa.delete_file();
+	  aa.filename = "ggggg.html";
+	  aa.filerename = "88888.html";
+	  aa.rename_file();
   }
 
 }

@@ -264,7 +264,7 @@ public class UserAction extends ActionSupport {
 			int rs = ps1.executeUpdate();//如果表已经存在了，返回-1，否则返回0
 			if(rs == -1)
 			{
-				presql = "DROP TABLE " + ID + ";";
+				presql = "DROP TABLE `" + ID + "`;";
 				PreparedStatement ps2 = fconn.conn.prepareStatement(presql);
 				ps2.executeUpdate();
 			}

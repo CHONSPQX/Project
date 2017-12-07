@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class FileDatabase {
 	String drivename="com.mysql.jdbc.Driver";
-	  String url="jdbc:mysql://localhost/filerecode?useSSL=false";
+	  String url="jdbc:mysql://localhost/filerecord?useSSL=false";
 	  String user="root";
 	  String password="123456";
 	  Connection conn;
@@ -19,9 +19,9 @@ public class FileDatabase {
 	          Class.forName(drivename);
 	          conn = (Connection) DriverManager.getConnection(url, user, password);
 	          if (!conn.isClosed()) {
-	              System.out.println("Succeeded connecting to the filerecode!");
+	              System.out.println("Succeeded connecting to the filerecord!");
 	          }else {
-	              System.out.println("Falled connecting to the filerecode!");
+	              System.out.println("Falled connecting to the filerecord!");
 	          }
 	      }catch(Exception ex){
 	              ex.printStackTrace();

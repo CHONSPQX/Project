@@ -237,7 +237,7 @@ public class UserAction extends ActionSupport {
 		String ID = user.getUserID();
 		System.out.println("now ID = " +ID);
 		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
-		String mysql="CREATE TABLE `filerecode`.`"+ID+ "` (\r\n" + 
+		String mysql="CREATE TABLE `filerecord`.`"+ID+ "` (\r\n" + 
 				"  `title` VARCHAR(100) NOT NULL,\r\n" + 
 				"  `keyword` VARCHAR(100) NULL,\r\n" + 
 				"  `label1` VARCHAR(100) NULL,\r\n" + 
@@ -297,7 +297,7 @@ public class UserAction extends ActionSupport {
 			{
 				try
 				{
-					String insql = "insert into "+user+"(title,path,time,owner) values(?,?,?,?);";
+					String insql = "insert into `"+user+"`(title,path,time,owner) values(?,?,?,?)";
 					PreparedStatement ps = fconn.conn.prepareStatement(insql);
 					ps.setString(1, array[i].getName());
 					String st = array[i].getPath();
@@ -321,6 +321,6 @@ public class UserAction extends ActionSupport {
 	public static void main(String args[])
 	{
 		UserAction ua = new UserAction();
-		ua.updateUserTable("yangfan");
+		ua.updateUserTable("00001111");
 	}
 }

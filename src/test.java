@@ -1,17 +1,10 @@
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.struts2.ServletActionContext;
-
-import Action.AjaxTest;
-import Action.FileAction;
+import Action.UserAction;
 import Lucene.Lucene;
 import Lucene.NewDocument;
-import WeFile.Director;
 
 /**
  * 
@@ -25,25 +18,14 @@ import WeFile.Director;
 public class test {
 
 	public static void main(String[] args) {  
-        //String a=CreateIndex("admin");
-        //String b=CreateIndex("yangfan");
-        //String c=CreateIndex("zhouxiong");
-        //String d=CreateSharedIndex();
-        //Search("阿里巴巴", "yangfan");
-        //SearchShared("双十一");
-		String name;
-		try {
-			//name = java.net.URLEncoder.encode("小米", "ISO-8859-1");
-			//System.out.println(name);
-			//System.out.println(java.net.URLDecoder.decode(name, "UTF-8"));
-			String defaultCharsetName=Charset.defaultCharset().displayName();   
-	        System.out.println("defaultCharsetName:"+defaultCharsetName); 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+        UserAction ua = new UserAction();
+        ArrayList<String> all = ua.getallUser();
+		for(int i= 0;i<all.size();i++)
+		{
+			ua.getUser().setUserID(all.get(i)); 
+			ua.createUserTable();
+			ua.updateUserTable(all.get(i));
 		}
-		
-        
     }
   public static String CreateIndex(String userID){
     try {

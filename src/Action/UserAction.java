@@ -1,5 +1,6 @@
 package Action;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.struts2.ServletActionContext;
-import org.eclipse.jdt.internal.compiler.lookup.ReductionResult;
 
-import com.ibm.icu.impl.StringRange;
 import com.opensymphony.xwork2.ActionSupport;
 
 import User.User;
@@ -24,10 +23,11 @@ import WeFile.Director;
  */
 public class UserAction extends ActionSupport {
 	private Database database;
-	private User user;
+	private User user = new User();
 	private String path;//
 	private String SharedFilePath;// 用户现在查看的分享文件的绝对路径
 	private CommentDatabase conn;
+	private FileDatabase fconn;
 	private String context;// 用户评论的内容
 	private String confirmword;
 
@@ -44,6 +44,8 @@ public class UserAction extends ActionSupport {
 		database.ConnectMysql();
 		conn = new CommentDatabase();
 		conn.ConnectMysql();
+		fconn = new FileDatabase();
+		fconn.ConnectMysql();
 	}
 
 	public String UserComment() {
@@ -121,6 +123,7 @@ public class UserAction extends ActionSupport {
 					String dirName = user.getUserID() + "/";
 					System.out.println(dirName);
 					if (Director.createDir(dirName)) {
+						createUserTable();
 						FullTextRetrieval.CreateIndex(user.getUserID());
 						return "create_user_success";
 					} else {
@@ -238,5 +241,96 @@ public class UserAction extends ActionSupport {
 	public void setConfirmword(String confirmword) {
 		this.confirmword = confirmword;
 	}
-
+	
+	public boolean createUserTable()
+	{
+		String ID = user.getUserID();
+		System.out.println("now ID = " +ID);
+		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
+		String mysql="CREATE TABLE `filerecord`.`"+ID+ "` (\r\n" + 
+				"  `title` VARCHAR(100) NOT NULL,\r\n" + 
+				"  `keyword` VARCHAR(100) NULL,\r\n" + 
+				"  `label1` VARCHAR(100) NULL,\r\n" + 
+				"  `label2` VARCHAR(100) NULL,\r\n" + 
+				"  `label3` VARCHAR(100) NULL,\r\n" + 
+				"  `path` VARCHAR(100) NULL,\r\n" + 
+				"  `time` DATE NULL,\r\n" + 
+				"  `owner` VARCHAR(100) NULL,\r\n" + 
+				"  PRIMARY KEY (`title`))\r\n" + 
+				"ENGINE = InnoDB;\r\n" + 
+				"";
+		try {
+			PreparedStatement ps1 = fconn.conn.prepareStatement(presql);
+			int rs = ps1.executeUpdate();//如果表已经存在了，返回-1，否则返回0
+			if(rs == -1)
+			{
+				presql = "DROP TABLE " + ID + ";";
+				PreparedStatement ps2 = fconn.conn.prepareStatement(presql);
+				ps2.executeUpdate();
+			}
+			PreparedStatement ps3 = fconn.conn.prepareStatement(mysql);
+			rs = ps3.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public ArrayList<String> getallUser()
+	{
+		ArrayList<String> all = new ArrayList<String>();
+		String sp = "Select userID from user";
+		String a;
+		try {
+			PreparedStatement ps = database.conn.prepareStatement(sp);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next())
+			{
+				a = rs.getString(1);
+				all.add(a);
+			}
+			return all;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return all;
+	}
+	
+	public void updateUserTable(String user)
+	{
+		String path = "F://work/"+user;
+		File file = new File(path);
+		File[] array = file.listFiles();
+		for(int i=0;i<array.length;i++)
+		{
+			if(array[i].isFile())
+			{
+				try
+				{
+					String insql = "insert into `"+user+"`(title,path,time,owner) values(?,?,?,?)";
+					PreparedStatement ps = fconn.conn.prepareStatement(insql);
+					ps.setString(1, array[i].getName());
+					String st = array[i].getPath();
+					st = st.replace("\\", "/");
+		            if(st.contains("F:/work/"))
+		            {    
+		              st =st.substring(st.lastIndexOf("F:/work/")+8, st.length());  
+		            }
+					ps.setString(2, st);
+					ps.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
+					ps.setString(4, user);
+					int result = ps.executeUpdate();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public static void main(String args[])
+	{
+		UserAction ua = new UserAction();
+		ua.updateUserTable("00001111");
+	}
 }

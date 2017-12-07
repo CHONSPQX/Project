@@ -187,7 +187,6 @@ public class FileAction extends ActionSupport {
     // location = location.replace(".txt", "");
     String presql = "select * from lab7.publictext where Location='" + filename
         + "';";
-    System.out.println(presql);
     try {
       PreparedStatement ps1 = db.conn.prepareStatement(presql);
       ResultSet rs = ps1.executeQuery();// 如果表已经存在了，返回-1，否则返回0

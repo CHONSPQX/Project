@@ -80,7 +80,6 @@ public class UserAction extends ActionSupport {
 		String id=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		User user=new User();
 		String sql="select Name,Sex,BirthDate,Message,UserEmail,Address from project.user where UserID='"+id+"';";
-		database.ConnectMysql();
 		PreparedStatement presql;
 		try {
 			presql = database.conn.prepareStatement(sql);

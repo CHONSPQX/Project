@@ -48,7 +48,7 @@ if (session_user == null)
 					<li><a href="shared_text.jsp">共享空间</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">Dropdown <span class="caret"></span></a>
+						aria-expanded="false">de<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Action</a></li>
 							<li><a href="#">Another action</a></li>
@@ -61,6 +61,7 @@ if (session_user == null)
 				</ul>
 				<form class="navbar-form navbar-left"
 					action="SearchAction!SearchFile">
+
 					<div class="form-groupc">
 						<input type="text" class="form-control" placeholder="Search"
 							name="CheckedFile">
@@ -120,7 +121,7 @@ if (session_user == null)
 									<div class="column">
 										<dl class="form-group">
 											<dt>
-												<label for="user_profile_name">姓名</label>
+												<label for="user_name">姓名</label>
 											</dt>
 											<dd>
 												<input class="form-control" id="user_name" size="30"
@@ -129,7 +130,7 @@ if (session_user == null)
 										</dl>
 										<dl class="form-group">
 											<dt>
-												<label for="user_profile_email">邮箱</label>
+												<label for="user_email">邮箱</label>
 											</dt>
 											<dd>
 												<input class="form-control" id="user_email" size="30"
@@ -138,44 +139,58 @@ if (session_user == null)
 										</dl>
 										<dl class="form-group">
 											<dt>
-												<label for="user_profile_bio">描述</label>
+												<label for="user_message">描述</label>
 											</dt>
 											<dd
 												class="user-profile-bio-field-container js-suggester-container js-length-limited-input-container">
 												<textarea
 													class="form-control user-profile-bio-field js-suggester-field js-length-limited-input"
 													cols="40" data-input-max-length="160"
-													data-warning-text="{{remaining}} remaining"
 													id="user_message"
-													placeholder="Tell us a little bit about yourself" rows="20">
-													<%=user.getMessage()%>
-													</textarea>
+													placeholder="Tell us a little bit about yourself" rows="20"><%=user.getMessage()%></textarea>
 											</dd>
 										</dl>
 										<dl class="form-group">
 											<dt>
-												<label for="user_profile_email">性别</label>
+												<label for="user_sex">性别</label>
 											</dt>
 											<dd>
-												<input class="form-control" id="user_sex" size="30"
-													type="text" value="<%=user.getSex()%>" />
+												<select class="form-control" id="user_sex" value="<%=user.getSex()%>">
+												<%
+												if(user.getSex()==1)
+												{
+													%>
+													<option value="1" selected="selected">男</option> 
+													<option value="0">女</option> 
+													<%
+												}
+												else
+												{
+													%>
+													<option value="1" >男</option> 
+													<option value="0" selected="selected">女</option> 
+													<%
+												}
+												%> 
+												
+												</select>
 											</dd>
 										</dl>
 										<dl class="form-group">
 											<dt>
-												<label for="user_profile_company">生日</label>
+												<label for="user_birthdate">生日</label>
 											</dt>
-											<dd
-												class="user-profile-company-field-container js-suggester-container">
-												<input autocomplete="off"
+											<dd>
+												<!-- <input autocomplete="off"
 													class="form-control js-suggester-field" id="user_birthdate"
-													size="30" type="text" value="<%=user.getBirthDate()%>" />
+													size="30" type="text" value="" />-->
+												<input id="user_birthdate" class="form-control" type="date" value="<%=user.getBirthDate()%>"/>
 											</dd>
 										</dl>
 										
 										<dl class="form-group">
 											<dt>
-												<label for="user_profile_location">地址</label>
+												<label for="user_address">地址</label>
 											</dt>
 											<dd>
 												<input class="form-control" id="user_address" size="30"

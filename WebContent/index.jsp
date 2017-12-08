@@ -31,20 +31,14 @@
 				<ul class="nav navbar-nav">
 					<li><a href="#">我的空间</a></li>
 					<li><a href="#">共享空间</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">Dropdown <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul></li>
 				</ul>
 				<div class="navbar-form navbar-left">
+				<select class="btn btn-default" id="choose" >
+			     <option  class="btn btn-default" value="0">按关键字</option>
+			     <option  class="btn btn-default" value="1">按题目</option>
+			     <option  class="btn btn-default" value="2">按时间</option>
+			     <option class="btn btn-default" value="3">全文检索</option>
+		         </select> 
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search"
 							id="search">

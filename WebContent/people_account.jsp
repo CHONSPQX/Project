@@ -161,101 +161,10 @@ if (session_user == null)
 								</dl>
 								<p>
 									<button class="btn mr-2" onclick="changePassword();">Update password</button>
-									<span><a href="/password_reset">I forgot my password</a></span>
 								</p>
 							</div>
-							<p class="text-small text-gray mt-3">
-								<svg aria-hidden="true" class="octicon octicon-question"
-									height="16" version="1.1" viewBox="0 0 14 16" width="14">
-								<path fill-rule="evenodd"
-									d="M6 10h2v2H6v-2zm4-3.5C10 8.64 8 9 8 9H6c0-.55.45-1 1-1h.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5h-1c-.28 0-.5.22-.5.5V7H4c0-1.5 1.5-3 3-3s3 1 3 2.5zM7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z" /></svg>
-								Looking for two-factor authentication? You can find it in <a
-									href="/settings/security">Security</a>.
-							</p>
-
-
-							<!-- Delete Account -->
-							<div class="Subhead Subhead--spacious">
-								<h2 class="Subhead-heading Subhead-heading--danger">Delete
-									account</h2>
-							</div>
-							<p>Once you delete your account, there is no going back.
-								Please be certain.</p>
-
-							<p>
-								<a href="#delete_account_confirmation"
-									rel="facebox[.dangerzone]" class="btn btn-danger" tabindex="4">Delete
-									your account</a>
-							</p>
-
-							<div id="delete_account_confirmation" style="display: none">
-								<h2 class="facebox-header" data-facebox-id="facebox-header">Are
-									you sure you want to do this?</h2>
-								<div class="facebox-danger"
-									data-facebox-id="facebox-description">
-									<svg aria-hidden="true" class="octicon octicon-alert"
-										height="16" version="1.1" viewBox="0 0 16 16" width="16">
-									<path fill-rule="evenodd"
-										d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z" /></svg>
-									This is extremely important.
-								</div>
-
-								<p>
-									We will <strong>immediately delete all of your
-										repositories (24)</strong>, along with all of your forks, wikis,
-									issues, pull requests, and GitHub Pages sites.
-								</p>
-								<p>You will no longer be billed, and your username will be
-									available to anyone on GitHub.</p>
-								<p>
-									For more help, read our article "<a
-										href="https://help.github.com/articles/deleting-your-user-account">Deleting
-										your user account</a>".
-								</p>
-
-								<hr class="facebox-separator">
-
-								
-						
-								<form accept-charset="UTF-8" action="/users/CHONSPQX"
-									method="post">
-									<div style="margin: 0; padding: 0; display: inline">
-										<input name="utf8" type="hidden" value="&#x2713;" /><input
-											name="_method" type="hidden" value="delete" /><input
-											name="authenticity_token" type="hidden"
-											value="IUFmem3sUwLEjJhX243ueQuccgxS03wBdYOyrG/mXofPOuuukmQin/I8Eq59KS/9G+OWNg95dmNxwglrAM7Q6A==" />
-									</div>
-									<p>
-										<label for="sudo_login">Your username or email:</label> <input
-											type="text" id="sudo_login" name="sudo_login"
-											class="form-control input-block"
-											pattern="[cC][hH][oO][nN][sS][pP][qQ][xX]|1264596728@[qQ][qQ]\.[cC][oO][mM]"
-											required>
-									</p>
-									<p>
-										<label for="confirmation_phrase"> To verify, type <span
-											class="confirmation-phrase do-not-copy-me notranslate">delete
-												my account</span> below:
-										</label> <input type="text" id="confirmation_phrase"
-											name="confirmation_phrase" class="form-control input-block"
-											pattern="delete my account" required>
-									</p>
-									<p>
-										<label for="sudo_password"> Confirm your password: </label> <input
-											class="form-control form-control input-block"
-											id="sudo_password" name="sudo_password" type="password"
-											value="" />
-									</p>
-
-									<button type="submit" class="btn btn-block btn-danger"
-										data-disable-invalid>Cancel plan and delete this
-										account</button>
-								</form>
-							</div>
-
 						</div>
 					</div>
-
 				</div>
 				<div class="modal-backdrop js-touch-events"></div>
 			</div>
@@ -275,11 +184,46 @@ if (session_user == null)
 		//alert(file);
 		window.location.href = "SearchAction!SearchFile?CheckedFile=" + file;
 	}
+	function checkPassword()
+	{
+		var oldpwd=document.getElementById("user_old_password").value;
+		var newpwd=document.getElementById("user_new_password").value;
+		var conpwd=document.getElementById("user_confirm_new_password").value;
+		var patt1 = /[A-Z]/;
+		var patt2 = /[a-z]/;
+		var patt3 = /[0-9]/;
+		var p1 = patt1.test(oldpwd);
+		var p2 = patt2.test(oldpwd);
+		var p3 = patt3.test(oldpwd);
+		if(!(p1&&p2&&p3))
+		{
+			alert("密码须同时包含大、小写字母和阿拉伯数字");
+			return false;
+		}
+		var p1 = patt1.test(newpwd);
+		var p2 = patt2.test(newpwd);
+		var p3 = patt3.test(newpwd);
+		if(!(p1&&p2&&p3))
+		{
+			alert("新密码须同时包含大、小写字母和阿拉伯数字");
+			return false;
+		}
+		var p4 = (newpwd==conpwd);
+		if(!p4)
+		{
+				alert("输入的新密码不一致");
+				return false;
+		}
+		return true;
+	}
 	function changePassword()
 	{
 		var oldpwd=document.getElementById("user_old_password").value;
 		var newpwd=document.getElementById("user_new_password").value;
 		var conpwd=document.getElementById("user_confirm_new_password").value;
+		var flag=checkPassword()
+		if(!flag)
+			return;
 		var data = {
 			    oldpassword : oldpwd,
 				newpassword : newpwd
@@ -290,18 +234,13 @@ if (session_user == null)
 				data : data,
 				dataType : "json"
 			}).done(function(data) {
-				alert("成功");
+				alert("修改成功");
 				window.location.reload();
-				//var file=document.getElementById("filename").innerText;
-				// alert(file);
-				//window.location.href="FileAction!showPublic?filename=shared/admin/2333.html";
 			}).fail(function() {
-				alert("失败");
+				alert("修改失败");
 				window.location.reload();
-				//var file=document.getElementById("filename").innerText;
-				// alert(file);
-				//window.location.href="FileAction!showPublic?filename=shared/admin/2333.html";
-			});
+				
+	});
 	}
 </script>
 </html>

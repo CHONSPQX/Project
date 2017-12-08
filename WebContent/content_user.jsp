@@ -212,12 +212,14 @@ if (session_user == null)
 	</nav>
 
 	<script type="text/javascript">
+	    
 		function createFile() {
-			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ".html"); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			if (name)//如果返回的有内容  
 			{
 				var reg = /[\.]html$/;
+				
 				if (!reg.test(name)) {
 					alert("文件名格式，错误！请以(.html)结尾");
 					return;
@@ -239,7 +241,7 @@ if (session_user == null)
 			}
 		}
 		function renameFile() {
-			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ".html"); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			var radioValue;
 			if (name) {
@@ -307,10 +309,7 @@ if (session_user == null)
 			}
 		}
 		function shareFile(file) {
-			//输出值和文本  
-			//alert("分享:" + file);
-			//把获得的数据转换为字符串传递到后台              
-			var data = {
+				var data = {
 				filename : file
 			};
 			$.ajax({
@@ -341,15 +340,63 @@ if (session_user == null)
 			$('#myModal').modal();
 			//alert(0);
 		}
+		
+		function checkLabel()
+	    {
+	    	var label1=document.getElementById("label1").value.length;
+			var label2=document.getElementById("label2").value.length;
+			var label3=document.getElementById("label3").value.length;
+			var keyword=document.getElementById("keyword").value.length;
+			var flag=false;
+			if(label3!=0)
+			{
+				if(label2!=0)
+				{
+					if(label1!=0)
+					{
+						flag=true;
+					}
+					else
+						alert('请按照次序输入各级分类');
+				}
+				else
+					alert('请按照次序输入各级分类');
+			}
+			else
+			{
+				if(label2!=0)
+				{
+					if(label1!=0)
+					{
+						flag=true;
+					}
+					else
+						alert('请按照次序输入各级分类');
+				}
+				else
+				{
+					if(label1!=0||keyword!=0)
+						flag=true;
+					else
+						alert('请输入');
+				}
+			}
+			return flag;
+	    }
 		function SetLables()
 		{
 			var filename=document.getElementById("myModalLabel").innerText;
 			//alert(filename);
+			
+			if(!checkLabel())
+		   {
+				return;
+		   }
 			var label1=document.getElementById("label1").value;
 			var label2=document.getElementById("label2").value;
 			var label3=document.getElementById("label3").value;
 			var keyword=document.getElementById("keyword").value;
-			alert(filename+label1+label2+label3+keyword);
+			//alert(filename+label1+label2+label3+keyword);
 			var data = {
 					'article.Title' : filename,
 					'article.Label1':label1,

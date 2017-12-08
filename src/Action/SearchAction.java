@@ -7,8 +7,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class SearchAction extends ActionSupport
 {
-	int searchTarget;
-	String CheckedFile;
+	private int searchTarget;
+	private String CheckedFile;
 
 	public int getSearchTarget() {
 		return searchTarget;
@@ -38,7 +38,7 @@ public class SearchAction extends ActionSupport
         fr.SearchShared(CheckedFile);
        //if(flag1||flag2)
         //{
-            return "SearchFile_success";
+        return "SearchFile_success";
         //}
         //else
             //return "SearchFile_failed";

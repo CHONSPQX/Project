@@ -101,10 +101,6 @@ if (session_user == null)
 							aria-label="...">
 							<div class="btn-group" role="group">
 								<button type="button" class="btn btn-default"
-									onclick="createFile();" id="createFileButton">新建</button>
-							</div>
-							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-default"
 									onclick="renameFile();" id="renameFileButton">重命名</button>
 							</div>
 							<div class="btn-group" role="group">
@@ -131,13 +127,13 @@ if (session_user == null)
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />
 							</td>
-							<td><%=temp%></td>
+							<td><%=temp.substring(0, temp.indexOf(".html"))%></td>
 							<td><%=type%></td>
 							<td><a class="button border-green button-little"
-								href="FileAction!showPrivate?filename=<%=temp%>">详情</a>
+								href="FileAction!showMyPublic?filename=<%=temp%>">详情</a>
 								<a
 								class="button border-blue button-little"
-								href="FileAction!ReadFile?filename=<%=temp%>">编辑</a>
+								href="FileAction!ReadMyFile?filename=<%=temp%>">编辑</a>
 								</td>
 						</tr>
 						<%
@@ -164,79 +160,14 @@ if (session_user == null)
 			<div class="col-md-1"></div>
 		</div>
 	</div>
-	<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="myModalLabel">
-					模态框（Modal）标题
-				</h4>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-               <label for="name">一级分类</label>
-               <input type="text" class="form-control" id="label1" placeholder="请输入名称">
-               </div>
-			  <div class="form-group">
-               <label for="name">二级分类</label>
-              <input type="text" class="form-control" id="label2" placeholder="请输入名称">
-              </div>
-				<div class="form-group">
-               <label for="name">三级分类</label>
-              <input type="text" class="form-control" id="label3" placeholder="请输入名称">
-              </div>
-				<div class="form-group">
-               <label for="name">关键字</label>
-              <input type="text" class="form-control" id="keyword" placeholder="请输入名称">
-              </div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-black" onclick="SetLables();">
-					提交更改
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
 	<br>
 	<br>
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
 	<div class="container">CopyRight@QYZ team</div>
 	</nav>
-
 	<script type="text/javascript">
-		function createFile() {
-			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
-			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
-			if (name)//如果返回的有内容  
-			{
-				var reg = /[\.]html$/;
-				if (!reg.test(name)) {
-					alert("文件名格式，错误！请以(.html)结尾");
-					return;
-				}
-				alert("新建文件：" + name);
-				var data = {
-					filename : name
-				};
-				$.ajax({
-					url : "PublicTextAction!create_publicFile",
-					type : "POST",
-					data : data,
-					dataType : "json"
-				}).done(function(data) {
-					window.location.reload();
-				}).fail(function() {
-					alert("添加文件失败");
-				})
-			}
-		}
 		function renameFile() {
-			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ".html"); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			var radioValue;
 			if (name) {
@@ -257,6 +188,7 @@ if (session_user == null)
 					alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
+					name = name.toString();
 					var data = {
 						filename : radioValue,
 						filerename : name
@@ -303,67 +235,11 @@ if (session_user == null)
 				})
 			}
 		}
-		function shareFile(file) {
-			//输出值和文本  
-			//alert("分享:" + file);
-			//把获得的数据转换为字符串传递到后台              
-			var data = {
-				filename : file
-			};
-			$.ajax({
-				url : "AjaxAction!shareFile",
-				type : "POST",
-				data : data,
-				dataType : "json"
-			}).done(function(data) {
-				alert("分享文件成功");
-			}).fail(function() {
-				alert("分享文件失败");
-			})
-
-		}
 		function Search() {
 			var file = document.getElementById("search").innerText;
 			//alert(file);
 			window.location.href = "SearchAction!SearchFile?CheckedFile="
 					+ file;
-		}
-		function showModal(file,label1,label2,label3,keyword)
-		{
-			document.getElementById("myModalLabel").innerText=file;
-			document.getElementById("label1").value=label1;
-			document.getElementById("label2").value=label2;
-			document.getElementById("label3").value=label3;
-			document.getElementById("keyword").value=keyword;
-			$('#myModal').modal();
-			//alert(0);
-		}
-		function SetLables()
-		{
-			var filename=document.getElementById("myModalLabel").innerText;
-			//alert(filename);
-			var label1=document.getElementById("label1").value;
-			var label2=document.getElementById("label2").value;
-			var label3=document.getElementById("label3").value;
-			var keyword=document.getElementById("keyword").value;
-			alert(filename+label1+label2+label3+keyword);
-			var data = {
-					'article.Title' : filename,
-					'article.Label1':label1,
-					'article.Label2':label2,
-					'article.Label3':label3,
-					'article.Keyword':keyword
-				};
-				$.ajax({
-					url : "AjaxFileLabel!SetFileLable",
-					type : "POST",
-					data : data,
-					dataType : "json"
-				}).done(function(data) {
-					window.location.reload();
-				}).fail(function() {
-					alert("分类失败");
-				})
 		}
 	</script>
 </body>

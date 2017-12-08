@@ -51,6 +51,7 @@ public class AjaxAction extends ActionSupport {
   private String newpassword;
   private String oldpassword;
   private FileDatabase fconn;
+  private Database daconn;
   //private List<Txtfile> txtfiles;
   //private JSONArray text;
   
@@ -59,6 +60,8 @@ public class AjaxAction extends ActionSupport {
   {
 	  fconn = new FileDatabase();
 	  fconn.ConnectMysql();
+	  daconn = new Database();
+	  daconn.ConnectMysql();
   }
   
   /**
@@ -198,10 +201,18 @@ public void setOldpassword(String oldpassword) {
   }
 
   public String saveFile() {
-    path = (String) ServletActionContext.getRequest().getSession()
+     path = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");
-    System.out.println(context);
-     boolean flag=Director.saveFile(path + "/" + filename, context);
+     System.out.println(context);
+     boolean flag;
+     if(filename.contains("shared"))
+     {
+    	 flag=Director.saveFile(filename, context);
+     }
+     else
+     {
+    	 flag=Director.saveFile(path + "/" + filename, context);
+     }
      ServletActionContext.getRequest().setAttribute("saveFileFlag", flag);
      this.flag=flag;
      System.out.println(flag);
@@ -211,6 +222,31 @@ public void setOldpassword(String oldpassword) {
        return SUCCESS;
        return SUCCESS;  
   }
+  public String saveMyPublicFile() {
+	    path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	    path = "shared/"+path;
+	    System.out.println(context);
+	    System.out.println(path);
+	     boolean flag=Director.saveFile(path + "/" + filename, context);
+	     ServletActionContext.getRequest().setAttribute("saveFileFlag", flag);
+	     this.flag=flag;
+	     System.out.println(flag);
+	     FullTextRetrieval.AddIndex(path, filename);
+	     try
+		  {
+	    	 String ss = new Timestamp(new Date().getTime()).toString();
+			 String sql1 = "update publictext set time= '"+ss+"' where location='"+path+"'";
+			 PreparedStatement ps = daconn.conn.prepareStatement(sql1);
+			 ps.executeUpdate();
+		  }
+		  catch(Exception e)
+		  {
+			  e.printStackTrace();
+		  } 
+	     if(flag)
+	       return SUCCESS;
+	       return SUCCESS;  
+	  }
   
   public String createFile() {
     path = (String) ServletActionContext.getRequest().getSession()

@@ -30,6 +30,14 @@ public class PublicTextAction extends ActionSupport
 	private FileDatabase fconn;
 	private String filerename; //为文件重命名时的新文件名。
 	
+	public String getFilerename() {
+		return filerename;
+	}
+
+	public void setFilerename(String filerename) {
+		this.filerename = filerename;
+	}
+
 	public PublicTextAction()
 	{
 	     database =new Database();
@@ -206,8 +214,8 @@ public class PublicTextAction extends ActionSupport
 	
 	public void createTable()
 	{
-		String ID = "shared/admin/";
-		//String ID = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
+		//String ID = "shared/admin/";
+		String ID = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
 		int pos=filename.indexOf(".");
 		String file="";
 		if(pos>0)
@@ -271,7 +279,8 @@ public class PublicTextAction extends ActionSupport
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
-		String path = "F:/work/shared/"+uid+"/"+filename+".html";
+		String path = "F:/work/shared/"+uid+"/"+filename;
+		filename = filename.substring(0,filename.indexOf(".html"));
 		File file = new File(path);
 		file.delete();
 		String presql = "SHOW TABLES LIKE 'shared/"+uid+"/"+filename+"'";
@@ -300,10 +309,10 @@ public class PublicTextAction extends ActionSupport
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
-		String path = "shared/"+uid+"/"+filename+".html";
+		String path = "shared/"+uid+"/"+filename;
 		boolean flag = Director.createFile(path);//在shared文件夹里新建文件
 		try {
-			String sql2 = "Delete from publictext where location='shared/"+uid+"/"+filename+".html'";
+			String sql2 = "Delete from publictext where location='shared/"+uid+"/"+filename+"'";
 			PreparedStatement ps2 = database.conn.prepareStatement(sql2);
 			ps2.executeUpdate();
 			String mysql = "insert into publictext(Location,Owner,Time) values(?,?,?);";
@@ -321,10 +330,10 @@ public class PublicTextAction extends ActionSupport
 	}
 	public String rename_publicFile()
 	{
-		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
-		String path = "shared/"+uid+"/"+filename+".html";
-		String newpath = "shared/"+uid+"/"+filerename+".html";
+		String path = "shared/"+uid+"/"+filename;
+		String newpath = "shared/"+uid+"/"+filerename;
+		System.out.println("77777"+filename+"  "+filerename);
 		Director.renameFile(path, newpath);
 		try
 		{
@@ -332,6 +341,8 @@ public class PublicTextAction extends ActionSupport
 			String sql1 = "update publictext set location='"+newpath+"', time= '"+ss+"' where location='"+path+"'";
 			PreparedStatement ps = database.conn.prepareStatement(sql1);
 			ps.executeUpdate();
+			filename = filename.substring(0,filename.indexOf(".html"));
+			filerename = filerename.substring(0,filerename.indexOf(".html"));
 			String sql2 = "alter table `shared/"+uid+"/"+filename+"` rename `shared/"+uid+"/"+filerename+"`";
 			PreparedStatement ps2 = conn.conn.prepareStatement(sql2);
 			ps2.executeUpdate();

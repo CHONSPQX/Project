@@ -163,6 +163,19 @@ public class FileAction extends ActionSupport {
     else
       return "read_file_failed";
   }
+  public String ReadMyFile() {
+
+	    path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	    filename = "shared/"+path+"/"+filename;
+	    String context = Director.readFile(filename);
+	    ServletActionContext.getRequest().setAttribute("readContext", context);
+	    ServletActionContext.getRequest().setAttribute("filename", filename);
+	    // readContext为输入到前台的文件的内容
+	    if (context != null)
+	      return "read_file_success";
+	    else
+	      return "read_file_failed";
+	  }
   
   public String showPrivate() {
     path = (String) ServletActionContext.getRequest().getSession()
@@ -185,7 +198,7 @@ public class FileAction extends ActionSupport {
     Database db = new Database();
     db.ConnectMysql();
     // location = location.replace(".txt", "");
-    String presql = "select * from lab7.publictext where Location='" + filename
+    String presql = "select * from project.publictext where Location='" + filename
         + "';";
     try {
       PreparedStatement ps1 = db.conn.prepareStatement(presql);
@@ -226,6 +239,56 @@ public class FileAction extends ActionSupport {
     }
   }
 
+  public String showMyPublic() {
+	    String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	    System.out.println("555555"+uid);
+	    filename = "shared/"+uid+"/"+filename;
+	    String location =filename;
+	    String context = Director.readFile(filename);
+	    ServletActionContext.getRequest().setAttribute("readContext", context);
+	    ServletActionContext.getRequest().setAttribute("filename", filename);
+	    Database db = new Database();
+	    db.ConnectMysql();
+	    String presql = "select * from project.publictext where Location='" + filename
+	        + "';";
+	    try {
+	      PreparedStatement ps1 = db.conn.prepareStatement(presql);
+	      ResultSet rs = ps1.executeQuery();// 如果表已经存在了，返回-1，否则返回0
+	      if (rs.next()) {
+	        location = location.substring(0, location.indexOf("."));
+	        System.out.println(location);
+	        String mysql = "SELECT ID,userID,context,time FROM `comment`.`" + location+"`;";
+	        System.out.println(mysql);
+	        ArrayList<Comment> all = new ArrayList<Comment>();
+	        CommentDatabase cdb=new CommentDatabase();
+	        cdb.ConnectMysql();
+	        PreparedStatement ps = cdb.conn.prepareStatement(mysql);
+	        ResultSet res = ps.executeQuery();
+	        while (res.next()) {
+	          Comment co = new Comment();
+	          co.setNumber(res.getInt(1));
+	          co.setOwner(res.getString(2));
+	          co.setMessage(res.getString(3));
+	          co.setCommentTime(res.getDate(4));
+	          all.add(co);
+	          System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
+	              + res.getString(3) + "  " + res.getDate(4) + '\n');
+	        }
+	        ServletActionContext.getRequest().setAttribute("commentTable", all);
+	      }
+	      if (context != null)
+	        return "show_public_success";
+	      else
+	        return "show_public_failed";
+
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	      if (context != null)
+	        return "show_public_success";
+	      else
+	        return "show_public_failed";
+	    }
+	  }
   public String UserCheckFile() {
     String id = (String) ServletActionContext.getRequest().getSession()
         .getAttribute("userID");

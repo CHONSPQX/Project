@@ -10,7 +10,7 @@ public class LuceneMain {
 		lucene.CreateIndex("D://LuceneData",  "D://luceneIndex");
 		lucene.AddIndex("D:\\luceneData\\add.txt", "D://luceneIndex");
 		HashMap< NewDocument, Integer>  result = new HashMap<>();
-		result =lucene.Search( "罗马",  "D://luceneIndex");
+		result =lucene.Search( "2017-10-31",  "D://luceneIndex");
 		
 		Iterator iter = result.entrySet().iterator();
 		while(iter.hasNext()){

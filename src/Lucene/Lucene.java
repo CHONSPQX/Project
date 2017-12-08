@@ -51,9 +51,10 @@ import org.apache.lucene.store.FSDirectory;
 		        String fileTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(time));
 				Field nameField = new TextField("name", fileName, Store.YES);
 				Field contentField = new TextField("content", fileContent , Store.YES);
+				 Field timeField = new TextField("time", fileTime , Store.YES);
 				Field pathField = new StoredField("path", filePath);
 				Field sizeField = new StoredField("size", fileSize);
-			    Field timeField = new StoredField("time", fileTime);
+			    System.out.println(fileTime);
 				System.out.println(fileName);
 				
 				document.add(nameField);
@@ -126,7 +127,7 @@ import org.apache.lucene.store.FSDirectory;
 	        QueryParser parser = new QueryParser(field, analyzer);
 	        Query query =parser.parse(text);
 	        TopDocs topDocs = indexSearcher.search(query, 100);
-	        System.out.println("查询数据为：" + text);
+	        System.out.println(field+"查询数据为：" + text);
 	        System.out.println("总共的查询结果：" +  topDocs.totalHits);
 	        ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 	        for (ScoreDoc scoreDoc : scoreDocs) {
@@ -141,20 +142,22 @@ import org.apache.lucene.store.FSDirectory;
 	        } 
 	        return texts;
 	 }
-	 //直接索引
+	 
+	 //个人索引检索
 	 public HashMap< NewDocument, Integer> Search(String text, String indexPath)throws Exception{
 		 HashMap< NewDocument, Integer> results = new HashMap<>();
 		 
-		// HashMap< NewDocument, Integer> resultTime = FieldSearch("time", text, indexPath);
+		 HashMap< NewDocument, Integer> resultTime = FieldSearch("time", text, indexPath);
 		 HashMap< NewDocument, Integer> resultContent = FieldSearch("content", text, indexPath);
 		 HashMap< NewDocument, Integer> resultName = FieldSearch("name", text, indexPath);
 		 
-		// results.putAll(resultTime);
+		 results.putAll(resultTime);
 		 results.putAll(resultContent);
 		 results.putAll(resultName);
 		 return results; 
 	 }
-	 //共享索引
+	 
+	 //共享索引检索
 	 public HashMap< NewDocument, Integer> SearchShare(String text, String indexPath)throws Exception{
 		 HashMap< NewDocument, Integer> results = new HashMap<>();
 		 File paths = new File(indexPath);

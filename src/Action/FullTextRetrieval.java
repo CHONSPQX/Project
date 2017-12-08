@@ -95,7 +95,8 @@ public class FullTextRetrieval extends ActionSupport {
 	      return "fail";
 	    }
 	  }
-	  public String Search(String input){
+	 
+ public String Search(String input){
 	    try {
 	      String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 	    String indexPath = "F:/work/index/" +userID; 

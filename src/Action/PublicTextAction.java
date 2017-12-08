@@ -83,7 +83,41 @@ public class PublicTextAction extends ActionSupport
 			  }
 		  }
 	  }
-	
+	public String checkFile()
+	{
+		//String id = "admin";
+		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		ArrayList<String> all = new ArrayList<String>();
+		getFile("F:/work/shared/"+id,all);
+		ServletActionContext.getRequest().setAttribute("AllPublicFiles", all);
+		return "check_publicfile_success";
+	}
+	public void getFile(String path,ArrayList<String>all)//传进的是绝对路径,获取该文件或者该文件夹下的所有文件
+	{
+		File dir = new File(path);
+		if(dir.isFile())
+		{
+			all.add(dir.getName());
+		}
+		else
+		{
+			String[] strs = dir.list();
+			for(String s : strs)
+			{
+				getFile(path+"/"+s,all);
+			}  	
+		}
+	}
+	public static void main(String args[])
+	{
+	  PublicTextAction pAction = new PublicTextAction();
+	  String path = "F:/work/yangfan";
+	  ArrayList<String>all = new ArrayList<String>();
+	  pAction.getFile(path,all);
+	  for(int i = 0;i<all.size();i++)
+		  System.out.println(all.get(i));
+	}
+	  
 	public PublicText getPublictext() {
 		return publictext;
 	}
@@ -233,7 +267,7 @@ public class PublicTextAction extends ActionSupport
 		}	
 	}
 	
-	public void delete_publicFile()
+	public String delete_publicFile()
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -256,11 +290,13 @@ public class PublicTextAction extends ActionSupport
 			}
 			PreparedStatement ps2 = database.conn.prepareStatement(sql2);
 			ps2.executeUpdate();
+			return SUCCESS;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return SUCCESS;
 	}
-	public void create_publicFile()
+	public String create_publicFile()
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -277,11 +313,13 @@ public class PublicTextAction extends ActionSupport
 			ps.setTimestamp(3, new Timestamp(new Date().getTime()));
 			int result = ps.executeUpdate();
 			createTable();
+			return SUCCESS;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return SUCCESS;
 	}
-	public void rename_publicFile()
+	public String rename_publicFile()
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -297,18 +335,12 @@ public class PublicTextAction extends ActionSupport
 			String sql2 = "alter table `shared/"+uid+"/"+filename+"` rename `shared/"+uid+"/"+filerename+"`";
 			PreparedStatement ps2 = conn.conn.prepareStatement(sql2);
 			ps2.executeUpdate();
+			return SUCCESS;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String args[])
-	{
-	  PublicTextAction pAction = new PublicTextAction();
-	  pAction.filename = "8888";
-	  pAction.filerename = "9999";
-	  pAction.rename_publicFile();
+		return SUCCESS;
 	}
 }

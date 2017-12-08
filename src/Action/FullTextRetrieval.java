@@ -143,5 +143,65 @@ public class FullTextRetrieval extends ActionSupport {
 	      return "fail";
 	    }         
 	  }
+	public String CreateIndex() throws IOException{
+		dataPath ="F:/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		indexPath = "F:/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		if(new Lucene().CreateIndex(dataPath, indexPath))
+			return "success";
+		return "fail";
+	}
+	public String AddIndex(String fileName) throws IOException{
+		//dataPath ="F:/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		//indexPath = "F:/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		if(new Lucene().AddIndex(addPath, indexPath))
+			return "success";
+		return "fail";
+	}
+	
+	public String Search()throws Exception{
+		HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
+		ArrayList<String> results = new ArrayList<>();
+		ArrayList<String> times = new ArrayList<>();
+		ArrayList<Float> scores = new ArrayList<>();
+		ArrayList<Integer> searchTimes = new ArrayList<>();
+		Iterator iter = result.entrySet().iterator();
+		while(iter.hasNext()){
+			HashMap.Entry  entry = (HashMap.Entry) iter.next();
+			NewDocument key = (NewDocument) entry.getKey();
+			results.add(key.getPath() );
+			times.add(key.getTime());
+			scores.add(key.getScore());
+			searchTimes.add((Integer) entry.getValue());
+		}
+		ServletActionContext.getRequest().setAttribute("allTime", times);
+		ServletActionContext.getRequest().setAttribute("allScore", scores);
+		ServletActionContext.getRequest().setAttribute("allSearchTime", searchTimes);
+		ServletActionContext.getRequest().setAttribute("allResult", results);
+		return "success";	
+	}
+
+	public String SearchShared()throws Exception{
+		indexPath = "F:/work/index/shared";
+		HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
+		ArrayList<String> results = new ArrayList<>();
+		ArrayList<String> times = new ArrayList<>();
+		ArrayList<Float> scores = new ArrayList<>();
+		ArrayList<Integer> searchTimes = new ArrayList<>();
+		Iterator iter = result.entrySet().iterator();
+		while(iter.hasNext()){
+			HashMap.Entry  entry = (HashMap.Entry) iter.next();
+			NewDocument key = (NewDocument) entry.getKey();
+			results.add(key.getPath() );
+			times.add(key.getTime());
+			scores.add(key.getScore());
+			searchTimes.add((Integer) entry.getValue());
+		}
+		ServletActionContext.getRequest().setAttribute("allTime", times);
+		ServletActionContext.getRequest().setAttribute("allScore", scores);
+		ServletActionContext.getRequest().setAttribute("allSearchTime", searchTimes);
+		ServletActionContext.getRequest().setAttribute("allResult", results);
+		return "success";
+			
+	}
 
 }

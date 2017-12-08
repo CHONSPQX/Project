@@ -18,6 +18,7 @@ public class Classifier extends ActionSupport{
 	String indexPath;
 	String dataPath;
 	String addPath;
+	int count;
 	public String getText() {
 		return text;
 	}
@@ -42,12 +43,18 @@ public class Classifier extends ActionSupport{
 	public void setAddPath(String addPath) {
 		this.addPath = addPath;
 	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	
-	public static String TimeClassifier(String input)throws Exception{
+	public String TimeClassifier()throws Exception{
 		try{
 			String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 			String indexPath = "F:/work/index/" +userID; 
-			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("time",input, indexPath);
+			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("time",text, indexPath);
 			ArrayList<String> results = new ArrayList<>();
 			Iterator iter = result.entrySet().iterator();
 			while(iter.hasNext()){
@@ -69,11 +76,11 @@ public class Classifier extends ActionSupport{
 		    }
 	}
 
-	public static String TitleClassifier(String input)throws Exception{
+	public String TitleClassifier()throws Exception{
 		try{
 			String userID = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 			String indexPath = "F:/work/index/"+userID;
-			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("name", input,indexPath);
+			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("name", text,indexPath);
 			ArrayList<String> results = new ArrayList<>();
 			Iterator iter = result.entrySet().iterator();
 			while(iter.hasNext()){
@@ -93,13 +100,13 @@ public class Classifier extends ActionSupport{
 			    }
 	}
 
-	public static String KeywordClassifier(String input)throws Exception{
+	public String KeywordClassifier()throws Exception{
 		try{
 		     FileDatabase fconn = new FileDatabase();
 			 ArrayList<String> results = new ArrayList<>();
 		     fconn.ConnectMysql();
 			 String userID = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-		     String mysql = "select title from `"+userID+"` where keyword='"+input+"'";
+		     String mysql = "select title from `"+userID+"` where keyword='"+text+"'";
 		     PreparedStatement ps =fconn.conn.prepareStatement(mysql);
 		     ResultSet rs = ps.executeQuery();
 		     while(rs.next())
@@ -114,5 +121,18 @@ public class Classifier extends ActionSupport{
 		      // TODO: handle exception
 		      return "fail";
 		    }
+	}
+
+	public String ClassifierSearch()throws Exception{
+		String ret = new String();
+		if(count==0)
+			ret = TimeClassifier();
+		else if(count==1)
+			ret = TitleClassifier();
+		else if(count==2)
+			ret = KeywordClassifier();
+		else
+			ret = "fail";
+		return ret;
 	}
 }

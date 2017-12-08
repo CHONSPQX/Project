@@ -42,6 +42,9 @@ if (session_user == null)
 				<li class="active"><a href="UserAction!UserCheckFile">我的空间
 						<span class="sr-only">(current)</span>
 				</a></li>
+				<li class="active"><a href="PublicAction!checkFile">我的共享
+						<span class="sr-only">(current)</span>
+				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"

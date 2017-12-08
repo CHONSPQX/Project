@@ -27,6 +27,8 @@ public class PublicTextAction extends ActionSupport
 	private String filename;
 	private Database database;
 	private CommentDatabase conn;
+	private FileDatabase fconn;
+	private String filerename; //为文件重命名时的新文件名。
 	
 	public PublicTextAction()
 	{
@@ -34,6 +36,8 @@ public class PublicTextAction extends ActionSupport
 	     database.ConnectMysql();
 	     conn = new CommentDatabase();
 	     conn.ConnectMysql();
+	     fconn = new FileDatabase();
+	     fconn.ConnectMysql();
 	}
 
 	protected boolean SearchPublicFile(String filename)
@@ -168,7 +172,8 @@ public class PublicTextAction extends ActionSupport
 	
 	public void createTable()
 	{
-		String ID = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
+		String ID = "shared/admin/";
+		//String ID = "shared/"+(String)ServletActionContext.getRequest().getSession().getAttribute("userID")+"/";
 		int pos=filename.indexOf(".");
 		String file="";
 		if(pos>0)
@@ -178,7 +183,7 @@ public class PublicTextAction extends ActionSupport
 		ID = ID + file;
 		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
 		String mysql="CREATE TABLE `comment`.`"+ID+"` (`ID` INT NOT NULL AUTO_INCREMENT,`userID` VARCHAR(16) NULL,`context` VARCHAR(140) NULL,`time` DATETIME NULL,PRIMARY KEY (`ID`));";
-		System.out.println(mysql);
+		//System.out.println(mysql);
 		//CREATE TABLE `comment`.`ness/aaaaaa` (
 		//`ID` INT NOT NULL AUTO_INCREMENT,
 		// `userID` VARCHAR(16) NULL,
@@ -227,9 +232,83 @@ public class PublicTextAction extends ActionSupport
 			return "check_comment_failed";
 		}	
 	}
+	
+	public void delete_publicFile()
+	{
+		//String uid = "admin";
+		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+		String path = "F:/work/shared/"+uid+"/"+filename+".html";
+		File file = new File(path);
+		file.delete();
+		String presql = "SHOW TABLES LIKE 'shared/"+uid+"/"+filename+"'";
+		String mysql = "drop table `shared/"+uid+"/"+filename+"`";
+		String sql2 = "Delete from publictext where location='shared/"+uid+"/"+filename+".html'";
+		PreparedStatement ps;
+		try {
+			System.out.println("4444");
+			PreparedStatement ps1 = conn.conn.prepareStatement(presql);
+			int rs = ps1.executeUpdate();
+			System.out.println("rs = " + rs);
+			if(rs==-1)
+			{
+				ps = conn.conn.prepareStatement(mysql);
+				int ts = ps.executeUpdate();
+			}
+			PreparedStatement ps2 = database.conn.prepareStatement(sql2);
+			ps2.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void create_publicFile()
+	{
+		//String uid = "admin";
+		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+		String path = "shared/"+uid+"/"+filename+".html";
+		boolean flag = Director.createFile(path);//在shared文件夹里新建文件
+		try {
+			String sql2 = "Delete from publictext where location='shared/"+uid+"/"+filename+".html'";
+			PreparedStatement ps2 = database.conn.prepareStatement(sql2);
+			ps2.executeUpdate();
+			String mysql = "insert into publictext(Location,Owner,Time) values(?,?,?);";
+			PreparedStatement ps = database.conn.prepareStatement(mysql);
+			ps.setString(1, path);
+			ps.setString(2, uid);
+			ps.setTimestamp(3, new Timestamp(new Date().getTime()));
+			int result = ps.executeUpdate();
+			createTable();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void rename_publicFile()
+	{
+		//String uid = "admin";
+		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
+		String path = "shared/"+uid+"/"+filename+".html";
+		String newpath = "shared/"+uid+"/"+filerename+".html";
+		Director.renameFile(path, newpath);
+		try
+		{
+			String ss = new Timestamp(new Date().getTime()).toString();
+			String sql1 = "update publictext set location='"+newpath+"', time= '"+ss+"' where location='"+path+"'";
+			PreparedStatement ps = database.conn.prepareStatement(sql1);
+			ps.executeUpdate();
+			String sql2 = "alter table `shared/"+uid+"/"+filename+"` rename `shared/"+uid+"/"+filerename+"`";
+			PreparedStatement ps2 = conn.conn.prepareStatement(sql2);
+			ps2.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String args[])
 	{
 	  PublicTextAction pAction = new PublicTextAction();
-	  pAction.createTable();
+	  pAction.filename = "8888";
+	  pAction.filerename = "9999";
+	  pAction.rename_publicFile();
 	}
 }

@@ -49,7 +49,7 @@ if (session_user == null)
 				<li class="active"><a href="UserAction!UserCheckFile">个人文件
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="active"><a href="PublicTextAction!CheckFile">共享文件
+				<li><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
@@ -75,8 +75,6 @@ if (session_user == null)
 						<li><a href="UserAction!UserLogout">用户注销</a></li>
 						<li><a href="people_account.jsp">密码管理</a></li>
 						<li><a href="UserAction!getUserProfile">个人信息</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -94,6 +92,15 @@ if (session_user == null)
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<strong>我的文章列表</strong>
+					</div>
+					<div class="panel-body">
+						<div class="btn-group btn-group-justified" role="group"
+							aria-label="...">
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default"
+									onclick="pageBack();">返回</button>
+							</div>
+						</div>
 					</div>
 					
 					<table class="table table-hover">
@@ -158,6 +165,9 @@ if (session_user == null)
 		}
 		function ShowDetail(file) {
 			window.location.href = "FileAction!showPublic?filename=" + file;
+		}
+		function pageBack() {
+			history.go(-1);
 		}
 	</script>
 </body>

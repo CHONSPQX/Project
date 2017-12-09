@@ -1,4 +1,5 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@page import="Article.Article"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,7 +21,7 @@ if (session_user == null)
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <%
-	ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
+	ArrayList<Article> allFile = (ArrayList<Article>) request.getAttribute("AllFiles");
 %>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -44,7 +45,7 @@ if (session_user == null)
 				<li class="active"><a href="UserAction!UserCheckFile">个人文件
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="active"><a href="PublicTextAction!CheckFile">共享文件
+				<li><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
@@ -70,8 +71,6 @@ if (session_user == null)
 						<li><a href="UserAction!UserLogout">用户注销</a></li>
 						<li><a href="people_account.jsp">密码管理</a></li>
 						<li><a href="UserAction!getUserProfile">个人信息</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -117,7 +116,8 @@ if (session_user == null)
 						<%
 							if (allFile != null && allFile.size() > 0)
 								for (int i = 0; i < allFile.size(); i++) {
-									String temp = allFile.get(i);
+									Article article=allFile.get(i);
+									String temp = article.getTitle();
 									String type = new String();
 									if (temp.contains("."))
 										type = temp.substring(temp.lastIndexOf("."), temp.length());
@@ -125,7 +125,7 @@ if (session_user == null)
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />
 							</td>
-							<td><%=temp%></td>
+							<td><%=temp.substring(0,temp.lastIndexOf("."))%></td>
 							<td><%=type%></td>
 							<td><a class="button border-green button-little"
 								href="FileAction!showPrivate?filename=<%=temp%>">详情</a>
@@ -137,7 +137,7 @@ if (session_user == null)
 								onclick="shareFile('<%=temp%>');">分享</a>
 								<a
 								class="button border-red button-little" href="#"
-								onclick="showModal('<%=temp%>','一级分类','二级分类','三级分类','关键字');">分类</a>
+								onclick="showModal('<%=temp%>','<%=article.getLabel1() %>','<%=article.getLabel2() %>','<%=article.getLabel3() %>','<%=article.getKeyword() %>');">分类</a>
 								</td>
 						</tr>
 						<%
@@ -333,10 +333,22 @@ if (session_user == null)
 		function showModal(file,label1,label2,label3,keyword)
 		{
 			document.getElementById("myModalLabel").innerText=file;
+			if(label1!="null")
 			document.getElementById("label1").value=label1;
+			else
+				document.getElementById("label1").value="";
+			if(label2!="null")
 			document.getElementById("label2").value=label2;
+			else
+				document.getElementById("label2").value="";
+			if(label3!="null")
 			document.getElementById("label3").value=label3;
+			else
+				document.getElementById("label3").value="";
+			if(keyword!="null")
 			document.getElementById("keyword").value=keyword;
+			else
+				document.getElementById("keyword").value="";
 			$('#myModal').modal();
 			//alert(0);
 		}

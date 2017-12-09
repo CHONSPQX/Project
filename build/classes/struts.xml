@@ -42,6 +42,8 @@
   <action name="SearchAction" class="Action.ClassifierSearcher">
   	<result name="search_private_success">/SearchResult.jsp</result>
   	<result name="search_private_failed">/SearchResult.jsp</result>
+  	<result name="search_public_success">/SharedResult.jsp</result>
+  	<result name="search_public_failed">/SharedResult.jsp</result>
   </action>
   <action name="PublicTextAction" class="Action.PublicTextAction">
     <result name="check_publicfile_success">/content_public.jsp</result>
@@ -49,6 +51,9 @@
   </package>
   <package name="main" namespace="/" extends="json-default">
   <action name="AjaxAction" class="Action.AjaxAction">
+    <result name="success" type="json"></result>
+  </action>
+  <action name="action2" class="Action.PublicTextAction">
     <result name="success" type="json"></result>
   </action>
    <action name="AjaxUserProfile" class="Action.AjaxUserProfile">

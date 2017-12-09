@@ -334,35 +334,59 @@ public class ClassifierSearcher extends ActionSupport{
 		    try { 
 		      String indexPath = "F:/work/index/shared";
 		      HashMap< NewDocument, Integer> result = new HashMap<>();
+		      ArrayList<String> results = new ArrayList<>();
 		      if(count==0)
-		    	  result = new Lucene().FieldSearch("time", text, indexPath);
+		    	  results=SearchUser();
 		      else if(count==1)
 		    	  result = new Lucene().FieldSearch("name", text, indexPath);
 		      else if(count==2)
+		    	  result = new Lucene().FieldSearch("time", text, indexPath);
+		      else if(count==3)
 		    	  result = new Lucene().Search(text,  indexPath);
 		      else 
-		    	  return "fail";
-		      ArrayList<String> results = new ArrayList<>();
-		      Iterator iter = result.entrySet().iterator();
-		      while(iter.hasNext()){
-		          HashMap.Entry  entry = (HashMap.Entry) iter.next();
-		          NewDocument key = (NewDocument) entry.getKey();
-		          String path=key.getPath();
-		          path=path.substring(path.lastIndexOf("F:/work/shared/")+9);
-		          path=path.replace("\\", "/");
-		          if(!results.contains(path))
-		          results.add(path);
-		          System.out.println(path);
+		    	  return "search_public_failed";
+		      if(count!=0)
+		      {
+			      Iterator iter = result.entrySet().iterator();
+			      while(iter.hasNext()){
+			          HashMap.Entry  entry = (HashMap.Entry) iter.next();
+			          NewDocument key = (NewDocument) entry.getKey();
+			          String path=key.getPath();
+			          path=path.substring(path.lastIndexOf("F:/work/shared/")+9);
+			          path=path.replace("\\", "/");
+			          if(!results.contains(path))
+			          results.add(path);
+			      }
 		      }
 		      ServletActionContext.getRequest().setAttribute("allSearchedPublicFiles", results);
-		      return "success";
+		      return "search_public_success";
 		    }
 		    catch (Exception e) {
 		      // TODO: handle exception
-		      return "fail";
+		      return "search_public_failed";
 		    }         
 	 }
 
+	 public ArrayList<String> SearchUser()
+	 {
+		 ArrayList<String> result=new ArrayList<>();
+		 try{
+		 String sql="select Location from publictext where owner='"+text+"'";
+		 Database database=new Database();
+		 database.ConnectMysql();
+		 PreparedStatement psql=database.conn.prepareStatement(sql);
+		 ResultSet rs=psql.executeQuery();
+		 while (rs.next()) {
+			result.add(rs.getString(1));
+		}
+		 }
+		 catch (Exception e) {
+			// TODO: handle exception
+			 return result;
+		}
+		 return result;
+	 }
+	 
 	 public String SearchShared(String input){
 		    try { 
 		      String indexPath = "F:/work/index/shared";

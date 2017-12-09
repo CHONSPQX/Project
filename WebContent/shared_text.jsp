@@ -27,7 +27,6 @@
   ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
 %>
 <body>
-
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -46,21 +45,21 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="UserAction!UserCheckFile">个人文件
+				<li><a href="UserAction!UserCheckFile">个人文件
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="active"><a href="PublicTextAction!CheckFile">共享文件
+				<li ><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li><a href="shared_text.jsp">共享空间</a></li>
+				<li class="active"><a href="shared_text.jsp">共享空间</a></li>
 			</ul>
 						<div class="navbar-form navbar-left">
 				<select class="btn btn-default" id="choose" >
-			     <option  class="btn btn-default" value="0">按关键字</option>
+				 <option class="btn btn-default" value="0">按作者</option>
 			     <option  class="btn btn-default" value="1">按题目</option>
 			     <option  class="btn btn-default" value="2">按时间</option>
 			     <option class="btn btn-default" value="3">全文检索</option>
-		         </select> 
+		        </select> 
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search"
 							id="search">
@@ -75,14 +74,13 @@
 						<li><a href="UserAction!UserLogout">用户注销</a></li>
 						<li><a href="people_account.jsp">密码管理</a></li>
 						<li><a href="UserAction!getUserProfile">个人信息</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
 					</ul></li>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
-	<!-- /.container-fluid --> </nav>
+	<!-- /.container-fluid --> 
+	</nav>
  <br>
   <br>
   <br>
@@ -144,17 +142,16 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
-				<ul class="pagination">
-					<li><a href="#">Prev</a></li>
-					<li><a onclick="nextpage(0);">1</a></li>
-					<li><a onclick="nextpage(1);">2</a></li>
-					<li><a onclick="nextpage(2);">3</a></li>
-					<li><a onclick="nextpage(3);">4</a></li>
-					<li><a onclick="nextpage(4);">5</a></li>
-					<li><a href="#">Next</a></li>
+			</div>
+			<div class="col-sm-4" align="center">
+			<ul class="pagination">
+					<li><a onclick="prevpage()">Prev</a></li>
+					
+					<li><a onclick="nextpage()">Next</a></li>
 				</ul>
+			</div>
+			<div class="col-sm-4">
 			</div>
 		</div>
 	</div>
@@ -172,6 +169,20 @@
 		getContext(num);
 		pagenum = num;
 	}
+	function prevpage() {
+		if(pagenum>0)
+		{
+		getContext(pagenum-1);
+		pagenum = pagenum-1;
+		}
+		else{
+			alert("前面已经没有啦！");
+		}
+	}
+	function nextpage() {
+		getContext(pagenum+1);
+		pagenum = pagenum+1;
+	}
 	function getContext(num) {
 		var data = {
 			num : num
@@ -182,35 +193,30 @@
 			data : data,
 			dataType : "json"
 		}).done(function(data) {
-
-			var title1 = document.getElementById("title1");
-			//alert(data.title1);
-			title1.innerText = data.title1;
-			var context1 = document.getElementById("context1");
-			//alert(data.context1);
-			context1.innerHTML = data.context1;
-			var footer1 = document.getElementById("footer1");
-			//alert(data.footer1);
-			footer1.innerText = data.footer1;
-
-			var title2 = document.getElementById("title2");
-			// alert(data.title2);
-			title2.innerText = data.title2;
-			var context2 = document.getElementById("context2");
-			context2.innerHTML = data.context2;
-			var footer2 = document.getElementById("footer2");
-			footer2.innerText = data.footer2;
-
-			var title3 = document.getElementById("title3");
-			//alert(data.title3);
-			title3.innerText = data.title3;
-			var context3 = document.getElementById("context3");
-			context3.innerHTML = data.context3;
-			var footer3 = document.getElementById("footer3");
-			footer3.innerText = data.footer3;
+			for(var i=1;i<=3;i++)
+			{
+				var title = document.getElementById("title"+i);
+				var context=document.getElementById("context"+i);
+				var footer=document.getElementById("footer"+i);
+				var valtitle=data["title"+i];
+				var valcontext=data["context"+i];
+				var valfooter=data["footer"+i];
+				if(valtitle!=null&&valtitle.length>0)
+				title.innerText = valtitle
+				else
+				{
+					alert("后面已经没有啦！");
+					pagenum=pagenum-1;
+					return;
+				}
+				if(valcontext!=null&&valcontext.length>0)
+				context.innerHTML = valcontext;
+				if(valfooter!=null&&valfooter.length>0)
+				footer.innerText = valfooter;	
+			}
 
 		}).fail(function() {
-			alert(num);
+			alert("空");
 		})
 	}
 	$(document).ready(function() {
@@ -227,6 +233,15 @@
 			var file = document.getElementById("title3").innerText;
 			window.location.href = "FileAction!showPublic?filename=" + file;
 		}
+	}
+	function Search() {
+		var file = document.getElementById("search").value;
+		var count=document.getElementById("choose").value;
+		alert(count+"   "+file);
+		//alert(file);
+		
+		window.location.href = "SearchAction!SearchShared?text="
+				+ file+"&count="+count;
 	}
 </script>
 </html>

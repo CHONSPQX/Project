@@ -14,6 +14,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import Article.Article;
 import User.User;
 import WeFile.Director;
 
@@ -47,8 +48,8 @@ public class UserAction extends ActionSupport {
 		conn.ConnectMysql();
 		fconn = new FileDatabase();
 		fconn.ConnectMysql();
-		cconn = new ClassDatabase();
-		cconn.ConnectMysql();
+		//cconn = new ClassDatabase();
+		//cconn.ConnectMysql();
 	}
 
 	public String UserComment() {
@@ -197,14 +198,45 @@ public class UserAction extends ActionSupport {
 			return "createDirnotok";
 	}
 
-	public String UserCheckFile() {
+	public String UserCheckFiles() {
 		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		System.out.println(id);
 		ArrayList<String> all = Director.checkFile(id, "");
 		for (String s : all)
 			System.out.println(s);
-		ServletActionContext.getRequest().setAttribute("AllFiles", all);
+		ServletActionContext.getRequest().setAttribute("AllFiles", all); 
 		return "check_file_success";
+	}
+	
+	public String UserCheckFile() {
+		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	    try{
+		String sql="select title, label1, label2, label3, keyword,time, path,owner from `"+id+"`";
+		//System.out.println(sql);
+	    PreparedStatement psql=fconn.conn.prepareStatement(sql);
+	    ResultSet rs=psql.executeQuery();
+		ArrayList<Article> results=new ArrayList<>();
+		while(rs.next())
+		{
+			Article article = new Article();
+			article.setTitle(rs.getString(1));
+			article.setLabel1(rs.getString(2));
+			article.setLabel2(rs.getString(3));
+			article.setLabel3(rs.getString(4));
+			article.setKeyword(rs.getString(5));
+			article.setDateTime(rs.getString(6));
+			article.setLocation(rs.getString(7));
+			article.setOwner(rs.getString(8));
+		    results.add(article);
+		}
+		//System.out.println(results.size());
+		ServletActionContext.getRequest().setAttribute("AllFiles", results); 
+		return "check_file_success";
+	    }
+	    catch (Exception e) {
+			// TODO: handle exception
+	    	return "chech_file_failed";
+		}
 	}
 
 	/**

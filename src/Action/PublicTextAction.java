@@ -40,14 +40,13 @@ public class PublicTextAction extends ActionSupport
 
 	public PublicTextAction()
 	{
-	     database =new Database();
-	     database.ConnectMysql();
-	     conn = new CommentDatabase();
-	     conn.ConnectMysql();
-	     fconn = new FileDatabase();
-	     fconn.ConnectMysql();
+	    database =new Database();
+	    database.ConnectMysql();
+	    conn = new CommentDatabase();
+	    conn.ConnectMysql();
+	    fconn = new FileDatabase();
+	    fconn.ConnectMysql();
 	}
-
 	protected boolean SearchPublicFile(String filename)
 	{
 		  String AbsoultPath = "F:/work/shared";

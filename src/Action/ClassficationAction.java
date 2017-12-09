@@ -2,6 +2,8 @@ package Action;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -18,11 +20,40 @@ public class ClassficationAction
 	private String context;// 用户评论的内容
 	private String confirmword;
 	private String firstclass;
+	private String newfirstclass;
 	private String secondclass;
+	private String newsecondclass;
 	private String thirdclass;
+	private String newthirdclass;
 	private String filename;
 	private ClassDatabase cconn;
 	
+	
+	
+	public String getNewfirstclass() {
+		return newfirstclass;
+	}
+
+	public void setNewfirstclass(String newfirstclass) {
+		this.newfirstclass = newfirstclass;
+	}
+
+	public String getNewsecondclass() {
+		return newsecondclass;
+	}
+
+	public void setNewsecondclass(String newsecondclass) {
+		this.newsecondclass = newsecondclass;
+	}
+
+	public String getNewthirdclass() {
+		return newthirdclass;
+	}
+
+	public void setNewthirdclass(String newthirdclass) {
+		this.newthirdclass = newthirdclass;
+	}
+
 	public String getFilename() {
 		return filename;
 	}
@@ -107,28 +138,21 @@ public class ClassficationAction
 		this.confirmword = confirmword;
 	}
 	
-	public String setclass()//用于用户输入类别时设置类别。
+	public String changeclass()//用于用户输入类别时设置类别。
 	{
-		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		String uid = "admin30";
+		//String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		if(secondclass == null)
 		{
-			String sql1 = "select id from `"+uid+"` where firstclass ='"+firstclass+"'";
 			try
 			{
-				PreparedStatement ps1 = cconn.conn.prepareStatement(sql1);
-				ResultSet rs = ps1.executeQuery();
-				if(!rs.next())
-				{
-					String sql2 = "insert into `"+uid+"` firstclass values ?";
-					PreparedStatement ps2 = cconn.conn.prepareStatement(sql2);
-					ps2.setString(1, firstclass);
-					ps2.executeUpdate();
-					String sql3 = "insert into `"+uid+"` (firstclass,layer) values (?,?)";
-					PreparedStatement ps3 = fconn.conn.prepareStatement(sql3);
-					ps3.setString(1, firstclass);
-					ps3.setString(2, "1");
-					ps3.executeUpdate();
-				}
+				String sql2 = "insert into `"+uid+"` (firstclass) values (?)";
+				PreparedStatement ps2 = cconn.conn.prepareStatement(sql2);
+				ps2.setString(1, firstclass);
+				ps2.executeUpdate();
+				String sql3 = "update `"+uid+"` set label1='"+firstclass+"',layer='1' where title='"+filename+"'";
+				PreparedStatement ps3 = fconn.conn.prepareStatement(sql3);
+				ps3.executeUpdate();
 			}
 			catch(Exception e)
 			{
@@ -137,25 +161,17 @@ public class ClassficationAction
 		}
 		else if(thirdclass == null)
 		{
-			String sql1 = "select id from `"+uid+"` where firstclass ='"+firstclass+"' and secondclass='"+secondclass+"'";
+			String sql1 = "select path from `"+uid+"` where label1 ='"+firstclass+"' and label2='"+secondclass+"' and title = '"+filename+"'";
 			try
 			{
-				PreparedStatement ps1 = cconn.conn.prepareStatement(sql1);
-				ResultSet rs = ps1.executeQuery();
-				if(!rs.next())
-				{
-					String sql2 = "insert into `"+uid+"` (firstclass,secondclass) values (?,?)";
-					PreparedStatement ps2 = cconn.conn.prepareStatement(sql2);
-					ps2.setString(1, firstclass);
-					ps2.setString(2, secondclass);
-					ps2.executeUpdate();
-					String sql3 = "insert into `"+uid+"` (firstclass,secondclass,layer) values (?,?,?)";
-					PreparedStatement ps3 = fconn.conn.prepareStatement(sql3);
-					ps3.setString(1, firstclass);
-					ps3.setString(2, secondclass);
-					ps3.setString(3, "1");
-					ps3.executeUpdate();
-				}
+				String sql2 = "insert into `"+uid+"` (firstclass,secondclass) values (?,?)";
+				PreparedStatement ps2 = cconn.conn.prepareStatement(sql2);
+				ps2.setString(1, firstclass);
+				ps2.setString(2, secondclass);
+				ps2.executeUpdate();
+				String sql3 = "update `"+uid+"` set label1='"+firstclass+"',label2='"+secondclass+"',layer='2' where title='"+filename+"'";
+				PreparedStatement ps3 = fconn.conn.prepareStatement(sql3);
+				ps3.executeUpdate();
 			}
 			catch(Exception e)
 			{
@@ -164,23 +180,21 @@ public class ClassficationAction
 		}
 		else
 		{
-			String sql1 = "select id from `"+uid+"` where firstclass ='"+firstclass+"' and secondclass='"+secondclass+"'";
+			String sql1 = "select path from `"+uid+"` where label1 ='"+firstclass+"' and label2='"+secondclass+"' and label3='"+thirdclass+"' and title = '" +filename+"'";
 			try
 			{
-				PreparedStatement ps1 = cconn.conn.prepareStatement(sql1);
+				PreparedStatement ps1 = fconn.conn.prepareStatement(sql1);
 				ResultSet rs = ps1.executeQuery();
 				if(!rs.next())
 				{
-					String sql2 = "insert into `"+uid+"` (firstclass,secondclass) values (?,?)";
+					String sql2 = "insert into `"+uid+"` (firstclass,secondclass,thirdclass) values (?,?,?)";
 					PreparedStatement ps2 = cconn.conn.prepareStatement(sql2);
 					ps2.setString(1, firstclass);
 					ps2.setString(2, secondclass);
+					ps2.setString(3, thirdclass);
 					ps2.executeUpdate();
-					String sql3 = "insert into `"+uid+"` (firstclass,secondclass,layer) values (?,?,?)";
+					String sql3 = "update `"+uid+"` set label1='"+firstclass+"',label2='"+secondclass+"',label3='"+thirdclass+"',layer='3' where title='"+filename+"'";
 					PreparedStatement ps3 = fconn.conn.prepareStatement(sql3);
-					ps3.setString(1, firstclass);
-					ps3.setString(2, secondclass);
-					ps3.setString(3, "1");
 					ps3.executeUpdate();
 				}
 			}
@@ -189,7 +203,283 @@ public class ClassficationAction
 				e.printStackTrace();
 			}
 		}
-		return "";
+		return "setclass_success";
 	}
 	
+	public String checkFilebyClass1()
+	{
+		//String uid = "admin30";
+		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		String sql1 = "select firstclass from `"+uid+"`";
+		String sql2 = "select title from `"+uid+"` where layer='0'";
+		PreparedStatement ps1;
+		PreparedStatement ps2;
+		ArrayList<String> allfirstclass = new ArrayList<String>();
+		ArrayList<String> allfiles = new ArrayList<String>();
+		try {
+			ps1 = cconn.conn.prepareStatement(sql1);
+			ResultSet rs1 = ps1.executeQuery();
+			while(rs1.next())
+			{
+				String s = rs1.getString(1);
+				if((s!=null)&&(!allfirstclass.contains(s)))
+				{
+					allfirstclass.add(s);
+					System.out.println(s);
+				}
+			}
+			ServletActionContext.getRequest().setAttribute("AllFirstClass", allfirstclass);
+			ps2 = fconn.conn.prepareStatement(sql2);
+			ResultSet rs2 = ps2.executeQuery();
+			while(rs2.next())
+			{
+				String s = rs2.getString(1);
+				if(s!=null)
+				{
+					System.out.println(s);
+					allfiles.add(s);
+				}
+			}
+			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "checkFilebyClass1_success";
+	}
+	public String checkFilebyClass2()
+	{
+		//String uid = "admin30";
+		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		String sql1 = "select secondclass from `"+uid+"` where firstclass='"+firstclass+"'";
+		String sql2 = "select title from `"+uid+"` where label1='"+firstclass+"' and layer='1'";
+		PreparedStatement ps1;
+		PreparedStatement ps2;
+		ArrayList<String> allsecondclass = new ArrayList<String>();
+		ArrayList<String> allfiles = new ArrayList<String>();
+		try {
+			ps1 = cconn.conn.prepareStatement(sql1);
+			ResultSet rs1 = ps1.executeQuery();
+			int a = 0;
+			while(rs1.next())
+			{
+				a++;
+				String s = rs1.getString(1);
+				if((!s.equals(""))&&(!allsecondclass.contains(s)))
+				{
+					allsecondclass.add(s);
+					System.out.println(s);
+				}
+			}
+			System.out.println(a+" "+allsecondclass.size());
+			ServletActionContext.getRequest().setAttribute("AllSecondClass", allsecondclass);
+			ps2 = fconn.conn.prepareStatement(sql2);
+			ResultSet rs2 = ps2.executeQuery();
+			while(rs2.next())
+			{
+				String s = rs2.getString(1);
+				if(s!=null)
+				{
+					System.out.println(s);
+					allfiles.add(s);
+				}
+			}
+			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "checkFilebyClass2_success";
+	}
+	public String checkFilebyClass3()
+	{
+		//String uid = "admin30";
+		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		String sql1 = "select thirdclass from `"+uid+"` where firstclass='"+firstclass+"' and secondclass='"+secondclass+"'";
+		String sql2 = "select title from `"+uid+"` where label1='"+firstclass+"'and label2='"+secondclass+"' and layer='2'";
+		PreparedStatement ps1;
+		PreparedStatement ps2;
+		ArrayList<String> allthirdclass = new ArrayList<String>();
+		ArrayList<String> allfiles = new ArrayList<String>();
+		try {
+			ps1 = cconn.conn.prepareStatement(sql1);
+			ResultSet rs1 = ps1.executeQuery();
+			while(rs1.next())
+			{
+				String s = rs1.getString(1);
+				if((!s.equals(""))&&(!allthirdclass.contains(s)))
+				{
+					System.out.println(s);
+					allthirdclass.add(s);
+				}
+			}
+			//ServletActionContext.getRequest().setAttribute("AllThirdClass", allthirdclass);
+			ps2 = fconn.conn.prepareStatement(sql2);
+			ResultSet rs2 = ps2.executeQuery();
+			while(rs2.next())
+			{
+				String s = rs2.getString(1);
+				if(s!=null)
+				{
+					System.out.println(s);
+					allfiles.add(s);
+				}
+			}
+			//ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "checkFilebyClass3_success";
+	}
+	public static void main(String args[])
+	{
+		ClassficationAction cfa = new ClassficationAction();
+		cfa.firstclass = "sha";
+		cfa.secondclass = "erbi";
+		cfa.thirdclass = "yuth";
+		cfa.checkFilebyClass4();
+	}
+	public String checkFilebyClass4()
+	{
+		//String uid = "admin30";
+		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+		String sql2 = "select title from `"+uid+"` where label1='"+firstclass+"'and label2='"+secondclass+"' and label3='"+thirdclass+ "'and layer='3'";
+		PreparedStatement ps2;
+		ArrayList<String> allfiles = new ArrayList<String>();
+		try {
+			ps2 = fconn.conn.prepareStatement(sql2);
+			ResultSet rs2 = ps2.executeQuery();
+			while(rs2.next())
+			{
+				//System.out.println("2");
+				String s = rs2.getString(1);
+				if(s!=null)
+				{
+					//System.out.println(s);
+					allfiles.add(s);
+				}
+			}
+			//System.out.println("2");
+			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "checkFilebyClass4_success";
+	}
+	public String setclass()
+	{
+		//String uid = "admin30";
+		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+		String oldfirstclass="";
+		String oldsecondclass="";
+		String oldthirdclass="";
+		String mysql1 = "select label1,label2,label3 from `"+uid+"` where title = '"+filename+"'";
+		try
+		{
+			PreparedStatement ps1 = fconn.conn.prepareStatement(mysql1);
+			ResultSet rs1 = ps1.executeQuery();
+			if(rs1.next())
+			{
+				oldfirstclass = rs1.getString(1);
+				oldsecondclass = rs1.getString(2);
+				oldthirdclass = rs1.getString(3);
+			}
+			String mysql = "update `"+uid+"` set sum = sum - 1 where firstclass='"+oldfirstclass+"' and secondclass='"+oldsecondclass+"' and thirdclass='"+oldthirdclass+"'";
+			String mysql2 = "delete from `"+uid+"` where sum=0 and firstclass='"+oldfirstclass+"' and secondclass='"+oldsecondclass+"' and thirdclass='"+oldthirdclass+"'";
+			PreparedStatement ps = cconn.conn.prepareStatement(mysql);
+			int rs = ps.executeUpdate();
+			PreparedStatement ps2 = cconn.conn.prepareStatement(mysql2);
+			int rs2 = ps2.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		if(firstclass==null)
+		{
+			firstclass="";
+			secondclass="";
+			thirdclass="";
+			String sql1 = "update `"+uid+"` set layer = '0',label1='',label2='',label3='' where title='"+filename+"'";
+			try
+			{
+				PreparedStatement ps1 = fconn.conn.prepareStatement(sql1);
+				int rs1 = ps1.executeUpdate();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else if(secondclass == null)
+		{
+			secondclass="";
+			thirdclass="";
+			String sql1 = "update `"+uid+"` set layer = '1',label1='"+firstclass+"',label2='',label3='' where title='"+filename+"'";
+			try
+			{
+				PreparedStatement ps1 = fconn.conn.prepareStatement(sql1);
+				int rs1 = ps1.executeUpdate();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	    else if(thirdclass == null)
+		{
+			thirdclass="";
+			String sql1 = "update `"+uid+"` set layer = '2',label1='"+firstclass+"',label2='"+secondclass+"',label3='' where title='"+filename+"'";
+			try
+			{
+				PreparedStatement ps1 = fconn.conn.prepareStatement(sql1);
+				int rs1 = ps1.executeUpdate();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}		
+		}
+		else
+		{
+			String sql1 = "update `"+uid+"` set layer = '3',label1='"+firstclass+"',label2='"+secondclass+"',label3='"+thirdclass+"' where title='"+filename+"'";
+			try
+			{
+				PreparedStatement ps1 = fconn.conn.prepareStatement(sql1);
+				int rs1 = ps1.executeUpdate();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		if(firstclass!=null)
+		{
+			try
+			{
+				String sql0 = "select id from `"+uid+"` where firstclass='"+firstclass+"' and secondclass='"+secondclass+"' and thirdclass='"+thirdclass+"'";
+				PreparedStatement ps0 = cconn.conn.prepareStatement(sql0);
+				ResultSet rs0 = ps0.executeQuery();
+				if(rs0.next())
+				{
+					String sql1 = "update `"+uid+"` set sum = sum + 1 where firstclass='"+firstclass+"' and secondclass='"+secondclass+"' and thirdclass='"+thirdclass+"'";
+					System.out.println(sql1);
+					PreparedStatement ps1 = cconn.conn.prepareStatement(sql1);
+					int rs1 = ps1.executeUpdate();
+				}
+				else
+				{
+					String sql2 = "insert into `"+uid+"` (firstclass,secondclass,thirdclass) values(?,?,?)";
+					PreparedStatement ps2 = cconn.conn.prepareStatement(sql2);
+					ps2.setString(1, firstclass);
+					ps2.setString(2, secondclass);
+					ps2.setString(3, thirdclass);
+					int rs1 = ps2.executeUpdate();
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return "changeclass_success";
+	}
 }

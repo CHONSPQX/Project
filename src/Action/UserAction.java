@@ -288,9 +288,9 @@ public class UserAction extends ActionSupport {
 				"  `label1` VARCHAR(100) NULL,\r\n" + 
 				"  `label2` VARCHAR(100) NULL,\r\n" + 
 				"  `label3` VARCHAR(100) NULL,\r\n" + 
-				"  `path` VARCHAR(100) NULL,\r\n" + 
+				"  `path` VARCHAR(100) NOT NULL,\r\n" + 
 				"  `time` DATE NULL,\r\n" + 
-				"  `owner` VARCHAR(100) NULL,\r\n" + 
+				"  `owner` VARCHAR(100) NOT NULL,\r\n" + 
 				"  `layer` VARCHAR(10) NULL DEFAULT 0,\r\n" +
 				"  PRIMARY KEY (`title`))\r\n" + 
 				"ENGINE = InnoDB;\r\n" + 
@@ -321,6 +321,7 @@ public class UserAction extends ActionSupport {
 				"  `firstclass` VARCHAR(45) NULL,\r\n" + 
 				"  `secondclass` VARCHAR(45) NULL,\r\n" + 
 				"  `thirdclass` VARCHAR(45) NULL,\r\n" + 
+				"  `sum` INT NULL DEFAULT 1,\r\n" +
 				"  PRIMARY KEY (`id`))\r\n" + 
 				"ENGINE = InnoDB;";
 		try {

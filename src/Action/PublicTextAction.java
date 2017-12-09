@@ -91,7 +91,7 @@ public class PublicTextAction extends ActionSupport
 			  }
 		  }
 	  }
-	public String checkFile()
+	public String CheckFile()
 	{
 		//String id = "admin";
 		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");

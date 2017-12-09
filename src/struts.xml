@@ -43,13 +43,12 @@
   	<result name="search_private_success">/SearchResult.jsp</result>
   	<result name="search_private_failed">/SearchResult.jsp</result>
   </action>
-  
+  <action name="PublicTextAction" class="Action.PublicTextAction">
+    <result name="check_publicfile_success">/content_public.jsp</result>
+  </action>
   </package>
   <package name="main" namespace="/" extends="json-default">
   <action name="AjaxAction" class="Action.AjaxAction">
-    <result name="success" type="json"></result>
-  </action>
-  <action name="PublicTextAction" class="Action.PublicTextAction">
     <result name="success" type="json"></result>
   </action>
    <action name="AjaxUserProfile" class="Action.AjaxUserProfile">

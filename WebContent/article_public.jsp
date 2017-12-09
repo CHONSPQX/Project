@@ -52,7 +52,6 @@ if (session_user == null)
 			</ul>
 						<div class="navbar-form navbar-left">
 				<select class="btn btn-default" id="choose" >
-			     <option  class="btn btn-default" value="0">按关键字</option>
 			     <option  class="btn btn-default" value="1">按题目</option>
 			     <option  class="btn btn-default" value="2">按时间</option>
 			     <option class="btn btn-default" value="3">全文检索</option>

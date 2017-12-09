@@ -24,27 +24,32 @@ if (session_user == null)
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-					aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Brand</a>
-			</div>
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Brand</a>
+		</div>
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="#">我的空间</a></li>
-					<li><a href="#">共享空间</a></li>
-				</ul>
-				<div class="navbar-form navbar-left">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="UserAction!UserCheckFile">个人文件
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="active"><a href="PublicTextAction!CheckFile">共享文件
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li><a href="shared_text.jsp">共享空间</a></li>
+			</ul>
+						<div class="navbar-form navbar-left">
 				<select class="btn btn-default" id="choose" >
 			     <option  class="btn btn-default" value="0">按关键字</option>
 			     <option  class="btn btn-default" value="1">按题目</option>
@@ -55,27 +60,24 @@ if (session_user == null)
 						<input type="text" class="form-control" placeholder="Search"
 							id="search">
 					</div>
-					<button class="btn btn-default">Submit</button>
-				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="login_user.jsp">登录</a></li>
-					<li><a href="register_user.jsp">注册</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">用户<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul></li>
-				</ul>
+					<button class="btn btn-default" onclick="Search()">Submit</button>
 			</div>
-			<!-- /.navbar-collapse -->
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">用户<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="UserAction!UserLogout">用户注销</a></li>
+						<li><a href="people_account.jsp">密码管理</a></li>
+						<li><a href="UserAction!getUserProfile">个人信息</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Separated link</a></li>
+					</ul></li>
+			</ul>
 		</div>
-		<!-- /.container-fluid -->
-	</nav>
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container-fluid --> </nav>
 	<br>
   <br>
   <br>
@@ -152,10 +154,14 @@ if (session_user == null)
 	}
 </script>
 <script>
-	function Search() {
-		var file = document.getElementById("search").innerText;
-		//alert(file);
-		window.location.href = "SearchAction!SearchFile?CheckedFile=" + file;
-	}
+function Search() {
+	var file = document.getElementById("search").value;
+	var count=document.getElementById("choose").value;
+	alert(count+"   "+file);
+	//alert(file);
+	
+	window.location.href = "SearchAction!ClassifierSearch?text="
+			+ file+"&count="+count;
+}
 </script>
 </html>

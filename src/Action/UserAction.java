@@ -23,7 +23,7 @@ import WeFile.Director;
  */
 public class UserAction extends ActionSupport {
 	private Database database;
-	private User user = new User();
+	private User user;
 	private String path;//
 	private String SharedFilePath;// 用户现在查看的分享文件的绝对路径
 	private CommentDatabase conn;
@@ -155,8 +155,8 @@ public class UserAction extends ActionSupport {
 			Pattern p1 = Pattern.compile(regEx1);
 			Matcher m1 = p1.matcher(user.getUserID());
 			boolean b = m1.matches();
-			System.out.print(b);
-			System.out.println(b);
+			System.out.println(user.getUserID());
+			System.out.println(user.getPassword());
 			String insql;
 			if (!b) {
 				insql = "select Password from User where UserID = ?";
@@ -173,7 +173,7 @@ public class UserAction extends ActionSupport {
 						ServletActionContext.getRequest().getSession().setAttribute("userID", user.getUserID());
 						ServletActionContext.getRequest().getSession().setAttribute("testmessage", "404");
 						System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
-						
+						System.out.println("login_success");
 					}
 					else
 						ServletActionContext.getRequest().getSession().setAttribute("userEmail", user.getUserID());

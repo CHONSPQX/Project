@@ -91,10 +91,14 @@
 
 </body>
 <script>
-	function Search() {
-		var file = document.getElementById("search").value;
-		//alert(file);
-		window.location.href = "SearchAction!SearchFile?CheckedFile=" + file;
-	}
+function Search() {
+	var file = document.getElementById("search").value;
+	var count=document.getElementById("choose").value;
+	alert(count+"   "+file);
+	//alert(file);
+	
+	window.location.href = "SearchAction!ClassifierSearch?text="
+			+ file+"&count="+count;
+}
 </script>
 </html>

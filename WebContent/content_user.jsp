@@ -41,31 +41,27 @@ if (session_user == null)
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="UserAction!UserCheckFile">我的空间
+				<li class="active"><a href="UserAction!UserCheckFile">个人文件
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="active"><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
 			</ul>
-			<form class="navbar-form navbar-left"
-				action="SearchAction!SearchFile">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search"
-						name="CheckedFile">
-				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>
+						<div class="navbar-form navbar-left">
+				<select class="btn btn-default" id="choose" >
+			     <option  class="btn btn-default" value="0">按关键字</option>
+			     <option  class="btn btn-default" value="1">按题目</option>
+			     <option  class="btn btn-default" value="2">按时间</option>
+			     <option class="btn btn-default" value="3">全文检索</option>
+		         </select> 
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search"
+							id="search">
+					</div>
+					<button class="btn btn-default" onclick="Search()">Submit</button>
+			</div>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -81,7 +77,8 @@ if (session_user == null)
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
-	<!-- /.container-fluid --> </nav>
+	<!-- /.container-fluid --> 
+	</nav>
 	<br>
 	<br>
 	<br>
@@ -325,10 +322,13 @@ if (session_user == null)
 
 		}
 		function Search() {
-			var file = document.getElementById("search").innerText;
+			var file = document.getElementById("search").value;
+			var count=document.getElementById("choose").value;
+			alert(count+"   "+file);
 			//alert(file);
-			window.location.href = "SearchAction!SearchFile?CheckedFile="
-					+ file;
+			
+			window.location.href = "SearchAction!ClassifierSearch?text="
+					+ file+"&count="+count;
 		}
 		function showModal(file,label1,label2,label3,keyword)
 		{

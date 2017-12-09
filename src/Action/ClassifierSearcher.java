@@ -69,7 +69,7 @@ public class ClassifierSearcher extends ActionSupport{
 				path=path.substring(path.lastIndexOf("F:/work/"+userID)+userID.length()+10);
 				
 				String name = key.getName();
-				String mysql = "select title, label1, label2, label3, keyword,time, location,owner from `"+userID+"` where title='"+name+"'";
+				String mysql = "select title, label1, label2, label3, keyword,time, path,owner from `"+userID+"` where title='"+name+"'";
 			    PreparedStatement ps =fconn.conn.prepareStatement(mysql);
 				ResultSet rs = ps.executeQuery();
 				while(rs.next())
@@ -87,16 +87,18 @@ public class ClassifierSearcher extends ActionSupport{
 				}
 			}
 			  ServletActionContext.getRequest().setAttribute("Classifier", results);
-			return "success";
+			  System.out.println(result.size());
+			return "search_private_success";
 		}
 		 catch (Exception e) {
 		      // TODO: handle exception
-		      return "fail";
+		      return "search_private_failed";
 		    }
 	}
 	//按题目进行查找
 	public String TitleClassifier()throws Exception{
 		try{
+			System.out.println(count+"  "+text);
 			String userID = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 			String indexPath = "F:/work/index/"+userID;
 			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("name", text,indexPath);
@@ -111,7 +113,7 @@ public class ClassifierSearcher extends ActionSupport{
 				String path = key.getPath();
 				
 				String name = key.getName();
-				String mysql = "select title, label1, label2, label3, keyword,time, location,owner from `"+userID+"` where title='"+name+"'";			    
+				String mysql = "select title, label1, label2, label3, keyword,time, path,owner from `"+userID+"` where title='"+name+"'";			    
 				PreparedStatement ps =fconn.conn.prepareStatement(mysql);
 				ResultSet rs = ps.executeQuery();
 				while(rs.next())
@@ -130,11 +132,12 @@ public class ClassifierSearcher extends ActionSupport{
 				}
 			}
 			ServletActionContext.getRequest().setAttribute("Classifier",results);
-			return "success";
+			return "search_private_success";
 		}
 		   catch (Exception e) {
 			      // TODO: handle exception
-			      return "fail";
+			   e.printStackTrace();
+			      return "search_private_failed";
 			    }
 	}
 	//按关键字进行查找
@@ -145,7 +148,7 @@ public class ClassifierSearcher extends ActionSupport{
 			 ArrayList<Article> results = new ArrayList<>();
 		     fconn.ConnectMysql();
 			 String userID = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-			 String mysql = "select title, label1, label2, label3, keyword,time, location,owner from `"+userID+"` where keyword='"+text+"'";	
+			 String mysql = "select title, label1, label2, label3, keyword,time, path,owner from `"+userID+"` where keyword='"+text+"'";	
 		     PreparedStatement ps =fconn.conn.prepareStatement(mysql);
 		     ResultSet rs = ps.executeQuery();
 		     while(rs.next())
@@ -162,24 +165,27 @@ public class ClassifierSearcher extends ActionSupport{
 				    results.add(article);
 		     }
 		    ServletActionContext.getRequest().setAttribute("Classifier",results);
-			return "success";
+			return "search_private_success";
 		}
 		catch (Exception e) {
 		      // TODO: handle exception
-		      return "fail";
+		      return "search_private_failed";
 		    }
 	}
 	//综上进行查找
 	public String ClassifierSearch()throws Exception{
 		String ret = new String();
 		if(count==0)
-			ret = TimeClassifier();
+			ret = KeywordClassifier();
 		else if(count==1)
 			ret = TitleClassifier();
 		else if(count==2)
-			ret = KeywordClassifier();
+			ret = TimeClassifier();
+		else if(count==3)
+			ret=Search();
 		else
-			ret = "fail";
+			ret = "search_private_failed";
+		System.out.println(ret);
 		return ret;
 	}
 	
@@ -262,23 +268,40 @@ public class ClassifierSearcher extends ActionSupport{
 		      String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		    String indexPath = "F:/work/index/" +userID; 
 		      HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
-		      ArrayList<String> results = new ArrayList<>();
+		      ArrayList<Article> results = new ArrayList<>();
 		      Iterator iter = result.entrySet().iterator();
+		      
+		      FileDatabase fconn = new FileDatabase();
+		      fconn.ConnectMysql();
 		      while(iter.hasNext()){
-		          HashMap.Entry  entry = (HashMap.Entry) iter.next();
-		          NewDocument key = (NewDocument) entry.getKey();
-		          String path=key.getPath();
-		          path=path.substring(path.lastIndexOf("F:/work/"+userID)+userID.length()+10);
-		          if(!results.contains(path))
-		          results.add(path);
-		          System.out.println(path);
+		    	  HashMap .Entry entry = (HashMap.Entry) iter.next();
+					NewDocument key = (NewDocument) entry.getKey();
+					String path = key.getPath();
+					
+					String name = key.getName();
+					String mysql = "select title, label1, label2, label3, keyword,time, path,owner from `"+userID+"` where title='"+name+"'";			    
+					PreparedStatement ps =fconn.conn.prepareStatement(mysql);
+					ResultSet rs = ps.executeQuery();
+					while(rs.next())
+					{
+						Article article = new Article();
+						article.setTitle(rs.getString(1));
+						article.setLabel1(rs.getString(2));
+						article.setLabel2(rs.getString(3));
+						article.setLabel3(rs.getString(4));
+						article.setKeyword(rs.getString(5));
+						article.setDateTime(rs.getString(6));
+						article.setLocation(rs.getString(7));
+						article.setOwner(rs.getString(8));
+					    results.add(article);
+					}
 		      }
-		      ServletActionContext.getRequest().setAttribute("allSearchedMyFiles", results);
-		      return "success";  
+		      ServletActionContext.getRequest().setAttribute("Classifier", results);
+		      return "search_private_success";  
 		    }
 		    catch (Exception e) {
 		      // TODO: handle exception
-		      return "fail";
+		      return "search_private_failed";
 		    }
 		 }
 	

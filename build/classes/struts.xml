@@ -39,10 +39,11 @@
     <result name="share_file_failed">/content_user.jsp</result>
     <result name="check_publicfile_success">/content_public.jsp</result>
   </action>
-  <action name="SearchAction" class="Action.SearchAction">
-  	<result name="SearchFile_success">/SearchResult.jsp</result>
-  	<result name="SearchFile_failed">/SearchResult.jsp</result>
+  <action name="SearchAction" class="Action.ClassifierSearcher">
+  	<result name="search_private_success">/SearchResult.jsp</result>
+  	<result name="search_private_failed">/SearchResult.jsp</result>
   </action>
+  
   </package>
   <package name="main" namespace="/" extends="json-default">
   <action name="AjaxAction" class="Action.AjaxAction">

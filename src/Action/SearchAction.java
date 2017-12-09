@@ -34,7 +34,7 @@ public class SearchAction extends ActionSupport
 	public String SearchFile()
     {
         System.out.println(CheckedFile);
-        FullTextRetrieval fr=new FullTextRetrieval();
+        ClassifierSearcher fr=new ClassifierSearcher();
         fr.Search(CheckedFile);
         fr.SearchShared(CheckedFile);
        //if(flag1||flag2)

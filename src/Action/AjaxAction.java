@@ -188,7 +188,7 @@ public void setOldpassword(String oldpassword) {
           if(result>0)
           {
               this.createTable();
-              FullTextRetrieval.AddPublicIndex(userID, filename);
+              ClassifierSearcher.AddPublicIndex(userID, filename);
               return SUCCESS;
           }
           else return SUCCESS;
@@ -216,8 +216,7 @@ public void setOldpassword(String oldpassword) {
      ServletActionContext.getRequest().setAttribute("saveFileFlag", flag);
      this.flag=flag;
      System.out.println(flag);
-     FullTextRetrieval.AddIndex(path, filename);
-     save_file();
+     ClassifierSearcher.AddIndex(path, filename);
      if(flag)
        return SUCCESS;
        return SUCCESS;  
@@ -231,7 +230,7 @@ public void setOldpassword(String oldpassword) {
 	     ServletActionContext.getRequest().setAttribute("saveFileFlag", flag);
 	     this.flag=flag;
 	     System.out.println(flag);
-	     FullTextRetrieval.AddIndex(path, filename);
+	     ClassifierSearcher.AddIndex(path, filename);
 	     try
 		  {
 	    	 String ss = new Timestamp(new Date().getTime()).toString();
@@ -254,8 +253,7 @@ public void setOldpassword(String oldpassword) {
     if (path.equals(""))
       path = "user";
     boolean flag = Director.createFile(path + "/" + filename);
-    FullTextRetrieval.AddIndex(path, filename);
-    create_file();
+    ClassifierSearcher.AddIndex(path, filename);
     return SUCCESS;
   }
   

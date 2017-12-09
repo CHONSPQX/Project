@@ -123,7 +123,7 @@ public class UserAction extends ActionSupport {
 					System.out.println(dirName);
 					if (Director.createDir(dirName)) {
 						createUserTable();
-						FullTextRetrieval.CreateIndex(user.getUserID());
+						ClassifierSearcher.CreateIndex(user.getUserID());
 						return "create_user_success";
 					} else {
 						return "create_user_failed";

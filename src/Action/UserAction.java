@@ -30,7 +30,8 @@ public class UserAction extends ActionSupport {
 	private FileDatabase fconn;
 	private String context;// 用户评论的内容
 	private String confirmword;
-
+	private ClassDatabase cconn;
+	
 	public String getSharedFilePath() {
 		return SharedFilePath;
 	}
@@ -46,6 +47,8 @@ public class UserAction extends ActionSupport {
 		conn.ConnectMysql();
 		fconn = new FileDatabase();
 		fconn.ConnectMysql();
+		cconn = new ClassDatabase();
+		cconn.ConnectMysql();
 	}
 
 	public String UserComment() {
@@ -123,6 +126,7 @@ public class UserAction extends ActionSupport {
 					System.out.println(dirName);
 					if (Director.createDir(dirName)) {
 						createUserTable();
+						createClassTable();
 						ClassifierSearcher.CreateIndex(user.getUserID());
 						return "create_user_success";
 					} else {
@@ -255,6 +259,7 @@ public class UserAction extends ActionSupport {
 				"  `path` VARCHAR(100) NULL,\r\n" + 
 				"  `time` DATE NULL,\r\n" + 
 				"  `owner` VARCHAR(100) NULL,\r\n" + 
+				"  `layer` VARCHAR(10) NULL DEFAULT 0,\r\n" +
 				"  PRIMARY KEY (`title`))\r\n" + 
 				"ENGINE = InnoDB;\r\n" + 
 				"";
@@ -275,6 +280,35 @@ public class UserAction extends ActionSupport {
 		}
 		return false;
 	}
+	public boolean createClassTable()
+	{
+		String ID = user.getUserID();
+		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
+		String mysql="CREATE TABLE `classification`.`"+ID+"` (\r\n" + 
+				"  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\r\n" + 
+				"  `firstclass` VARCHAR(45) NULL,\r\n" + 
+				"  `secondclass` VARCHAR(45) NULL,\r\n" + 
+				"  `thirdclass` VARCHAR(45) NULL,\r\n" + 
+				"  PRIMARY KEY (`id`))\r\n" + 
+				"ENGINE = InnoDB;";
+		try {
+			PreparedStatement ps1 = cconn.conn.prepareStatement(presql);
+			int rs = ps1.executeUpdate();//如果表已经存在了，返回-1，否则返回0
+			if(rs == -1)
+			{
+				presql = "DROP TABLE `" + ID + "`;";
+				PreparedStatement ps2 = cconn.conn.prepareStatement(presql);
+				ps2.executeUpdate();
+			}
+			PreparedStatement ps3 = cconn.conn.prepareStatement(mysql);
+			rs = ps3.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public ArrayList<String> getallUser()
 	{
 		ArrayList<String> all = new ArrayList<String>();

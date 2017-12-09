@@ -137,8 +137,8 @@ public class ClassifierSearcher extends ActionSupport{
 			      return "fail";
 			    }
 	}
-	//按关键字进行查找
 	
+	//按关键字进行查找
 	public String KeywordClassifier()throws Exception{
 		try{
 		     FileDatabase fconn = new FileDatabase();
@@ -310,7 +310,15 @@ public class ClassifierSearcher extends ActionSupport{
 	 public String SearchShared(){
 		    try { 
 		      String indexPath = "F:/work/index/shared";
-		      HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
+		      HashMap< NewDocument, Integer> result = new HashMap<>();
+		      if(count==0)
+		    	  result = new Lucene().FieldSearch("time", text, indexPath);
+		      else if(count==1)
+		    	  result = new Lucene().FieldSearch("name", text, indexPath);
+		      else if(count==2)
+		    	  result = new Lucene().Search(text,  indexPath);
+		      else 
+		    	  return "fail";
 		      ArrayList<String> results = new ArrayList<>();
 		      Iterator iter = result.entrySet().iterator();
 		      while(iter.hasNext()){

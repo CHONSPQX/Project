@@ -7,17 +7,18 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class SearchAction extends ActionSupport
 {
-	private int searchTarget;
+	private int searchmode;
+	public int getSearchmode() {
+		return searchmode;
+	}
+
+
+	public void setSearchmode(int searchmode) {
+		this.searchmode = searchmode;
+	}
+
+
 	private String CheckedFile;
-
-	public int getSearchTarget() {
-		return searchTarget;
-	}
-
-
-	public void setSearchTarget(int searchTarget) {
-		this.searchTarget = searchTarget;
-	}
 
 
 	public String getCheckedFile() {

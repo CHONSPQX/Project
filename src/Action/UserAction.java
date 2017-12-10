@@ -164,9 +164,9 @@ public class UserAction extends ActionSupport {
 			System.out.println(user.getPassword());
 			String insql;
 			if (!b) {
-				insql = "select Password from User where UserID = ?";
+				insql = "select Password from project.user where UserID = ?";
 			} else {
-				insql = "select Password from User where UserEmail = ?";
+				insql = "select Password from project.user where UserEmail = ?";
 			}
 			PreparedStatement ps = database.conn.prepareStatement(insql);
 			ps.setString(1, user.getUserID());
@@ -381,7 +381,7 @@ public class UserAction extends ActionSupport {
 					st = st.replace("\\", "/");
 		            if(st.contains("/work/"))
 		            {    
-		              st =st.substring(st.lastIndexOf("/work/")+8, st.length());  
+		              st =st.substring(st.lastIndexOf("/work/")+6, st.length());  
 		            }
 					ps.setString(2, st);
 					ps.setDate(3, new java.sql.Date(new java.util.Date().getTime()));

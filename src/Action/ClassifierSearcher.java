@@ -66,7 +66,7 @@ public class ClassifierSearcher extends ActionSupport{
 				HashMap.Entry entry =  (HashMap.Entry) iter.next();
 				NewDocument key = (NewDocument) entry.getKey();
 				String path = key.getPath();
-				path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+10);
+				path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+8);
 				
 				String name = key.getName();
 				String mysql = "select title, label1, label2, label3, keyword,time, path,owner from `"+userID+"` where title='"+name+"'";
@@ -316,7 +316,7 @@ public class ClassifierSearcher extends ActionSupport{
 		          HashMap.Entry  entry = (HashMap.Entry) iter.next();
 		          NewDocument key = (NewDocument) entry.getKey();
 		          String path=key.getPath();
-		          path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+10);
+		          path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+8);
 		          if(!results.contains(path))
 		          results.add(path);
 		          System.out.println(path);
@@ -352,7 +352,7 @@ public class ClassifierSearcher extends ActionSupport{
 			          HashMap.Entry  entry = (HashMap.Entry) iter.next();
 			          NewDocument key = (NewDocument) entry.getKey();
 			          String path=key.getPath();
-			          path=path.substring(path.lastIndexOf("/work/shared/")+9);
+			          path=path.substring(path.lastIndexOf("/work/shared/")+7);
 			          path=path.replace("\\", "/");
 			          if(!results.contains(path))
 			          results.add(path);
@@ -397,7 +397,7 @@ public class ClassifierSearcher extends ActionSupport{
 		          HashMap.Entry  entry = (HashMap.Entry) iter.next();
 		          NewDocument key = (NewDocument) entry.getKey();
 		          String path=key.getPath();
-		          path=path.substring(path.lastIndexOf("/work/shared/")+9);
+		          path=path.substring(path.lastIndexOf("/work/shared/")+7);
 		          path=path.replace("\\", "/");
 		          if(!results.contains(path))
 		          results.add(path);

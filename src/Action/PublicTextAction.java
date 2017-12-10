@@ -84,7 +84,7 @@ public class PublicTextAction extends ActionSupport
 			    string = string.replace("\\", "/");
 	            if(string.contains("/work/"))
 	            {    
-	              string =string.substring(string.lastIndexOf("/work/")+8, string.length());  
+	              string =string.substring(string.lastIndexOf("/work/")+6, string.length());  
 	            }
 	            all.add(string);
 			  }

@@ -78,7 +78,7 @@ public class test {
           HashMap.Entry  entry = (HashMap.Entry) iter.next();
           NewDocument key = (NewDocument) entry.getKey();
           String path=key.getPath();
-          path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+10);
+          path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+8);
           results.add(path);
           System.out.println(path);
       }

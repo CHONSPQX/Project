@@ -306,7 +306,7 @@ public class FileAction extends ActionSupport {
       path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
       if (path.equals(""))
           path = "user";
-      String AbsoultPath = "F:\\work\\" + path;
+      String AbsoultPath = "\\work\\" + path;
       File file = new File(AbsoultPath);
       ArrayList<String> all = new ArrayList<String>();
       ArrayList<String> All = new ArrayList<String>();

@@ -365,7 +365,7 @@ public class UserAction extends ActionSupport {
 	
 	public void updateUserTable(String user)
 	{
-		String path = "F://work/"+user;
+		String path = "//work/"+user;
 		File file = new File(path);
 		File[] array = file.listFiles();
 		for(int i=0;i<array.length;i++)
@@ -379,9 +379,9 @@ public class UserAction extends ActionSupport {
 					ps.setString(1, array[i].getName());
 					String st = array[i].getPath();
 					st = st.replace("\\", "/");
-		            if(st.contains("F:/work/"))
+		            if(st.contains("/work/"))
 		            {    
-		              st =st.substring(st.lastIndexOf("F:/work/")+8, st.length());  
+		              st =st.substring(st.lastIndexOf("/work/")+8, st.length());  
 		            }
 					ps.setString(2, st);
 					ps.setDate(3, new java.sql.Date(new java.util.Date().getTime()));

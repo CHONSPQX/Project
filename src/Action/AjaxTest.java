@@ -112,7 +112,7 @@ public class AjaxTest extends ActionSupport{
       InputStream is;
       String file=new String();
       try {
-        is = new FileInputStream("F:/work/"+filepath);
+        is = new FileInputStream("/work/"+filepath);
         String line; // 用来保存每行读取的内容
         StringBuffer buffer=new StringBuffer();
         int linenum=0;

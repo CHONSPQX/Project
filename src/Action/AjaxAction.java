@@ -104,7 +104,7 @@ public void setOldpassword(String oldpassword) {
   public  String createPublicFileByCopy()//将作者的文件复制到公共文件池里。/
   {
     String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
-    File de = new File("F:/work/shared/" + path1 + "/" + filename);
+    File de = new File("/work/shared/" + path1 + "/" + filename);
     if(de.exists())
     {
       de.delete();
@@ -117,8 +117,8 @@ public void setOldpassword(String oldpassword) {
       System.out.println(flag);
       if(flag)
       {
-          File source = new File("F:/work/" + path1 + "/" + filename);
-          File dest = new File("F:/work/shared/" + path1 + "/" + filename);
+          File source = new File("/work/" + path1 + "/" + filename);
+          File dest = new File("/work/shared/" + path1 + "/" + filename);
           try {
               input = new FileInputStream(source).getChannel();
               output = new FileOutputStream(dest).getChannel();

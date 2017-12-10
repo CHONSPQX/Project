@@ -49,7 +49,7 @@ public class PublicTextAction extends ActionSupport
 	}
 	protected boolean SearchPublicFile(String filename)
 	{
-		  String AbsoultPath = "F:/work/shared";
+		  String AbsoultPath = "/work/shared";
 		  File file = new File(AbsoultPath);
 		  ArrayList<String> all = new ArrayList<String>();
 		  ArrayList<String> All = new ArrayList<String>();
@@ -82,9 +82,9 @@ public class PublicTextAction extends ActionSupport
 			  {
 			    String string = f.getPath();
 			    string = string.replace("\\", "/");
-	            if(string.contains("F:/work/"))
+	            if(string.contains("/work/"))
 	            {    
-	              string =string.substring(string.lastIndexOf("F:/work/")+8, string.length());  
+	              string =string.substring(string.lastIndexOf("/work/")+8, string.length());  
 	            }
 	            all.add(string);
 			  }
@@ -95,7 +95,7 @@ public class PublicTextAction extends ActionSupport
 		//String id = "admin";
 		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		ArrayList<String> all = new ArrayList<String>();
-		getFile("F:/work/shared/"+id,all);
+		getFile("/work/shared/"+id,all);
 		ServletActionContext.getRequest().setAttribute("AllPublicFiles", all);
 		return "check_publicfile_success";
 	}
@@ -118,7 +118,7 @@ public class PublicTextAction extends ActionSupport
 	public static void main(String args[])
 	{
 	  PublicTextAction pAction = new PublicTextAction();
-	  String path = "F:/work/yangfan";
+	  String path = "/work/yangfan";
 	  ArrayList<String>all = new ArrayList<String>();
 	  pAction.getFile(path,all);
 	  for(int i = 0;i<all.size();i++)
@@ -162,8 +162,8 @@ public class PublicTextAction extends ActionSupport
 		//System.out.println(flag);
 		if(flag)
 		{
-			File source = new File("F:/work/" + path1 + "/" + filename);
-			File dest = new File("F:/work/shared/" + path1 + "/" + filename);
+			File source = new File("/work/" + path1 + "/" + filename);
+			File dest = new File("/work/shared/" + path1 + "/" + filename);
 			try {
 				input = new FileInputStream(source).getChannel();
 				output = new FileOutputStream(dest).getChannel();
@@ -278,7 +278,7 @@ public class PublicTextAction extends ActionSupport
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
-		String path = "F:/work/shared/"+uid+"/"+filename;
+		String path = "/work/shared/"+uid+"/"+filename;
 		filename = filename.substring(0,filename.indexOf(".html"));
 		File file = new File(path);
 		file.delete();

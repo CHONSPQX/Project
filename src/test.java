@@ -31,8 +31,8 @@ public class test {
     }
   public static String CreateIndex(String userID){
     try {
-     String dataPath ="F:/work/" +userID; 
-     String indexPath = "F:/work/index/" +userID; 
+     String dataPath ="/work/" +userID; 
+     String indexPath = "/work/index/" +userID; 
       if(new Lucene().CreateIndex(dataPath, indexPath))
           return "success";
       return "fail";
@@ -44,8 +44,8 @@ public class test {
   }
   public static String AddIndex(String userID,String fileName){
     try {
-      String addPath ="F:/work/" +userID+"/"+fileName;
-      String indexPath = "F:/work/index/" +userID; 
+      String addPath ="/work/" +userID+"/"+fileName;
+      String indexPath = "/work/index/" +userID; 
       if(new Lucene().AddIndex(addPath, indexPath))
           return "success";
       return "fail";
@@ -57,8 +57,8 @@ public class test {
   }
   public static String CreateSharedIndex(){
     try {
-      String dataPath = "F:/work/shared";
-      String indexPath = "F:/work/index/shared";
+      String dataPath = "/work/shared";
+      String indexPath = "/work/index/shared";
       if(new Lucene().CreateShareIndex(dataPath, indexPath))
           return "success";
       return "fail";
@@ -70,7 +70,7 @@ public class test {
   }
   public  static String Search(String input,String userID){
     try {
-    String indexPath = "F:/work/index/" +userID; 
+    String indexPath = "/work/index/" +userID; 
       HashMap< NewDocument, Integer> result = new Lucene().Search(input,  indexPath);
       ArrayList<String> results = new ArrayList<>();
       Iterator iter = result.entrySet().iterator();
@@ -78,7 +78,7 @@ public class test {
           HashMap.Entry  entry = (HashMap.Entry) iter.next();
           NewDocument key = (NewDocument) entry.getKey();
           String path=key.getPath();
-          path=path.substring(path.lastIndexOf("F:/work/"+userID)+userID.length()+10);
+          path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+10);
           results.add(path);
           System.out.println(path);
       }
@@ -92,7 +92,7 @@ public class test {
   }
   public  static String SearchShared(String input){
     try {
-      String indexPath = "F:/work/index/shared";
+      String indexPath = "/work/index/shared";
       HashMap< NewDocument, Integer> result = new Lucene().Search(input,  indexPath);
       ArrayList<String> results = new ArrayList<>();
       Iterator iter = result.entrySet().iterator();
@@ -100,7 +100,7 @@ public class test {
           HashMap.Entry  entry = (HashMap.Entry) iter.next();
           NewDocument key = (NewDocument) entry.getKey();
           String path=key.getPath();
-          path=path.substring(path.lastIndexOf("F:/work/shared/")+9);
+          path=path.substring(path.lastIndexOf("/work/shared/")+9);
           path=path.replace("\\", "/");
           results.add(key.getPath());
           System.out.println(path);

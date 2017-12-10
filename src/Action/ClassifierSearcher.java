@@ -55,7 +55,7 @@ public class ClassifierSearcher extends ActionSupport{
 	public String TimeClassifier()throws Exception{
 		try{
 			String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-			String indexPath = "F:/work/index/" +userID; 
+			String indexPath = "/work/index/" +userID; 
 			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("time",text, indexPath);
 			ArrayList<Article> results = new ArrayList<>();
 			Iterator iter = result.entrySet().iterator();
@@ -66,7 +66,7 @@ public class ClassifierSearcher extends ActionSupport{
 				HashMap.Entry entry =  (HashMap.Entry) iter.next();
 				NewDocument key = (NewDocument) entry.getKey();
 				String path = key.getPath();
-				path=path.substring(path.lastIndexOf("F:/work/"+userID)+userID.length()+10);
+				path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+10);
 				
 				String name = key.getName();
 				String mysql = "select title, label1, label2, label3, keyword,time, path,owner from `"+userID+"` where title='"+name+"'";
@@ -100,7 +100,7 @@ public class ClassifierSearcher extends ActionSupport{
 		try{
 			System.out.println(count+"  "+text);
 			String userID = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-			String indexPath = "F:/work/index/"+userID;
+			String indexPath = "/work/index/"+userID;
 			HashMap<NewDocument, Integer> result = new Lucene().FieldSearch("name", text,indexPath);
 			ArrayList<Article> results = new ArrayList<>();
 			Iterator iter = result.entrySet().iterator();
@@ -193,8 +193,8 @@ public class ClassifierSearcher extends ActionSupport{
 	//增加用户索引
 	public static String AddIndex(String userID,String fileName){
 		    try {
-		      String addPath ="F:/work/" +userID+"/"+fileName;
-		      String indexPath = "F:/work/index/" +userID; 
+		      String addPath ="/work/" +userID+"/"+fileName;
+		      String indexPath = "/work/index/" +userID; 
 		      if(new Lucene().AddIndex(addPath, indexPath))
 		          return "success";
 		      return "fail";
@@ -206,8 +206,8 @@ public class ClassifierSearcher extends ActionSupport{
 		  }
 	//创建用户索引
 	 public String CreateIndex() throws IOException{
-			dataPath ="F:/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
-			indexPath = "F:/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+			dataPath ="/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+			indexPath = "/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 			if(new Lucene().CreateIndex(dataPath, indexPath))
 				return "success";
 			return "fail";
@@ -215,8 +215,8 @@ public class ClassifierSearcher extends ActionSupport{
 	 //增加用户共享索引
 	 public static String AddPublicIndex(String userID,String fileName){
 	        try {
-	          String addPath ="F:/work/shared/" +userID+"/"+fileName;
-	          String indexPath = "F:/work/index/shared";
+	          String addPath ="/work/shared/" +userID+"/"+fileName;
+	          String indexPath = "/work/index/shared";
 	          if(new Lucene().AddIndex(addPath, indexPath))
 	              return "success";
 	          return "fail";
@@ -229,8 +229,8 @@ public class ClassifierSearcher extends ActionSupport{
 	 //创建共享索引
 	 public String CreateSharedIndex(){
 		    try {
-		      String dataPath = "F:/work/shared";
-		      String indexPath = "F:/work/index/shared";
+		      String dataPath = "/work/shared";
+		      String indexPath = "/work/index/shared";
 		      if(new Lucene().CreateShareIndex(dataPath, indexPath))
 		          return "success";
 		      return "fail";
@@ -243,8 +243,8 @@ public class ClassifierSearcher extends ActionSupport{
 	
 	 public static String CreateIndex(String userID){
 		    try {
-		     String dataPath ="F:/work/" +userID; 
-		     String indexPath = "F:/work/index/" +userID; 
+		     String dataPath ="/work/" +userID; 
+		     String indexPath = "/work/index/" +userID; 
 		      if(new Lucene().CreateIndex(dataPath, indexPath))
 		          return "success";
 		      return "fail";
@@ -256,8 +256,8 @@ public class ClassifierSearcher extends ActionSupport{
 		  }
 	//添加索引
 	 public String AddIndex(String fileName) throws IOException{
-			//dataPath ="F:/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-			//indexPath = "F:/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
+			//dataPath ="/work/" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+			//indexPath = "/work/index" +(String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 			if(new Lucene().AddIndex(addPath, indexPath))
 				return "success";
 			return "fail";
@@ -266,7 +266,7 @@ public class ClassifierSearcher extends ActionSupport{
 	 public String Search(){
 		    try {
 		      String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-		    String indexPath = "F:/work/index/" +userID; 
+		    String indexPath = "/work/index/" +userID; 
 		      HashMap< NewDocument, Integer> result = new Lucene().Search(text,  indexPath);
 		      ArrayList<Article> results = new ArrayList<>();
 		      Iterator iter = result.entrySet().iterator();
@@ -308,7 +308,7 @@ public class ClassifierSearcher extends ActionSupport{
 	 public String Search(String input){
 		    try {
 		      String userID=(String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-		    String indexPath = "F:/work/index/" +userID; 
+		    String indexPath = "/work/index/" +userID; 
 		      HashMap< NewDocument, Integer> result = new Lucene().Search(input,  indexPath);
 		      ArrayList<String> results = new ArrayList<>();
 		      Iterator iter = result.entrySet().iterator();
@@ -316,7 +316,7 @@ public class ClassifierSearcher extends ActionSupport{
 		          HashMap.Entry  entry = (HashMap.Entry) iter.next();
 		          NewDocument key = (NewDocument) entry.getKey();
 		          String path=key.getPath();
-		          path=path.substring(path.lastIndexOf("F:/work/"+userID)+userID.length()+10);
+		          path=path.substring(path.lastIndexOf("/work/"+userID)+userID.length()+10);
 		          if(!results.contains(path))
 		          results.add(path);
 		          System.out.println(path);
@@ -332,7 +332,7 @@ public class ClassifierSearcher extends ActionSupport{
 	 //共享查找
 	 public String SearchShared(){
 		    try { 
-		      String indexPath = "F:/work/index/shared";
+		      String indexPath = "/work/index/shared";
 		      HashMap< NewDocument, Integer> result = new HashMap<>();
 		      ArrayList<String> results = new ArrayList<>();
 		      if(count==0)
@@ -352,7 +352,7 @@ public class ClassifierSearcher extends ActionSupport{
 			          HashMap.Entry  entry = (HashMap.Entry) iter.next();
 			          NewDocument key = (NewDocument) entry.getKey();
 			          String path=key.getPath();
-			          path=path.substring(path.lastIndexOf("F:/work/shared/")+9);
+			          path=path.substring(path.lastIndexOf("/work/shared/")+9);
 			          path=path.replace("\\", "/");
 			          if(!results.contains(path))
 			          results.add(path);
@@ -389,7 +389,7 @@ public class ClassifierSearcher extends ActionSupport{
 	 
 	 public String SearchShared(String input){
 		    try { 
-		      String indexPath = "F:/work/index/shared";
+		      String indexPath = "/work/index/shared";
 		      HashMap< NewDocument, Integer> result = new Lucene().Search(input,  indexPath);
 		      ArrayList<String> results = new ArrayList<>();
 		      Iterator iter = result.entrySet().iterator();
@@ -397,7 +397,7 @@ public class ClassifierSearcher extends ActionSupport{
 		          HashMap.Entry  entry = (HashMap.Entry) iter.next();
 		          NewDocument key = (NewDocument) entry.getKey();
 		          String path=key.getPath();
-		          path=path.substring(path.lastIndexOf("F:/work/shared/")+9);
+		          path=path.substring(path.lastIndexOf("/work/shared/")+9);
 		          path=path.replace("\\", "/");
 		          if(!results.contains(path))
 		          results.add(path);

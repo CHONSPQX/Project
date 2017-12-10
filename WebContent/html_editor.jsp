@@ -3,6 +3,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@page import="java.util.Date"%>
 <!DOCTYPE html>
+<%
+String session_user = (String) session.getAttribute("userID");
+if (session_user == null) 
+	response.sendRedirect("index.jsp");
+%>
 <head>
 <title>文本编辑</title>
 <link href="./bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -165,11 +170,11 @@
       .done(function(data){
         if(data.flag==true)
         {
-          confirm("保存成功");
+          alert("保存成功");
         }
         else
         {
-          confirm("保存失败");
+          alert("保存失败");
         }
       })
       .fail( function(){

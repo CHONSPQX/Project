@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="Comment.Comment"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
@@ -16,13 +15,16 @@ if (session_user == null)
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="renderer" content="webkit">
-<title>文章详情</title>
+<title>搜索结果</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="bootstrap/js/popper.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
+<%
+  ArrayList<String> allPublicFile = (ArrayList<String>) request.getAttribute("allSearchedPublicFiles");
+%>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
@@ -48,8 +50,21 @@ if (session_user == null)
 				<li ><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="active" ><a href="shared_text.jsp">共享空间</a></li>
+				<li class="active"><a href="shared_text.jsp">共享空间</a></li>
 			</ul>
+						<div class="navbar-form navbar-left">
+				<select class="btn btn-default" id="choose" >
+				 <option class="btn btn-default" value="0">按作者</option>
+			     <option  class="btn btn-default" value="1">按题目</option>
+			     <option  class="btn btn-default" value="2">按时间</option>
+			     <option class="btn btn-default" value="3">全文检索</option>
+		        </select> 
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search"
+							id="search">
+					</div>
+					<button class="btn btn-default" onclick="Search()">Submit</button>
+			</div>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -67,17 +82,16 @@ if (session_user == null)
 	<br>
   <br>
   <br>
-	<%
-	  String context = (String) request.getAttribute("readContext");
-				String filename = (String) request.getAttribute("filename");
-				ArrayList<Comment> allcomment = (ArrayList<Comment>) request.getAttribute("commentTable");
-	%>
+	
+	<!-- 搜索共享的文章   -->
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<div class="panel panel-default">
-					<div class="panel-heading">文章详情</div>
+					<div class="panel-heading">
+						<strong>共享文章列表</strong>
+					</div>
 					<div class="panel-body">
 						<div class="btn-group btn-group-justified" role="group"
 							aria-label="...">
@@ -87,90 +101,76 @@ if (session_user == null)
 							</div>
 						</div>
 					</div>
-					<div class="panel-body">
-						<div class="panel panel-default">
-							<div class="panel-heading" id="filename"><%=filename%></div>
-							<div class="panel-body"
-								style="overflow: scroll; max-height: 550px; height: 550px">
-								<div><%=context%></div>
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">最后更新时间：</div>
-					<div class="panel-footer">
-						用户评论区：
+					<table class="table table-hover">
+						<tr>
+							<th width="45">选择</th>
+							<th width="300">标题</th>
+							<th width="100">类别</th>
+							<th width="150">操作</th>
+						</tr>
 						<%
-					  if (allcomment != null && allcomment.size() > 0)
-									for (Comment com : allcomment) {
-					%>
-						<div class="row">
-							<div class="col-md-1"><%=com.getNumber()%></div>
-							<div class="col-md-11">
-								<div class="media">
-									<a class="pull-left"> <img class="media-object"
-										src="images/22.jpg" alt="Media Object"
-										style="width: 25px; height: 25px"></a>
-									<div class="media-body">
-										<h4 class="media-heading">
-											<div class="row">
-												<div class="col-md-9">
-													<strong><%=com.getOwner()%></strong>
-												</div>
-												<div class="col-md-3"><%=com.getCommentTime()%></div>
-											</div>
-										</h4>
-										<%=com.getMessage()%>
-									</div>
-								</div>
-							</div>
-						</div>
+						  if (allPublicFile != null && allPublicFile.size() > 0)
+										for (int i = 0; i < allPublicFile.size(); i++) {
+											String temp = allPublicFile.get(i);
+											
+											String type = temp.substring(temp.lastIndexOf("."), temp.length());
+						%>
+						<tr>
+							<td><input type="radio" name="filename" value="<%=temp%>" /></td>
+							<td><%=temp.substring(temp.lastIndexOf("/")+1,temp.lastIndexOf(".html"))%></td>
+							<td><%=type%></td>
+							<td><a class="button border-green button-little"
+								onclick="ShowDetail('<%=temp%>')">详情</a></td>
+						</tr>
 						<%
 						  }
 						%>
-					</div>
-					<!-- 用户发表评论的文本输入框 -->
-					<div class="panel-footer">等你评论：</div>
-					<div class="panel-body" align="center">
-						<div>
-							<div class="text-box textarea-box">
-								<textarea id="comment" rows="2" cols="70"
-									style="width: 100%; height: 100px; resize: none"
-									onfocus="if(this.value == 'Your Message') this.value='';"
-									onblur="if(this.value == '') this.value='Your Message';">Your Message</textarea>
-							</div>
-							</br>
-							<button class="btn btn-default" onclick="sendComment();">发表</button>
-						</div>
-					</div>
+					</table>
 				</div>
 			</div>
+			<div class="col-md-1"></div>
 		</div>
 	</div>
+<br>
+  <br>
+	<nav class="navbar navbar-inverse navbar-fixed-bottom">
+	<div class="container">CopyRight@QYZ team</div>
+	</nav>
 
+	<script type="text/javascript">	
+		function shareFile(file) {
+			//输出值和文本  
+			//alert("分享:" + file);
+			//把获得的数据转换为字符串传递到后台              
+			var data = {
+				filename : file
+			};
+			$.ajax({
+				url : "AjaxAction!shareFile",
+				type : "POST",
+				data : data,
+				dataType : "json"
+			}).done(function(data) {
+				alert("分享文件成功");
+			}).fail(function() {
+				alert("分享文件失败");
+			})
+		}
+		function ShowDetail(file) {
+			window.location.href = "FileAction!showPublic?filename=" + file;
+		}
+		function Search() {
+			var file = document.getElementById("search").value;
+			var count=document.getElementById("choose").value;
+			//alert(count+"   "+file);
+			//alert(file);
+			
+			window.location.href = "SearchAction!SearchShared?text="
+					+ file+"&count="+count;
+		}
+		function pageBack() {
+			history.go(-1);
+		}
+	</script>
 </body>
-<script type="text/javascript">
-	function sendComment() {
-		var file = document.getElementById("filename").innerText;
-		var comment = document.getElementById("comment").value;
-		var data = {
-			filename : file,
-			commentcontext : comment
-		};
-		$.ajax({
-			url : "AjaxAction!sendComment",
-			type : "POST",
-			data : data,
-			dataType : "json"
-		}).done(function(data) {
-			//alert("成功");
-			window.location.reload();
-		}).fail(function() {
-			alert("失败");
-			window.location.reload();
-		});
-	}
-	function pageBack() {
-		history.go(-1);
-	}
-</script>
 </html>

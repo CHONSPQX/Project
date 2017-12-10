@@ -22,6 +22,7 @@ public class test {
         ArrayList<String> all = ua.getallUser();
 		for(int i= 0;i<all.size();i++)
 		{
+			
 			ua.getUser().setUserID(all.get(i)); 
 			ua.createUserTable();
 			ua.updateUserTable(all.get(i));

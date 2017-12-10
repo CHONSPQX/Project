@@ -255,6 +255,7 @@ public void setOldpassword(String oldpassword) {
     create_file();
     boolean flag = Director.createFile(path + "/" + filename);
     ClassifierSearcher.AddIndex(path, filename);
+    create_file();
     return SUCCESS;
   }
   

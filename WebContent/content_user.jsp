@@ -1,4 +1,5 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@page import="Article.Article"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,7 +21,7 @@ if (session_user == null)
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <%
-	ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
+	ArrayList<Article> allFile = (ArrayList<Article>) request.getAttribute("AllFiles");
 %>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -41,47 +42,44 @@ if (session_user == null)
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="UserAction!UserCheckFile">我的空间
+				<li class="active"><a href="UserAction!UserCheckFile">个人文件
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
 			</ul>
-			<form class="navbar-form navbar-left"
-				action="SearchAction!SearchFile">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search"
-						name="CheckedFile">
+			<div class="navbar-form navbar-left">
+				<select class="btn btn-default" id="choose" onchange="s_click(this)" >
+			     <option  class="btn btn-default" value="0">按关键字</option>
+			     <option  class="btn btn-default" value="1">按题目</option>
+			     <option  class="btn btn-default" value="2">按时间</option>
+			     <option class="btn btn-default" value="3">全文检索</option>
+			     <option class="btn btn-default" value="Classifier!checkFilebyClass1">按类别</option>
+		         </select> 
+				 <div class="form-group">
+						<input type="text" class="form-control" placeholder="Search"
+							id="search">
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>
+				<button class="btn btn-default" onclick="Search()">Submit</button>
+			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
+				<li class="dropdown">
+				<a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="UserAction!UserLogout">用户注销</a></li>
 						<li><a href="people_account.jsp">密码管理</a></li>
 						<li><a href="UserAction!getUserProfile">个人信息</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
 					</ul></li>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
-	<!-- /.container-fluid --> </nav>
+	<!-- /.container-fluid --> 
+	</nav>
 	<br>
 	<br>
 	<br>
@@ -120,7 +118,8 @@ if (session_user == null)
 						<%
 							if (allFile != null && allFile.size() > 0)
 								for (int i = 0; i < allFile.size(); i++) {
-									String temp = allFile.get(i);
+									Article article=allFile.get(i);
+									String temp = article.getTitle();
 									String type = new String();
 									if (temp.contains("."))
 										type = temp.substring(temp.lastIndexOf("."), temp.length());
@@ -128,7 +127,7 @@ if (session_user == null)
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />
 							</td>
-							<td><%=temp%></td>
+							<td><%=temp.substring(0,temp.lastIndexOf("."))%></td>
 							<td><%=type%></td>
 							<td><a class="button border-green button-little"
 								href="FileAction!showPrivate?filename=<%=temp%>">详情</a>
@@ -140,7 +139,7 @@ if (session_user == null)
 								onclick="shareFile('<%=temp%>');">分享</a>
 								<a
 								class="button border-red button-little" href="#"
-								onclick="showModal('<%=temp%>','一级分类','二级分类','三级分类','关键字');">分类</a>
+								onclick="showModal('<%=temp%>','<%=article.getLabel1() %>','<%=article.getLabel2() %>','<%=article.getLabel3() %>','<%=article.getKeyword() %>');">分类</a>
 								</td>
 						</tr>
 						<%
@@ -224,7 +223,7 @@ if (session_user == null)
 					alert("文件名格式，错误！请以(.html)结尾");
 					return;
 				}
-				alert("新建文件：" + name);
+				//alert("新建文件：" + name);
 				var data = {
 					filename : name
 				};
@@ -259,7 +258,7 @@ if (session_user == null)
 						alert("文件名格式，错误！请以(.html)结尾");
 						return;
 					}
-					alert("重命名:" + radioValue + " 为  " + name);
+					//alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
 					var data = {
@@ -325,18 +324,33 @@ if (session_user == null)
 
 		}
 		function Search() {
-			var file = document.getElementById("search").innerText;
+			var file = document.getElementById("search").value;
+			var count=document.getElementById("choose").value;
+			//alert(count+"   "+file);
 			//alert(file);
-			window.location.href = "SearchAction!SearchFile?CheckedFile="
-					+ file;
+			
+			window.location.href = "SearchAction!ClassifierSearch?text="
+					+ file+"&count="+count;
 		}
 		function showModal(file,label1,label2,label3,keyword)
 		{
 			document.getElementById("myModalLabel").innerText=file;
+			if(label1!="null")
 			document.getElementById("label1").value=label1;
+			else
+				document.getElementById("label1").value="";
+			if(label2!="null")
 			document.getElementById("label2").value=label2;
+			else
+				document.getElementById("label2").value="";
+			if(label3!="null")
 			document.getElementById("label3").value=label3;
+			else
+				document.getElementById("label3").value="";
+			if(keyword!="null")
 			document.getElementById("keyword").value=keyword;
+			else
+				document.getElementById("keyword").value="";
 			$('#myModal').modal();
 			//alert(0);
 		}
@@ -405,7 +419,7 @@ if (session_user == null)
 					'article.Keyword':keyword
 				};
 				$.ajax({
-					url : "AjaxFileLabel!SetFileLable",
+					url : "AjaxFileLabel!SetFileLabel",
 					type : "POST",
 					data : data,
 					dataType : "json"
@@ -415,6 +429,12 @@ if (session_user == null)
 					alert("分类失败");
 				})
 		}
+		function s_click(obj) {
+                if (obj.options[4].selected == true) {
+                var url = obj.options[4].value;
+                window.location.href=url;//location
+            }
+        }
 	</script>
 </body>
 </html>

@@ -7,9 +7,12 @@ import java.util.ArrayList;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.opensymphony.xwork2.ActionSupport;
+
+import Article.Article;
 import User.User;
 
-public class ClassficationAction 
+public class ClassficationAction extends ActionSupport
 {
 	private Database database;
 	private User user = new User();
@@ -211,11 +214,12 @@ public class ClassficationAction
 		//String uid = "admin30";
 		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 		String sql1 = "select firstclass from `"+uid+"`";
-		String sql2 = "select title from `"+uid+"` where layer='0'";
+		String sql2 = "select title,keyword from `"+uid+"` where layer='0'";
 		PreparedStatement ps1;
 		PreparedStatement ps2;
 		ArrayList<String> allfirstclass = new ArrayList<String>();
-		ArrayList<String> allfiles = new ArrayList<String>();
+		//ArrayList<String> allfiles = new ArrayList<String>();
+		ArrayList<Article> allfiles = new ArrayList<Article>();
 		try {
 			ps1 = cconn.conn.prepareStatement(sql1);
 			ResultSet rs1 = ps1.executeQuery();
@@ -231,31 +235,38 @@ public class ClassficationAction
 			ServletActionContext.getRequest().setAttribute("AllFirstClass", allfirstclass);
 			ps2 = fconn.conn.prepareStatement(sql2);
 			ResultSet rs2 = ps2.executeQuery();
+			int k = 1;
 			while(rs2.next())
 			{
 				String s = rs2.getString(1);
-				if(s!=null)
+				String s1 = rs2.getString(2);
+				if((s!=null))
 				{
-					System.out.println(s);
-					allfiles.add(s);
+					Article a = new Article();
+					a.setTitle(s);
+					a.setKeyword(s1);
+					System.out.println("标题："+s+" 关键字："+s1);				
+					allfiles.add(a);
 				}
+				System.out.println(k++);
 			}
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "checkFilebyClass1_success";
+		return "check_class1_success";
 	}
 	public String checkFilebyClass2()
 	{
 		//String uid = "admin30";
 		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 		String sql1 = "select secondclass from `"+uid+"` where firstclass='"+firstclass+"'";
-		String sql2 = "select title from `"+uid+"` where label1='"+firstclass+"' and layer='1'";
+		String sql2 = "select title,keyword,label1 from `"+uid+"` where label1='"+firstclass+"' and layer='1'";
 		PreparedStatement ps1;
 		PreparedStatement ps2;
 		ArrayList<String> allsecondclass = new ArrayList<String>();
-		ArrayList<String> allfiles = new ArrayList<String>();
+		//ArrayList<String> allfiles = new ArrayList<String>();
+		ArrayList<Article> allfiles = new ArrayList<Article>();
 		try {
 			ps1 = cconn.conn.prepareStatement(sql1);
 			ResultSet rs1 = ps1.executeQuery();
@@ -277,28 +288,36 @@ public class ClassficationAction
 			while(rs2.next())
 			{
 				String s = rs2.getString(1);
-				if(s!=null)
+				String s1 = rs2.getString(2);
+				String s2 = rs2.getString(3);
+				if((s!=null)&&(s1!=null))
 				{
-					System.out.println(s);
-					allfiles.add(s);
+					Article a1 = new Article();
+					a1.setTitle(s);
+					a1.setKeyword(s1);
+					a1.setLabel1(firstclass);
+					System.out.println("标题："+s+" 关键字："+s1+" l1: "+s2);
+					allfiles.add(a1);
 				}
 			}
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "checkFilebyClass2_success";
+		ServletActionContext.getRequest().setAttribute("label1", firstclass);
+		return "check_class2_success";
 	}
 	public String checkFilebyClass3()
 	{
 		//String uid = "admin30";
 		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
 		String sql1 = "select thirdclass from `"+uid+"` where firstclass='"+firstclass+"' and secondclass='"+secondclass+"'";
-		String sql2 = "select title from `"+uid+"` where label1='"+firstclass+"'and label2='"+secondclass+"' and layer='2'";
+		String sql2 = "select title,keyword from `"+uid+"` where label1='"+firstclass+"'and label2='"+secondclass+"' and layer='2'";
 		PreparedStatement ps1;
 		PreparedStatement ps2;
 		ArrayList<String> allthirdclass = new ArrayList<String>();
-		ArrayList<String> allfiles = new ArrayList<String>();
+		//ArrayList<String> allfiles = new ArrayList<String>();
+		ArrayList<Article> allfiles = new ArrayList<Article>();
 		try {
 			ps1 = cconn.conn.prepareStatement(sql1);
 			ResultSet rs1 = ps1.executeQuery();
@@ -311,23 +330,33 @@ public class ClassficationAction
 					allthirdclass.add(s);
 				}
 			}
-			//ServletActionContext.getRequest().setAttribute("AllThirdClass", allthirdclass);
+			ServletActionContext.getRequest().setAttribute("AllThirdClass", allthirdclass);
 			ps2 = fconn.conn.prepareStatement(sql2);
 			ResultSet rs2 = ps2.executeQuery();
 			while(rs2.next())
 			{
 				String s = rs2.getString(1);
-				if(s!=null)
+				String s1 = rs2.getString(2);
+				String s2 = rs2.getString(3);
+				String s3 = rs2.getString(4);
+				if((s!=null)&&(s1!=null))
 				{
+					Article article = new Article();
+					article.setTitle(s);
+					article.setKeyword(s1);
+					article.setLabel1(firstclass);
+					article.setLabel2(secondclass);
 					System.out.println(s);
-					allfiles.add(s);
+					allfiles.add(article);
 				}
 			}
-			//ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "checkFilebyClass3_success";
+		ServletActionContext.getRequest().setAttribute("label1", firstclass);
+		ServletActionContext.getRequest().setAttribute("label2", secondclass);
+		return "check_class3_success";
 	}
 	public static void main(String args[])
 	{
@@ -341,30 +370,37 @@ public class ClassficationAction
 	{
 		//String uid = "admin30";
 		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
-		String sql2 = "select title from `"+uid+"` where label1='"+firstclass+"'and label2='"+secondclass+"' and label3='"+thirdclass+ "'and layer='3'";
+		String sql2 = "select title,keyword from `"+uid+"` where label1='"+firstclass+"'and label2='"+secondclass+"' and label3='"+thirdclass+ "'and layer='3'";
 		PreparedStatement ps2;
-		ArrayList<String> allfiles = new ArrayList<String>();
+		//ArrayList<String> allfiles = new ArrayList<String>();
+		ArrayList<Article> allfiles = new ArrayList<Article>();
 		try {
 			ps2 = fconn.conn.prepareStatement(sql2);
 			ResultSet rs2 = ps2.executeQuery();
 			while(rs2.next())
 			{
-				//System.out.println("2");
 				String s = rs2.getString(1);
-				if(s!=null)
+				String s1 = rs2.getString(2);
+				if((s!=null)&&(s1!=null))
 				{
-					//System.out.println(s);
-					allfiles.add(s);
+					Article article = new Article();
+					article.setTitle(s);
+					article.setKeyword(s1);
+					article.setLabel1(firstclass);
+					article.setLabel2(secondclass);
+					article.setLabel3(thirdclass);
+					System.out.println(s);
+					allfiles.add(article);
 				}
 			}
 			//System.out.println("2");
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
-		} catch (SQLException e) {
+		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
-		return "checkFilebyClass4_success";
+		return "check_class4_success";
 	}
-	public String setclass()
+	public boolean setclass()
 	{
 		//String uid = "admin30";
 		String uid = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -393,7 +429,7 @@ public class ClassficationAction
 		{
 			e.printStackTrace();
 		}
-		if(firstclass==null)
+		if((firstclass == null)||(firstclass.equals("")))
 		{
 			firstclass="";
 			secondclass="";
@@ -409,7 +445,7 @@ public class ClassficationAction
 				e.printStackTrace();
 			}
 		}
-		else if(secondclass == null)
+		else if((secondclass == null)||(secondclass.equals("")))
 		{
 			secondclass="";
 			thirdclass="";
@@ -424,7 +460,7 @@ public class ClassficationAction
 				e.printStackTrace();
 			}
 		}
-	    else if(thirdclass == null)
+	    else if((thirdclass == null)||(thirdclass.equals("")))
 		{
 			thirdclass="";
 			String sql1 = "update `"+uid+"` set layer = '2',label1='"+firstclass+"',label2='"+secondclass+"',label3='' where title='"+filename+"'";
@@ -440,7 +476,9 @@ public class ClassficationAction
 		}
 		else
 		{
+			
 			String sql1 = "update `"+uid+"` set layer = '3',label1='"+firstclass+"',label2='"+secondclass+"',label3='"+thirdclass+"' where title='"+filename+"'";
+			System.out.println(sql1);
 			try
 			{
 				PreparedStatement ps1 = fconn.conn.prepareStatement(sql1);
@@ -480,6 +518,6 @@ public class ClassficationAction
 				e.printStackTrace();
 			}
 		}
-		return "changeclass_success";
+		return true;
 	}
 }

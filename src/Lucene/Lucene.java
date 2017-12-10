@@ -98,9 +98,9 @@ import org.apache.lucene.store.FSDirectory;
 			
 			Field nameField = new TextField("name", fileName, Store.YES);
 			Field contentField = new TextField("content", fileContent , Store.YES);
+			Field timeField = new TextField("time", fileTime , Store.YES);
 			Field pathField = new StoredField("path", filePath);
 			Field sizeField = new StoredField("size", fileSize);
-			Field timeField = new StoredField("time", fileTime);
 			
 			System.out.println(fileName);
 			

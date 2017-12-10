@@ -90,7 +90,7 @@ public class PublicTextAction extends ActionSupport
 			  }
 		  }
 	  }
-	public String checkFile()
+	public String CheckFile()
 	{
 		//String id = "admin";
 		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
@@ -287,7 +287,6 @@ public class PublicTextAction extends ActionSupport
 		String sql2 = "Delete from publictext where location='shared/"+uid+"/"+filename+".html'";
 		PreparedStatement ps;
 		try {
-			System.out.println("4444");
 			PreparedStatement ps1 = conn.conn.prepareStatement(presql);
 			int rs = ps1.executeUpdate();
 			System.out.println("rs = " + rs);

@@ -1,4 +1,5 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@page import="Article.Article"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,12 +16,14 @@ if (session_user == null)
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="renderer" content="webkit">
 <title>用户空间</title>
-<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="bootstrap/js/popper.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <%
-	ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllPublicFiles");
+  ArrayList<Article> articles=(ArrayList<Article>) request.getAttribute("AllFiles");
 %>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -41,14 +44,14 @@ if (session_user == null)
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="UserAction!UserCheckFile">个人文件
+				<li class="active"><a href="UserAction!UserCheckFile">个人文件
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="active"><a href="PublicTextAction!CheckFile">共享文件
+				<li><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
-			</ul>
+			</ul>						
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -64,19 +67,23 @@ if (session_user == null)
 	</div>
 	<!-- /.container-fluid --> </nav>
 	<br>
-	<br>
-	<br>
+  <br>
+  <br>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<strong>共享文章列表</strong>
+						<strong>我的文章列表</strong>
 					</div>
 					<div class="panel-body">
 						<div class="btn-group btn-group-justified" role="group"
 							aria-label="...">
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default"
+									onclick="createFile();" id="createFileButton">新建</button>
+							</div>
 							<div class="btn-group" role="group">
 								<button type="button" class="btn btn-default"
 									onclick="renameFile();" id="renameFileButton">重命名</button>
@@ -90,32 +97,33 @@ if (session_user == null)
 					<table class="table table-hover">
 						<tr>
 							<th width="45">选择</th>
-							<th width="300">标题</th>
-							<th width="100">类别</th>
+							<th width="300">类别/标题</th>
+							<th width="100">类型</th>
 							<th width="150">操作</th>
 						</tr>
 						<%
-							if (allFile != null && allFile.size() > 0)
-								for (int i = 0; i < allFile.size(); i++) {
-									String temp = allFile.get(i);
-									String type = new String();
-									if (temp.contains("."))
-										type = temp.substring(temp.lastIndexOf("."), temp.length());
+						  if (articles != null && articles.size() > 0)
+										for (int i = 0; i < articles.size(); i++) {
+											Article article = articles.get(i);
+											String temp=article.getTitle();
+											String type = new String();
+											if (temp.contains("."))
+												type = temp.substring(temp.lastIndexOf("."), temp.length());
 						%>
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />
 							</td>
-							<td><%=temp.substring(0, temp.indexOf(".html"))%></td>
+							<td><%=temp%></td>
 							<td><%=type%></td>
 							<td><a class="button border-green button-little"
-								href="FileAction!showMyPublic?filename=<%=temp%>">详情</a>
-								<a
+								href="FileAction!showPrivate?filename=<%=temp%>">详情</a> <a
 								class="button border-blue button-little"
-								href="FileAction!ReadMyFile?filename=<%=temp%>">编辑</a>
-								</td>
+								href="FileAction!ReadFile?filename=<%=temp%>">编辑</a> <a
+								class="button border-red button-little" href="#"
+								onclick="shareFile('<%=temp%>');">分享</a></td>
 						</tr>
 						<%
-							}
+						  }
 						%>
 					</table>
 					<div class="panel-foot text-center">
@@ -143,9 +151,37 @@ if (session_user == null)
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
 	<div class="container">CopyRight@QYZ team</div>
 	</nav>
+
 	<script type="text/javascript">
+		function createFile() {
+			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
+			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
+			if (name)//如果返回的有内容  
+			{
+				var reg=/[\.]html$/;
+				if(!reg.test(name))
+				{
+					alert("文件名格式，错误！请以(.html)结尾");
+					return;
+				}
+				//alert("新建文件：" + name);
+				var data = {
+					filename : name
+				};
+				$.ajax({
+					url : "AjaxAction!createFile",
+					type : "POST",
+					data : data,
+					dataType : "json"
+				}).done(function(data) {
+					window.location.reload();
+				}).fail(function() {
+					alert("添加文件失败");
+				})
+			}
+		}
 		function renameFile() {
-			var name = prompt("请输入文件名(.html)", ".html"); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			var radioValue;
 			if (name) {
@@ -158,21 +194,21 @@ if (session_user == null)
 				if (radioValue)//如果返回的有内容  
 				{
 					//输出值和文本  
-					var reg = /[\.]html$/;
-					if (!reg.test(name)) {
-						alert("文件名格式，错误！请以(.html)结尾");
-						return;
-					}
+					var reg=/[\.]html$/;
+          if(!reg.test(name))
+          {
+            alert("文件名格式，错误！请以(.html)结尾");
+            return;
+          }
 					//alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
-					name = name.toString();
 					var data = {
 						filename : radioValue,
 						filerename : name
 					};
 					$.ajax({
-						url : "PublicTextAction!rename_publicFile",
+						url : "AjaxAction!renameFile",
 						type : "POST",
 						data : data,
 						dataType : "json"
@@ -202,7 +238,7 @@ if (session_user == null)
 					filename : radioValue
 				};
 				$.ajax({
-					url : "action2!delete_publicFile",
+					url : "AjaxAction!deleteFile",
 					type : "POST",
 					data : data,
 					dataType : "json"
@@ -213,6 +249,31 @@ if (session_user == null)
 				})
 			}
 		}
-</script>
+		function shareFile(file) {
+			//输出值和文本  
+			//alert("分享:" + file);
+			//把获得的数据转换为字符串传递到后台              
+			var data = {
+				filename : file
+			};
+			$.ajax({
+				url : "AjaxAction!shareFile",
+				type : "POST",
+				data : data,
+				dataType : "json"
+			}).done(function(data) {
+				alert("分享文件成功");
+			}).fail(function() {
+				alert("分享文件失败");
+			})
+
+		}
+		function Search() {
+			var file = document.getElementById("search").innerText;
+			//alert(file);
+			window.location.href = "SearchAction!SearchFile?CheckedFile="
+					+ file;
+		}
+	</script>
 </body>
 </html>

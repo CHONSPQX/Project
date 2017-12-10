@@ -9,7 +9,6 @@
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
@@ -28,36 +27,9 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="#">我的空间</a></li>
-					<li><a href="#">共享空间</a></li>
-				</ul>
-				<div class="navbar-form navbar-left">
-				<select class="btn btn-default" id="choose" >
-			     <option  class="btn btn-default" value="0">按关键字</option>
-			     <option  class="btn btn-default" value="1">按题目</option>
-			     <option  class="btn btn-default" value="2">按时间</option>
-			     <option class="btn btn-default" value="3">全文检索</option>
-		         </select> 
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search"
-							id="search">
-					</div>
-					<button class="btn btn-default">Submit</button>
-				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="login_user.jsp">登录</a></li>
 					<li><a href="register_user.jsp">注册</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">用户<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -90,11 +62,4 @@
 	</nav>
 
 </body>
-<script>
-	function Search() {
-		var file = document.getElementById("search").value;
-		//alert(file);
-		window.location.href = "SearchAction!SearchFile?CheckedFile=" + file;
-	}
-</script>
 </html>

@@ -1,8 +1,14 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@page import="Article.Article"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<%
+String session_user = (String) session.getAttribute("userID");
+if (session_user == null) 
+	response.sendRedirect("index.jsp");
+%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +23,9 @@
 <script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <%
-  ArrayList<String> allFile = (ArrayList<String>) request.getAttribute("AllFiles");
+  ArrayList<String> label=(ArrayList<String>)request.getAttribute("AllSecondClass");
+  ArrayList<Article> articles=(ArrayList<Article>) request.getAttribute("AllFiles");
+  String label1=(String)request.getAttribute("label1");
 %>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -38,41 +46,22 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="UserAction!UserCheckFile">我的空间
+				<li class="active"><a href="UserAction!UserCheckFile">个人文件
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li><a href="PublicTextAction!CheckFile">共享文件
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
-			</ul>
-			<form class="navbar-form navbar-left"
-				action="SearchAction!SearchFile">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search"
-						name="CheckedFile">
-				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>
+			</ul>						
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="index.jsp">注销</a></li>
-						<li><a href="people_account.jsp">密码</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Separated link</a></li>
+						<li><a href="UserAction!UserLogout">用户注销</a></li>
+						<li><a href="people_account.jsp">密码管理</a></li>
+						<li><a href="UserAction!getUserProfile">个人信息</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -88,7 +77,7 @@
 			<div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<strong>我的文章列表</strong>
+						<strong>二级分类</strong>
 					</div>
 					<div class="panel-body">
 						<div class="btn-group btn-group-justified" role="group"
@@ -110,14 +99,35 @@
 					<table class="table table-hover">
 						<tr>
 							<th width="45">选择</th>
-							<th width="300">标题</th>
-							<th width="100">类别</th>
+							<th width="300">类别/标题</th>
+							<th width="100">类型</th>
 							<th width="150">操作</th>
 						</tr>
 						<%
-						  if (allFile != null && allFile.size() > 0)
-										for (int i = 0; i < allFile.size(); i++) {
-											String temp = allFile.get(i);
+						  if (label != null && label.size() > 0)
+										for (int i = 0; i < label.size(); i++) {
+											String temp = label.get(i);
+											String type = new String();
+											if (temp.contains("."))
+												type = temp.substring(temp.lastIndexOf("."), temp.length());
+						%>
+						<tr>
+							<td>
+							</td>
+							<td><%=temp%></td>
+							<td><%=type%></td>
+							<td><a class="button border-green button-little"
+								href="Classifier!checkFilebyClass3?firstclass=<%=label1%>&secondclass=<%=temp %>">进入</a>
+							</td>
+						</tr>
+						<%
+						  }
+						%>
+						<%
+						  if (articles != null && articles.size() > 0)
+										for (int i = 0; i < articles.size(); i++) {
+											Article article = articles.get(i);
+											String temp=article.getTitle();
 											String type = new String();
 											if (temp.contains("."))
 												type = temp.substring(temp.lastIndexOf("."), temp.length());
@@ -173,10 +183,10 @@
 				var reg=/[\.]html$/;
 				if(!reg.test(name))
 				{
-					alert("文件名格式，错误！请以(.html)结尾");
+					//alert("文件名格式，错误！请以(.html)结尾");
 					return;
 				}
-				alert("新建文件：" + name);
+				//alert("新建文件：" + name);
 				var data = {
 					filename : name
 				};
@@ -212,7 +222,7 @@
             alert("文件名格式，错误！请以(.html)结尾");
             return;
           }
-					alert("重命名:" + radioValue + " 为  " + name);
+					//alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
 					var data = {
@@ -263,7 +273,7 @@
 		}
 		function shareFile(file) {
 			//输出值和文本  
-			alert("分享:" + file);
+			//alert("分享:" + file);
 			//把获得的数据转换为字符串传递到后台              
 			var data = {
 				filename : file

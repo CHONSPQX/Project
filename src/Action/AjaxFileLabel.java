@@ -24,13 +24,18 @@ public void setArticle(Article article) {
 	this.article = article;
 }
 
-public String SetFileLable()
+public String SetFileLabel()
   {
-	  String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
-	  FileDatabase database=new FileDatabase();
+	ClassficationAction cfa = new ClassficationAction();
+	cfa.setFirstclass(article.getLabel1());
+	cfa.setSecondclass(article.getLabel2());
+	cfa.setThirdclass(article.getLabel3());
+	cfa.setFilename(article.getTitle());
+	cfa.setclass();
+	String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
+	FileDatabase database=new FileDatabase();
 	  database.ConnectMysql();
-	  String presql = "update filerecord.`"+id+"` set label1='"+article.getLabel1()+"', label2='"+article.getLabel2()+"',label3='"+article.getLabel3()+
-			  "',keyword='"+article.getKeyword()+"' where title='" +article.getTitle()+"';";
+	  String presql = "update filerecord.`"+id+"` set keyword='"+article.getKeyword()+"' where title='" +article.getTitle()+"';";
 	  System.out.println(presql);
 	  try {
 		PreparedStatement sql=database.conn.prepareStatement(presql);

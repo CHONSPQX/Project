@@ -25,6 +25,7 @@ public class test {
 			ua.getUser().setUserID(all.get(i)); 
 			ua.createUserTable();
 			ua.updateUserTable(all.get(i));
+			ua.createClassTable();
 		}
     }
   public static String CreateIndex(String userID){

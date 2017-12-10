@@ -16,12 +16,16 @@ if (session_user == null)
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="renderer" content="webkit">
 <title>用户空间</title>
-<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="bootstrap/js/popper.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/jquery.easing.js"></script>
 </head>
 <%
-	ArrayList<Article> allFile = (ArrayList<Article>) request.getAttribute("AllFiles");
+  ArrayList<String> label=(ArrayList<String>)request.getAttribute("AllSecondClass");
+  ArrayList<Article> articles=(ArrayList<Article>) request.getAttribute("AllFiles");
+  String label1=(String)request.getAttribute("label1");
 %>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -49,24 +53,9 @@ if (session_user == null)
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
-			</ul>
-			<div class="navbar-form navbar-left">
-				<select class="btn btn-default" id="choose" onchange="s_click(this)" >
-			     <option  class="btn btn-default" value="0">按关键字</option>
-			     <option  class="btn btn-default" value="1">按题目</option>
-			     <option  class="btn btn-default" value="2">按时间</option>
-			     <option class="btn btn-default" value="3">全文检索</option>
-			     <option class="btn btn-default" value="Classifier!checkFilebyClass1">按类别</option>
-		         </select> 
-				 <div class="form-group">
-						<input type="text" class="form-control" placeholder="Search"
-							id="search">
-				</div>
-				<button class="btn btn-default" onclick="Search()">Submit</button>
-			</div>
+			</ul>						
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-				<a href="#" class="dropdown-toggle"
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -78,11 +67,10 @@ if (session_user == null)
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
-	<!-- /.container-fluid --> 
-	</nav>
+	<!-- /.container-fluid --> </nav>
 	<br>
-	<br>
-	<br>
+  <br>
+  <br>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1"></div>
@@ -111,39 +99,53 @@ if (session_user == null)
 					<table class="table table-hover">
 						<tr>
 							<th width="45">选择</th>
-							<th width="300">标题</th>
-							<th width="100">类别</th>
+							<th width="300">类别/标题</th>
+							<th width="100">类型</th>
 							<th width="150">操作</th>
 						</tr>
 						<%
-							if (allFile != null && allFile.size() > 0)
-								for (int i = 0; i < allFile.size(); i++) {
-									Article article=allFile.get(i);
-									String temp = article.getTitle();
-									String type = new String();
-									if (temp.contains("."))
-										type = temp.substring(temp.lastIndexOf("."), temp.length());
+						  if (label != null && label.size() > 0)
+										for (int i = 0; i < label.size(); i++) {
+											String temp = label.get(i);
+											String type = new String();
+											if (temp.contains("."))
+												type = temp.substring(temp.lastIndexOf("."), temp.length());
 						%>
 						<tr>
 							<td><input type="radio" name="filename" value="<%=temp%>" />
 							</td>
-							<td><%=temp.substring(0,temp.lastIndexOf("."))%></td>
+							<td><%=temp%></td>
 							<td><%=type%></td>
 							<td><a class="button border-green button-little"
-								href="FileAction!showPrivate?filename=<%=temp%>">详情</a>
-								<a
-								class="button border-blue button-little"
-								href="FileAction!ReadFile?filename=<%=temp%>">编辑</a>
-								<a
-								class="button border-red button-little" href="#"
-								onclick="shareFile('<%=temp%>');">分享</a>
-								<a
-								class="button border-red button-little" href="#"
-								onclick="showModal('<%=temp%>','<%=article.getLabel1() %>','<%=article.getLabel2() %>','<%=article.getLabel3() %>','<%=article.getKeyword() %>');">分类</a>
-								</td>
+								href="Classifier!checkFilebyClass3?firstclass=<%=label1%>&secondclass=<%=temp %>">进入</a>
+							</td>
 						</tr>
 						<%
-							}
+						  }
+						%>
+						<%
+						  if (articles != null && articles.size() > 0)
+										for (int i = 0; i < articles.size(); i++) {
+											Article article = articles.get(i);
+											String temp=article.getTitle();
+											String type = new String();
+											if (temp.contains("."))
+												type = temp.substring(temp.lastIndexOf("."), temp.length());
+						%>
+						<tr>
+							<td><input type="radio" name="filename" value="<%=temp%>" />
+							</td>
+							<td><%=temp%></td>
+							<td><%=type%></td>
+							<td><a class="button border-green button-little"
+								href="FileAction!showPrivate?filename=<%=temp%>">详情</a> <a
+								class="button border-blue button-little"
+								href="FileAction!ReadFile?filename=<%=temp%>">编辑</a> <a
+								class="button border-red button-little" href="#"
+								onclick="shareFile('<%=temp%>');">分享</a></td>
+						</tr>
+						<%
+						  }
 						%>
 					</table>
 					<div class="panel-foot text-center">
@@ -166,44 +168,6 @@ if (session_user == null)
 			<div class="col-md-1"></div>
 		</div>
 	</div>
-	<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="myModalLabel">
-					模态框（Modal）标题
-				</h4>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-               <label for="name">一级分类</label>
-               <input type="text" class="form-control" id="label1" placeholder="请输入名称">
-               </div>
-			  <div class="form-group">
-               <label for="name">二级分类</label>
-              <input type="text" class="form-control" id="label2" placeholder="请输入名称">
-              </div>
-				<div class="form-group">
-               <label for="name">三级分类</label>
-              <input type="text" class="form-control" id="label3" placeholder="请输入名称">
-              </div>
-				<div class="form-group">
-               <label for="name">关键字</label>
-              <input type="text" class="form-control" id="keyword" placeholder="请输入名称">
-              </div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-black" onclick="SetLables();">
-					提交更改
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
 	<br>
 	<br>
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
@@ -211,15 +175,14 @@ if (session_user == null)
 	</nav>
 
 	<script type="text/javascript">
-	    
 		function createFile() {
-			var name = prompt("请输入文件名(.html)", ".html"); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			if (name)//如果返回的有内容  
 			{
-				var reg = /[\.]html$/;
-				
-				if (!reg.test(name)) {
+				var reg=/[\.]html$/;
+				if(!reg.test(name))
+				{
 					alert("文件名格式，错误！请以(.html)结尾");
 					return;
 				}
@@ -240,7 +203,7 @@ if (session_user == null)
 			}
 		}
 		function renameFile() {
-			var name = prompt("请输入文件名(.html)", ".html"); //将输入的内容赋给变量 name ，  
+			var name = prompt("请输入文件名(.html)", ""); //将输入的内容赋给变量 name ，  
 			//这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
 			var radioValue;
 			if (name) {
@@ -253,11 +216,12 @@ if (session_user == null)
 				if (radioValue)//如果返回的有内容  
 				{
 					//输出值和文本  
-					var reg = /[\.]html$/;
-					if (!reg.test(name)) {
-						alert("文件名格式，错误！请以(.html)结尾");
-						return;
-					}
+					var reg=/[\.]html$/;
+          if(!reg.test(name))
+          {
+            alert("文件名格式，错误！请以(.html)结尾");
+            return;
+          }
 					alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
@@ -308,7 +272,10 @@ if (session_user == null)
 			}
 		}
 		function shareFile(file) {
-				var data = {
+			//输出值和文本  
+			alert("分享:" + file);
+			//把获得的数据转换为字符串传递到后台              
+			var data = {
 				filename : file
 			};
 			$.ajax({
@@ -324,117 +291,11 @@ if (session_user == null)
 
 		}
 		function Search() {
-			var file = document.getElementById("search").value;
-			var count=document.getElementById("choose").value;
-			alert(count+"   "+file);
+			var file = document.getElementById("search").innerText;
 			//alert(file);
-			
-			window.location.href = "SearchAction!ClassifierSearch?text="
-					+ file+"&count="+count;
+			window.location.href = "SearchAction!SearchFile?CheckedFile="
+					+ file;
 		}
-		function showModal(file,label1,label2,label3,keyword)
-		{
-			document.getElementById("myModalLabel").innerText=file;
-			if(label1!="null")
-			document.getElementById("label1").value=label1;
-			else
-				document.getElementById("label1").value="";
-			if(label2!="null")
-			document.getElementById("label2").value=label2;
-			else
-				document.getElementById("label2").value="";
-			if(label3!="null")
-			document.getElementById("label3").value=label3;
-			else
-				document.getElementById("label3").value="";
-			if(keyword!="null")
-			document.getElementById("keyword").value=keyword;
-			else
-				document.getElementById("keyword").value="";
-			$('#myModal').modal();
-			//alert(0);
-		}
-		
-		function checkLabel()
-	    {
-	    	var label1=document.getElementById("label1").value.length;
-			var label2=document.getElementById("label2").value.length;
-			var label3=document.getElementById("label3").value.length;
-			var keyword=document.getElementById("keyword").value.length;
-			var flag=false;
-			if(label3!=0)
-			{
-				if(label2!=0)
-				{
-					if(label1!=0)
-					{
-						flag=true;
-					}
-					else
-						alert('请按照次序输入各级分类');
-				}
-				else
-					alert('请按照次序输入各级分类');
-			}
-			else
-			{
-				if(label2!=0)
-				{
-					if(label1!=0)
-					{
-						flag=true;
-					}
-					else
-						alert('请按照次序输入各级分类');
-				}
-				else
-				{
-					if(label1!=0||keyword!=0)
-						flag=true;
-					else
-						alert('请输入');
-				}
-			}
-			return flag;
-	    }
-		function SetLables()
-		{
-			var filename=document.getElementById("myModalLabel").innerText;
-			//alert(filename);
-			
-			if(!checkLabel())
-		   {
-				return;
-		   }
-			var label1=document.getElementById("label1").value;
-			var label2=document.getElementById("label2").value;
-			var label3=document.getElementById("label3").value;
-			var keyword=document.getElementById("keyword").value;
-			//alert(filename+label1+label2+label3+keyword);
-			var data = {
-					'article.Title' : filename,
-					'article.Label1':label1,
-					'article.Label2':label2,
-					'article.Label3':label3,
-					'article.Keyword':keyword
-				};
-				$.ajax({
-					url : "AjaxFileLabel!SetFileLabel",
-					type : "POST",
-					data : data,
-					dataType : "json"
-				}).done(function(data) {
-					window.location.reload();
-				}).fail(function() {
-					alert("分类失败");
-				})
-		}
-		function s_click(obj) {
-                if (obj.options[4].selected == true) {
-                var url = obj.options[4].value;
-                window.location.href=url;//location
-            }
-        }
 	</script>
 </body>
 </html>

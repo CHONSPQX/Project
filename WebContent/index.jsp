@@ -9,7 +9,6 @@
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
@@ -38,6 +37,7 @@
 			     <option  class="btn btn-default" value="1">按题目</option>
 			     <option  class="btn btn-default" value="2">按时间</option>
 			     <option class="btn btn-default" value="3">全文检索</option>
+			     <option class="btn btn-default" value="4">分类查找</option>
 		         </select> 
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search"
@@ -82,13 +82,7 @@
 </body>
 <script>
 function Search() {
-	var file = document.getElementById("search").value;
-	var count=document.getElementById("choose").value;
-	alert(count+"   "+file);
-	//alert(file);
-	
-	window.location.href = "SearchAction!ClassifierSearch?text="
-			+ file+"&count="+count;
+	alert("请先登陆账号");
 }
 </script>
 </html>

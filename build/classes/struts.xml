@@ -48,6 +48,12 @@
   <action name="PublicTextAction" class="Action.PublicTextAction">
     <result name="check_publicfile_success">/content_public.jsp</result>
   </action>
+  <action name="Classifier" class="Action.ClassficationAction">
+    <result name="check_class1_success">/content_label1.jsp</result>
+    <result name="check_class2_success">/content_label2.jsp</result>
+    <result name="check_class3_success">/content_label3.jsp</result>
+    <result name="check_class4_success">/content_label4.jsp</result>
+  </action>
   </package>
   <package name="main" namespace="/" extends="json-default">
   <action name="AjaxAction" class="Action.AjaxAction">

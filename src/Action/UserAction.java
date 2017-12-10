@@ -24,7 +24,7 @@ import WeFile.Director;
  */
 public class UserAction extends ActionSupport {
 	private Database database;
-	private User user;
+	private User user=new User();
 	private String path;//
 	private String SharedFilePath;// 用户现在查看的分享文件的绝对路径
 	private CommentDatabase conn;
@@ -48,8 +48,8 @@ public class UserAction extends ActionSupport {
 		conn.ConnectMysql();
 		fconn = new FileDatabase();
 		fconn.ConnectMysql();
-		//cconn = new ClassDatabase();
-		//cconn.ConnectMysql();
+		cconn = new ClassDatabase();
+		cconn.ConnectMysql();
 	}
 
 	public String UserComment() {
@@ -325,6 +325,7 @@ public class UserAction extends ActionSupport {
 				"  PRIMARY KEY (`id`))\r\n" + 
 				"ENGINE = InnoDB;";
 		try {
+			System.out.println(presql);
 			PreparedStatement ps1 = cconn.conn.prepareStatement(presql);
 			int rs = ps1.executeUpdate();//如果表已经存在了，返回-1，否则返回0
 			if(rs == -1)

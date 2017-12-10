@@ -77,7 +77,7 @@ if (session_user == null)
 			<div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<strong>我的文章列表</strong>
+						<strong>二级分类</strong>
 					</div>
 					<div class="panel-body">
 						<div class="btn-group btn-group-justified" role="group"
@@ -112,7 +112,7 @@ if (session_user == null)
 												type = temp.substring(temp.lastIndexOf("."), temp.length());
 						%>
 						<tr>
-							<td><input type="radio" name="filename" value="<%=temp%>" />
+							<td>
 							</td>
 							<td><%=temp%></td>
 							<td><%=type%></td>
@@ -183,10 +183,10 @@ if (session_user == null)
 				var reg=/[\.]html$/;
 				if(!reg.test(name))
 				{
-					alert("文件名格式，错误！请以(.html)结尾");
+					//alert("文件名格式，错误！请以(.html)结尾");
 					return;
 				}
-				alert("新建文件：" + name);
+				//alert("新建文件：" + name);
 				var data = {
 					filename : name
 				};
@@ -222,7 +222,7 @@ if (session_user == null)
             alert("文件名格式，错误！请以(.html)结尾");
             return;
           }
-					alert("重命名:" + radioValue + " 为  " + name);
+					//alert("重命名:" + radioValue + " 为  " + name);
 					//把获得的数据转换为字符串传递到后台             
 					radioValue = radioValue.toString();
 					var data = {
@@ -273,7 +273,7 @@ if (session_user == null)
 		}
 		function shareFile(file) {
 			//输出值和文本  
-			alert("分享:" + file);
+			//alert("分享:" + file);
 			//把获得的数据转换为字符串传递到后台              
 			var data = {
 				filename : file

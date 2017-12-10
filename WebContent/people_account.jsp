@@ -211,7 +211,7 @@ if (session_user == null)
 				data : data,
 				dataType : "json"
 			}).done(function(data) {
-				alert("修改成功");
+				//alert("修改成功");
 				window.location.reload();
 			}).fail(function() {
 				alert("修改失败");

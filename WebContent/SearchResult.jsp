@@ -147,7 +147,7 @@ if (session_user == null)
 	<script type="text/javascript">	
 		function shareFile(file) {
 			//输出值和文本  
-			alert("分享:" + file);
+			//alert("分享:" + file);
 			//把获得的数据转换为字符串传递到后台              
 			var data = {
 				filename : file
@@ -158,7 +158,7 @@ if (session_user == null)
 				data : data,
 				dataType : "json"
 			}).done(function(data) {
-				alert("分享文件成功");
+				confirm("分享文件成功");
 			}).fail(function() {
 				alert("分享文件失败");
 			})

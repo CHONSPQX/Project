@@ -27,24 +27,6 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="#">我的空间</a></li>
-					<li><a href="#">共享空间</a></li>
-				</ul>
-				<div class="navbar-form navbar-left">
-				<select class="btn btn-default" id="choose" >
-			     <option  class="btn btn-default" value="0">按关键字</option>
-			     <option  class="btn btn-default" value="1">按题目</option>
-			     <option  class="btn btn-default" value="2">按时间</option>
-			     <option class="btn btn-default" value="3">全文检索</option>
-			     <option class="btn btn-default" value="4">分类查找</option>
-		         </select> 
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search"
-							id="search">
-					</div>
-					<button class="btn btn-default">Submit</button>
-				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="login_user.jsp">登录</a></li>
 					<li><a href="register_user.jsp">注册</a></li>
@@ -80,9 +62,4 @@
 	</nav>
 
 </body>
-<script>
-function Search() {
-	alert("请先登陆账号");
-}
-</script>
 </html>

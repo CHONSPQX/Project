@@ -170,11 +170,11 @@ if (session_user == null)
       .done(function(data){
         if(data.flag==true)
         {
-          confirm("保存成功");
+          alert("保存成功");
         }
         else
         {
-          confirm("保存失败");
+          alert("保存失败");
         }
       })
       .fail( function(){

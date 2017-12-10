@@ -140,7 +140,7 @@ if (session_user == null)
 	<script type="text/javascript">	
 		function shareFile(file) {
 			//输出值和文本  
-			alert("分享:" + file);
+			//alert("分享:" + file);
 			//把获得的数据转换为字符串传递到后台              
 			var data = {
 				filename : file
@@ -162,7 +162,7 @@ if (session_user == null)
 		function Search() {
 			var file = document.getElementById("search").value;
 			var count=document.getElementById("choose").value;
-			alert(count+"   "+file);
+			//alert(count+"   "+file);
 			//alert(file);
 			
 			window.location.href = "SearchAction!SearchShared?text="

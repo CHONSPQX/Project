@@ -113,7 +113,7 @@ if (session_user == null)
 <script type="text/javascript">
 	function shareFile() {
 		var file = document.getElementById("filename").innerText;
-		alert("分享:" + file);
+		//alert("分享:" + file);
 		//把获得的数据转换为字符串传递到后台              
 		var data = {
 			filename : file

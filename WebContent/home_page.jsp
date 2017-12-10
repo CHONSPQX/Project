@@ -104,7 +104,7 @@ if (session_user == null)
 function Search() {
 	var file = document.getElementById("search").value;
 	var count=document.getElementById("choose").value;
-	alert(count+"   "+file);
+	//alert(count+"   "+file);
 	//alert(file);
 	
 	window.location.href = "SearchAction!ClassifierSearch?text="

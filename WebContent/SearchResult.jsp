@@ -54,21 +54,23 @@ if (session_user == null)
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
 			</ul>
-						<div class="navbar-form navbar-left">
-				<select class="btn btn-default" id="choose" >
+			<div class="navbar-form navbar-left">
+				<select class="btn btn-default" id="choose" onchange="s_click(this)" >
 			     <option  class="btn btn-default" value="0">按关键字</option>
 			     <option  class="btn btn-default" value="1">按题目</option>
 			     <option  class="btn btn-default" value="2">按时间</option>
 			     <option class="btn btn-default" value="3">全文检索</option>
+			     <option class="btn btn-default" value="Classifier!checkFilebyClass1">按类别</option>
 		         </select> 
-					<div class="form-group">
+				 <div class="form-group">
 						<input type="text" class="form-control" placeholder="Search"
 							id="search">
-					</div>
-					<button class="btn btn-default" onclick="Search()">Submit</button>
+				</div>
+				<button class="btn btn-default" onclick="Search()">Submit</button>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
+				<li class="dropdown">
+				<a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">用户<span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -80,7 +82,8 @@ if (session_user == null)
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
-	<!-- /.container-fluid --> </nav>
+	<!-- /.container-fluid --> 
+	</nav>
 	<br>
   <br>
   <br>
@@ -169,6 +172,21 @@ if (session_user == null)
 		function pageBack() {
 			history.go(-1);
 		}
+		function Search() {
+			var file = document.getElementById("search").value;
+			var count=document.getElementById("choose").value;
+			//alert(count+"   "+file);
+			//alert(file);
+			
+			window.location.href = "SearchAction!ClassifierSearch?text="
+					+ file+"&count="+count;
+		}
+		function s_click(obj) {
+            if (obj.options[4].selected == true) {
+            var url = obj.options[4].value;
+            window.location.href=url;//location
+        }
+    }
 	</script>
 </body>
 </html>

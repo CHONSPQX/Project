@@ -41,9 +41,14 @@ public String SetFileLabel()
 		PreparedStatement sql=database.conn.prepareStatement(presql);
 		int rs=sql.executeUpdate();
 		if(rs>0)
+		{
+			database.CutConnection(database.conn);
 			return SUCCESS;
+		}
 		else
+		{
 			return ERROR;
+		}
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

@@ -43,25 +43,27 @@ public class UserAction extends ActionSupport {
 
 	public UserAction() {
 		database = new Database();
-		database.ConnectMysql();
+		//database.ConnectMysql();
 		conn = new CommentDatabase();
-		conn.ConnectMysql();
+		//conn.ConnectMysql();
 		fconn = new FileDatabase();
-		fconn.ConnectMysql();
+		//fconn.ConnectMysql();
 		cconn = new ClassDatabase();
-		cconn.ConnectMysql();
+		//cconn.ConnectMysql();
 	}
 
 	public String UserComment() {
 		try {
 			String userid = "admin3";
 			String mysql = "INSERT INTO shared(userID,context,time) VALUES(?,?,?);";
+			conn.ConnectMysql();
 			PreparedStatement ps = conn.conn.prepareStatement(mysql);
 			ps.setString(1, userid);
 			ps.setString(2, "感觉这篇文章写的很好");
 			ps.setTimestamp(3, new Timestamp(new Date().getTime()));
 			int result = ps.executeUpdate();
-			if (result > 0) {
+			conn.CutConnection();
+			if (result > 0) {	
 				return "comment_success";
 			} else
 				return "comment_failed";
@@ -86,6 +88,7 @@ public class UserAction extends ActionSupport {
 		String sql="select Name,Sex,BirthDate,Message,UserEmail,Address from project.user where UserID='"+id+"';";
 		PreparedStatement presql;
 		try {
+			database.ConnectMysql();
 			presql = database.conn.prepareStatement(sql);
 			ResultSet rs=presql.executeQuery();
 			if(rs.next())
@@ -98,6 +101,7 @@ public class UserAction extends ActionSupport {
 				user.setAddress(rs.getString(6));
 				//System.out.println(user.getName()+" "+user.getSex());
 				ServletActionContext.getRequest().setAttribute("user_profile", user);
+				database.CutConnection();
 				return "get_user_profile_success";
 			}
 		} catch (SQLException e) {
@@ -111,7 +115,17 @@ public class UserAction extends ActionSupport {
 	public String UserCreate() {
 		if (confirmword.equals(user.getPassword()))
 			try {
-				String insql = "insert into User(UserID,Password,Name,Sex,BirthDate,Message,UserEmail) values(?,?,?,?,?,?,?)";
+				database.ConnectMysql();
+				String insql1 = "select* from project.user where UserEmail='"+user.getUserEmail()+"'";
+				PreparedStatement ps1 = database.conn.prepareStatement(insql1);
+				ResultSet rs1 = ps1.executeQuery();
+				if(rs1.next())
+				{
+					database.CutConnection();
+					return "create_user_failed";
+				}
+				String insql = "insert into project.user(UserID,Password,Name,Sex,BirthDate,Message,UserEmail) values(?,?,?,?,?,?,?)";
+				database.ConnectMysql();
 				PreparedStatement ps = database.conn.prepareStatement(insql);
 				ps.setString(1, user.getUserID());
 				ps.setString(2, user.getPassword());
@@ -125,6 +139,7 @@ public class UserAction extends ActionSupport {
 				if (result > 0) {
 					String dirName = user.getUserID() + "/";
 					System.out.println(dirName);
+					database.CutConnection();
 					if (Director.createDir(dirName)) {
 						createUserTable();
 						createClassTable();
@@ -147,10 +162,10 @@ public class UserAction extends ActionSupport {
 		if ((String) ServletActionContext.getRequest().getSession().getAttribute("userID") == null)
 			return "logout_failed";
 		ServletActionContext.getRequest().getSession().removeAttribute("userID");
-		System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("testmessage"));
+		//System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("testmessage"));
 		ServletActionContext.getRequest().getSession().invalidate();
 		System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
-		System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("testmessage"));
+		//ystem.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("testmessage"));
 		return "logout_success";
 	}
 
@@ -160,14 +175,14 @@ public class UserAction extends ActionSupport {
 			Pattern p1 = Pattern.compile(regEx1);
 			Matcher m1 = p1.matcher(user.getUserID());
 			boolean b = m1.matches();
-			System.out.println(user.getUserID());
-			System.out.println(user.getPassword());
 			String insql;
 			if (!b) {
-				insql = "select Password from User where UserID = ?";
+				insql = "select Password from project.user where UserID = ?";
 			} else {
-				insql = "select Password from User where UserEmail = ?";
+				insql = "select Password from project.user where UserEmail = ?";
 			}
+			System.out.println(insql);
+			database.ConnectMysql();
 			PreparedStatement ps = database.conn.prepareStatement(insql);
 			ps.setString(1, user.getUserID());
 			ResultSet rs = ps.executeQuery();
@@ -176,12 +191,21 @@ public class UserAction extends ActionSupport {
 					if (!b)
 					{
 						ServletActionContext.getRequest().getSession().setAttribute("userID", user.getUserID());
-						ServletActionContext.getRequest().getSession().setAttribute("testmessage", "404");
-						System.out.println((String) ServletActionContext.getRequest().getSession().getAttribute("userID"));
+						database.CutConnection();
 						System.out.println("login_success");
 					}
 					else
-						ServletActionContext.getRequest().getSession().setAttribute("userEmail", user.getUserID());
+					{
+						Database db = new Database();
+						db.ConnectMysql();
+						String sql2 = "select UserID from user where UserEmail='"+user.getUserID()+"'";
+						PreparedStatement ps2 = db.conn.prepareStatement(sql2);
+						ResultSet rs2 = ps2.executeQuery();
+						rs2.next();
+						ServletActionContext.getRequest().getSession().setAttribute("userID", rs2.getString(1));
+						database.CutConnection();
+						db.CutConnection();
+					}
 					return "login_success";
 				}
 			}
@@ -213,6 +237,7 @@ public class UserAction extends ActionSupport {
 	    try{
 		String sql="select title, label1, label2, label3, keyword,time, path,owner from `"+id+"`";
 		//System.out.println(sql);
+		fconn.ConnectMysql();
 	    PreparedStatement psql=fconn.conn.prepareStatement(sql);
 	    ResultSet rs=psql.executeQuery();
 		ArrayList<Article> results=new ArrayList<>();
@@ -230,6 +255,7 @@ public class UserAction extends ActionSupport {
 		    results.add(article);
 		}
 		//System.out.println(results.size());
+		fconn.CutConnection();
 		ServletActionContext.getRequest().setAttribute("AllFiles", results); 
 		return "check_file_success";
 	    }
@@ -280,6 +306,7 @@ public class UserAction extends ActionSupport {
 	public boolean createUserTable()
 	{
 		String ID = user.getUserID();
+		fconn.ConnectMysql();
 		System.out.println("now ID = " +ID);
 		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
 		String mysql="CREATE TABLE `filerecord`.`"+ID+ "` (\r\n" + 
@@ -306,6 +333,7 @@ public class UserAction extends ActionSupport {
 			}
 			PreparedStatement ps3 = fconn.conn.prepareStatement(mysql);
 			rs = ps3.executeUpdate();
+			fconn.CutConnection();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -315,6 +343,8 @@ public class UserAction extends ActionSupport {
 	public boolean createClassTable()
 	{
 		String ID = user.getUserID();
+		conn.ConnectMysql();
+		cconn.ConnectMysql();
 		String presql = "SHOW TABLES LIKE \'" + ID+"\';";
 		String mysql="CREATE TABLE `classification`.`"+ID+"` (\r\n" + 
 				"  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\r\n" + 
@@ -336,6 +366,7 @@ public class UserAction extends ActionSupport {
 			}
 			PreparedStatement ps3 = cconn.conn.prepareStatement(mysql);
 			rs = ps3.executeUpdate();
+			conn.CutConnection();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -346,6 +377,7 @@ public class UserAction extends ActionSupport {
 	public ArrayList<String> getallUser()
 	{
 		ArrayList<String> all = new ArrayList<String>();
+		database.ConnectMysql();
 		String sp = "Select userID from user";
 		String a;
 		try {
@@ -356,6 +388,7 @@ public class UserAction extends ActionSupport {
 				a = rs.getString(1);
 				all.add(a);
 			}
+			database.CutConnection();
 			return all;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -365,7 +398,8 @@ public class UserAction extends ActionSupport {
 	
 	public void updateUserTable(String user)
 	{
-		String path = "F://work/"+user;
+		String path = "//work/"+user;
+		fconn.ConnectMysql();
 		File file = new File(path);
 		File[] array = file.listFiles();
 		for(int i=0;i<array.length;i++)
@@ -379,14 +413,15 @@ public class UserAction extends ActionSupport {
 					ps.setString(1, array[i].getName());
 					String st = array[i].getPath();
 					st = st.replace("\\", "/");
-		            if(st.contains("F:/work/"))
+		            if(st.contains("/work/"))
 		            {    
-		              st =st.substring(st.lastIndexOf("F:/work/")+8, st.length());  
+		              st =st.substring(st.lastIndexOf("/work/")+6, st.length());  
 		            }
 					ps.setString(2, st);
 					ps.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
 					ps.setString(4, user);
 					int result = ps.executeUpdate();
+					fconn.CutConnection();
 				}
 				catch(Exception e)
 				{

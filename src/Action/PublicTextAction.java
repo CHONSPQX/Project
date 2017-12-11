@@ -49,7 +49,7 @@ public class PublicTextAction extends ActionSupport
 	}
 	protected boolean SearchPublicFile(String filename)
 	{
-		  String AbsoultPath = "F:/work/shared";
+		  String AbsoultPath = "/work/shared";
 		  File file = new File(AbsoultPath);
 		  ArrayList<String> all = new ArrayList<String>();
 		  ArrayList<String> All = new ArrayList<String>();
@@ -67,8 +67,14 @@ public class PublicTextAction extends ActionSupport
 		  if(!All.isEmpty())
 		  {
 			  ServletActionContext.getRequest().setAttribute("allSearchedPublicFiles", All);
+			  database.CutConnection(database.conn);
+				conn.CutConnection(conn.conn);
+				fconn.CutConnection(fconn.conn);
 			  return true;
 		  }
+		  database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
 		  return false;
 	} 
 	  private void CheckAbsoultPath(File file, ArrayList<String> all)//传递过来的是引用！！
@@ -82,9 +88,9 @@ public class PublicTextAction extends ActionSupport
 			  {
 			    String string = f.getPath();
 			    string = string.replace("\\", "/");
-	            if(string.contains("F:/work/"))
+	            if(string.contains("/work/"))
 	            {    
-	              string =string.substring(string.lastIndexOf("F:/work/")+8, string.length());  
+	              string =string.substring(string.lastIndexOf("/work/")+6, string.length());  
 	            }
 	            all.add(string);
 			  }
@@ -95,30 +101,33 @@ public class PublicTextAction extends ActionSupport
 		//String id = "admin";
 		String id = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
 		ArrayList<String> all = new ArrayList<String>();
-		getFile("F:/work/shared/"+id,all);
+		getFile("/work/shared/"+id,all);
 		ServletActionContext.getRequest().setAttribute("AllPublicFiles", all);
 		return "check_publicfile_success";
 	}
 	public void getFile(String path,ArrayList<String>all)//传进的是绝对路径,获取该文件或者该文件夹下的所有文件
 	{
 		File dir = new File(path);
-		if(dir.isFile())
+		if(dir.exists())
 		{
-			all.add(dir.getName());
-		}
-		else
-		{
-			String[] strs = dir.list();
-			for(String s : strs)
+			if(dir.isFile())
 			{
-				getFile(path+"/"+s,all);
-			}  	
+				all.add(dir.getName());
+			}
+			else
+			{
+				String[] strs = dir.list();
+				for(String s : strs)
+				{
+					getFile(path+"/"+s,all);
+				}  	
+			}
 		}
 	}
 	public static void main(String args[])
 	{
 	  PublicTextAction pAction = new PublicTextAction();
-	  String path = "F:/work/yangfan";
+	  String path = "/work/yangfan";
 	  ArrayList<String>all = new ArrayList<String>();
 	  pAction.getFile(path,all);
 	  for(int i = 0;i<all.size();i++)
@@ -162,8 +171,8 @@ public class PublicTextAction extends ActionSupport
 		//System.out.println(flag);
 		if(flag)
 		{
-			File source = new File("F:/work/" + path1 + "/" + filename);
-			File dest = new File("F:/work/shared/" + path1 + "/" + filename);
+			File source = new File("/work/" + path1 + "/" + filename);
+			File dest = new File("/work/shared/" + path1 + "/" + filename);
 			try {
 				input = new FileInputStream(source).getChannel();
 				output = new FileOutputStream(dest).getChannel();
@@ -177,11 +186,17 @@ public class PublicTextAction extends ActionSupport
 				try {
 					input.close();
 					output.close();
+					database.CutConnection(database.conn);
+					conn.CutConnection(conn.conn);
+					fconn.CutConnection(fconn.conn);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}	
 			}
 		}
+		database.CutConnection(database.conn);
+		conn.CutConnection(conn.conn);
+		fconn.CutConnection(fconn.conn);
 		return null;
 	}
 	public String sharePublicText()//分享文件
@@ -197,6 +212,9 @@ public class PublicTextAction extends ActionSupport
 			ps.setTimestamp(3, new Timestamp(new Date().getTime()));
 			int result = ps.executeUpdate();
 			System.out.println(result);
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
 			if(result>0)
 			{
 				this.createTable();
@@ -208,6 +226,9 @@ public class PublicTextAction extends ActionSupport
 		{
 			e.printStackTrace();
 		}
+		database.CutConnection(database.conn);
+		conn.CutConnection(conn.conn);
+		fconn.CutConnection(fconn.conn);
 		return "share_file_failed";
 	}
 	
@@ -267,6 +288,9 @@ public class PublicTextAction extends ActionSupport
 				//System.out.println(""+rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3)+"  "+rs.getDate(4));
 			}
 			ServletActionContext.getRequest().setAttribute("commentTable", all);
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
 			return "check_comment_success";
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -278,7 +302,7 @@ public class PublicTextAction extends ActionSupport
 	{
 		//String uid = "admin";
 		String uid = (String)ServletActionContext.getRequest().getSession().getAttribute("userID");
-		String path = "F:/work/shared/"+uid+"/"+filename;
+		String path = "/work/shared/"+uid+"/"+filename;
 		filename = filename.substring(0,filename.indexOf(".html"));
 		File file = new File(path);
 		file.delete();
@@ -297,10 +321,16 @@ public class PublicTextAction extends ActionSupport
 			}
 			PreparedStatement ps2 = database.conn.prepareStatement(sql2);
 			ps2.executeUpdate();
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
 			return SUCCESS;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		database.CutConnection(database.conn);
+		conn.CutConnection(conn.conn);
+		fconn.CutConnection(fconn.conn);
 		return SUCCESS;
 	}
 	public String create_publicFile()
@@ -320,10 +350,16 @@ public class PublicTextAction extends ActionSupport
 			ps.setTimestamp(3, new Timestamp(new Date().getTime()));
 			int result = ps.executeUpdate();
 			createTable();
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
 			return SUCCESS;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		database.CutConnection(database.conn);
+		conn.CutConnection(conn.conn);
+		fconn.CutConnection(fconn.conn);
 		return SUCCESS;
 	}
 	public String rename_publicFile()
@@ -344,12 +380,18 @@ public class PublicTextAction extends ActionSupport
 			String sql2 = "alter table `shared/"+uid+"/"+filename+"` rename `shared/"+uid+"/"+filerename+"`";
 			PreparedStatement ps2 = conn.conn.prepareStatement(sql2);
 			ps2.executeUpdate();
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
 			return SUCCESS;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		database.CutConnection(database.conn);
+		conn.CutConnection(conn.conn);
+		fconn.CutConnection(fconn.conn);
 		return SUCCESS;
 	}
 }

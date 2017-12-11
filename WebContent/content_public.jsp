@@ -172,7 +172,7 @@ if (session_user == null)
 						filerename : name
 					};
 					$.ajax({
-						url : "PublicTextAction!rename_publicFile",
+						url : "AjaxPublicText!rename_publicFile",
 						type : "POST",
 						data : data,
 						dataType : "json"
@@ -202,7 +202,7 @@ if (session_user == null)
 					filename : radioValue
 				};
 				$.ajax({
-					url : "action2!delete_publicFile",
+					url : "AjaxPublicText!delete_publicFile",
 					type : "POST",
 					data : data,
 					dataType : "json"

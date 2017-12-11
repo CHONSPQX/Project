@@ -103,7 +103,8 @@ public class AjaxTest extends ActionSupport{
         dataMap.put("title3", num); 
         dataMap.put("context3", num); 
         dataMap.put("footer3", new Date().toString()); */
-        // 返回结果  
+        // 返回结果
+        database.CutConnection(database.conn);
         return SUCCESS;  
     }  
     
@@ -112,7 +113,7 @@ public class AjaxTest extends ActionSupport{
       InputStream is;
       String file=new String();
       try {
-        is = new FileInputStream("F:/work/"+filepath);
+        is = new FileInputStream("/work/"+filepath);
         String line; // 用来保存每行读取的内容
         StringBuffer buffer=new StringBuffer();
         int linenum=0;

@@ -155,6 +155,8 @@
 			</div>
 		</div>
 	</div>
+	<br>
+	<br>
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
 	<div class="container">CopyRight@QYZ team</div>
 	</nav>
@@ -165,10 +167,6 @@
 <script>
 	var pagenum = 0;
 	var map;
-	function nextpage(num) {
-		getContext(num);
-		pagenum = num;
-	}
 	function prevpage() {
 		if(pagenum>0)
 		{
@@ -180,10 +178,11 @@
 		}
 	}
 	function nextpage() {
-		getContext(pagenum+1);
+		var flag=getContext(pagenum);
 		pagenum = pagenum+1;
 	}
 	function getContext(num) {
+		var flag=true;
 		var data = {
 			num : num
 		};
@@ -207,20 +206,20 @@
 				{
 					alert("后面已经没有啦！");
 					pagenum=pagenum-1;
-					return;
+					return ;
 				}
-				if(valcontext!=null&&valcontext.length>0)
+				if(valcontext!=null)
 				context.innerHTML = valcontext;
-				if(valfooter!=null&&valfooter.length>0)
+				if(valfooter!=null)
 				footer.innerText = valfooter;	
 			}
-
 		}).fail(function() {
+			pagenum=pagenum-1;
 			alert("空");
 		})
 	}
 	$(document).ready(function() {
-		nextpage(0);
+		nextpage();
 	});
 	function ShowDetail() {
 		if (event.target.id == "detail1") {

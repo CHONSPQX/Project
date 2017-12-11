@@ -54,7 +54,8 @@ if (session_user == null)
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li><a href="shared_text.jsp">共享空间</a></li>
-			</ul>						
+			</ul>	
+								
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -85,15 +86,7 @@ if (session_user == null)
 							aria-label="...">
 							<div class="btn-group" role="group">
 								<button type="button" class="btn btn-default"
-									onclick="createFile();" id="createFileButton">新建</button>
-							</div>
-							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-default"
-									onclick="renameFile();" id="renameFileButton">重命名</button>
-							</div>
-							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-default"
-									onclick="deleteFile();" id="deleteFileButton">删除</button>
+									onclick="pageBack();">返回</button>
 							</div>
 						</div>
 					</div>
@@ -290,6 +283,9 @@ if (session_user == null)
 				alert("分享文件失败");
 			})
 
+		}
+		function pageBack() {
+			history.go(-1);
 		}
 		function Search() {
 			var file = document.getElementById("search").innerText;

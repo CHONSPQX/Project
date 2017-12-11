@@ -104,7 +104,7 @@ public void setOldpassword(String oldpassword) {
   public  String createPublicFileByCopy()//将作者的文件复制到公共文件池里。/
   {
     String path1 = (String) ServletActionContext.getRequest().getSession().getAttribute("userID"); 
-    File de = new File("F:/work/shared/" + path1 + "/" + filename);
+    File de = new File("/work/shared/" + path1 + "/" + filename);
     if(de.exists())
     {
       de.delete();
@@ -117,8 +117,8 @@ public void setOldpassword(String oldpassword) {
       System.out.println(flag);
       if(flag)
       {
-          File source = new File("F:/work/" + path1 + "/" + filename);
-          File dest = new File("F:/work/shared/" + path1 + "/" + filename);
+          File source = new File("/work/" + path1 + "/" + filename);
+          File dest = new File("/work/shared/" + path1 + "/" + filename);
           try {
               input = new FileInputStream(source).getChannel();
               output = new FileOutputStream(dest).getChannel();
@@ -165,6 +165,7 @@ public void setOldpassword(String oldpassword) {
           }
           PreparedStatement ps3 = commentDatabase.conn.prepareStatement(mysql);
           ps3.executeUpdate();
+          commentDatabase.CutConnection(commentDatabase.conn);
       } catch (SQLException e) {
           e.printStackTrace();
       }
@@ -185,6 +186,7 @@ public void setOldpassword(String oldpassword) {
           ps.setTimestamp(3, new Timestamp(new Date().getTime()));
           int result = ps.executeUpdate();
           System.out.println(result);
+          database.CutConnection(database.conn);
           if(result>0)
           {
               this.createTable();
@@ -252,7 +254,6 @@ public void setOldpassword(String oldpassword) {
         .getAttribute("userID");
     if (path.equals(""))
       path = "user";
-    create_file();
     boolean flag = Director.createFile(path + "/" + filename);
     ClassifierSearcher.AddIndex(path, filename);
     create_file();
@@ -327,7 +328,9 @@ public void setOldpassword(String oldpassword) {
       //System.out.println(ps);
       ps.executeUpdate();
       //System.out.println(SUCCESS);
+      cdb.CutConnection(cdb.conn);
     }
+    db.CutConnection(db.conn);
     return SUCCESS;
    }catch (Exception e) {
     e.printStackTrace();
@@ -357,6 +360,7 @@ public void setOldpassword(String oldpassword) {
 		  System.out.println("failed");
 		  return "failed";
 	}
+	  database.CutConnection(database.conn);
 	    return "success";
   }
   

@@ -45,7 +45,7 @@
 							type="password" placeholder="Password" required="required">
 					</div>
 			</div>
-			<s:submit class="btn btn-primary btn-block" name="submit" value="Register" onclick="return check()"/>
+			<s:submit class="btn btn-primary btn-block" value="Register" onclick="return check()"/>
 			</form>
 		</div>
 	</div>

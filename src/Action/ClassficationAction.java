@@ -251,6 +251,10 @@ public class ClassficationAction extends ActionSupport
 				System.out.println(k++);
 			}
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
+			cconn.CutConnection(cconn.conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -301,6 +305,10 @@ public class ClassficationAction extends ActionSupport
 				}
 			}
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
+			cconn.CutConnection(cconn.conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -337,8 +345,6 @@ public class ClassficationAction extends ActionSupport
 			{
 				String s = rs2.getString(1);
 				String s1 = rs2.getString(2);
-				String s2 = rs2.getString(3);
-				String s3 = rs2.getString(4);
 				if((s!=null)&&(s1!=null))
 				{
 					Article article = new Article();
@@ -351,6 +357,10 @@ public class ClassficationAction extends ActionSupport
 				}
 			}
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
+			cconn.CutConnection(cconn.conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -395,6 +405,10 @@ public class ClassficationAction extends ActionSupport
 			}
 			//System.out.println("2");
 			ServletActionContext.getRequest().setAttribute("AllFiles", allfiles);
+			database.CutConnection(database.conn);
+			conn.CutConnection(conn.conn);
+			fconn.CutConnection(fconn.conn);
+			cconn.CutConnection(cconn.conn);
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -489,7 +503,7 @@ public class ClassficationAction extends ActionSupport
 				e.printStackTrace();
 			}
 		}
-		if(firstclass!=null)
+		if((firstclass!=null)&&(!firstclass.equals("")))
 		{
 			try
 			{
@@ -512,6 +526,10 @@ public class ClassficationAction extends ActionSupport
 					ps2.setString(3, thirdclass);
 					int rs1 = ps2.executeUpdate();
 				}
+				database.CutConnection(database.conn);
+				conn.CutConnection(conn.conn);
+				fconn.CutConnection(fconn.conn);
+				cconn.CutConnection(cconn.conn);
 			}
 			catch(Exception e)
 			{

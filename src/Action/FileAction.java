@@ -223,6 +223,8 @@ public class FileAction extends ActionSupport {
           System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
               + res.getString(3) + "  " + res.getDate(4) + '\n');
         }
+        db.CutConnection(db.conn);
+        cdb.CutConnection(cdb.conn);
         ServletActionContext.getRequest().setAttribute("commentTable", all);
       }
       if (context != null)
@@ -274,6 +276,8 @@ public class FileAction extends ActionSupport {
 	          System.out.println(res.getInt(1) + "  " + res.getString(2) + "  "
 	              + res.getString(3) + "  " + res.getDate(4) + '\n');
 	        }
+	        db.CutConnection(db.conn);
+	        cdb.CutConnection(cdb.conn);
 	        ServletActionContext.getRequest().setAttribute("commentTable", all);
 	      }
 	      if (context != null)
@@ -306,7 +310,7 @@ public class FileAction extends ActionSupport {
       path = (String) ServletActionContext.getRequest().getSession().getAttribute("userID");
       if (path.equals(""))
           path = "user";
-      String AbsoultPath = "F:\\work\\" + path;
+      String AbsoultPath = "\\work\\" + path;
       File file = new File(AbsoultPath);
       ArrayList<String> all = new ArrayList<String>();
       ArrayList<String> All = new ArrayList<String>();

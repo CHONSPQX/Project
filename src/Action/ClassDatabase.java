@@ -29,16 +29,33 @@ public class ClassDatabase {
 	       return conn;
 	  }
 
-	  public void CutConnection(Connection conn) throws SQLException
-	  {
-	       try{
-	          if(rs!=null);
-	          if(conn!=null);
-	       }catch(Exception e){
-	       e.printStackTrace();
-	       }finally{
-	      rs.close();
-	      conn.close();
-	      }
-	  }
+	  public void CutConnection(Connection connc){
+			try {
+				if (conn != null)
+					;
+				try {
+					conn.close();
+					System.out.println("cut connection");
+				} catch (Exception e) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				
+			}
+		}
+	  public void CutConnection(){
+			try {
+				if (conn != null)
+				try {
+					conn.close();
+					System.out.println("cut connection");
+				} catch (Exception e) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				
+			}
+		}
 }

@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Director {  
-    public static String prePath = "F:/work/";
+    public static String prePath = "/work/";
     public static boolean createFile(String destFileName) {  
         File file = new File(prePath + destFileName);  
         if(file.exists()) {  
